@@ -1,57 +1,106 @@
 <template>
-    <div class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <nav class="style-1">
-                <router-link to="/" class="btn">Home</router-link>
-                <router-link to="login" class="btn">Login</router-link>
-                <router-link to="test" class="btn">Test</router-link>
-                <router-link to="my" class="btn">My</router-link>
-                <router-link to="methods" class="btn">Methods</router-link>
-            </nav>
+    <div>
+        <div class="preloader" id="preloader">
+            <div class="preloader-inner">
+                <div class="preloader-top">
+                    <div class="preloader-top-sun">
+                        <div class="preloader-top-sun-bg"></div>
+                        <div class="preloader-top-sun-line preloader-top-sun-line-0"></div>
+                        <div class="preloader-top-sun-line preloader-top-sun-line-45"></div>
+                        <div class="preloader-top-sun-line preloader-top-sun-line-90"></div>
+                        <div class="preloader-top-sun-line preloader-top-sun-line-135"></div>
+                        <div class="preloader-top-sun-line preloader-top-sun-line-180"></div>
+                        <div class="preloader-top-sun-line preloader-top-sun-line-225"></div>
+                        <div class="preloader-top-sun-line preloader-top-sun-line-270"></div>
+                        <div class="preloader-top-sun-line preloader-top-sun-line-315"></div>
+                    </div>
+                </div>
+                <div class="preloader-bottom">
+                    <div class="preloader-bottom-line preloader-bottom-line-lg"></div>
+                    <div class="preloader-bottom-line preloader-bottom-line-md"></div>
+                    <div class="preloader-bottom-line preloader-bottom-line-sm"></div>
+                    <div class="preloader-bottom-line preloader-bottom-line-xs"></div>
+                </div>
+            </div>
+        </div>
+        <div class="rd-navbar-wrap">
+            <div class="rd-navbar-main-outer">
+                <div class="rd-navbar-main">
+                    <!-- RD Navbar Panel-->
+                    <div class="rd-navbar-panel">
+                        <!-- RD Navbar Toggle-->
+                        <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span>
+                        </button>
+                        <!-- RD Navbar Brand-->
+                        <div class="rd-navbar-brand">
+                            <router-link class="brand" to="/"><img class="brand-logo-dark" id="logo_menu"
+                                                                   src="/images/logo.svg" alt="" width="195"
+                                                                   height="39"/><img class="brand-logo-light"
+                                                                                     src="images/logo-inverse-195x39.png"
+                                                                                     alt="" width="195" height="39"/>
+                            </router-link>
+                        </div>
+                    </div>
+                    <div class="rd-navbar-nav-wrap">
+                        <!-- RD Navbar Nav-->
+                        <ul class="rd-navbar-nav">
+                            <li class="rd-nav-item">
+                                <router-link class="rd-nav-link" to="/">Home</router-link>
+                            </li>
+                            <li class="rd-nav-item active">
+                                <router-link class="rd-nav-link" to="/about">About</router-link>
+                            </li>
+                            <li class="rd-nav-item">
+                                <router-link class="rd-nav-link" to="/typography">Typography</router-link>
+                            </li>
+                            <li class="rd-nav-item">
+                                <router-link class="rd-nav-link" to="/contact-us">Contact us</router-link>
+                            </li>
+                            <li class="rd-nav-item">
+                                <router-link class="rd-nav-link" to="/part">Particlar</router-link>
+                            </li>
+                        </ul>
+                        <ul class="rd-navbar-nav login-registr">
+                            <li class="rd-nav-item">
+                                <router-link class="rd-nav-link" to="/login">Login</router-link>
+                            </li>
+                            <li class="rd-nav-item active">
+                                <router-link class="rd-nav-link" to="/registration">Registration</router-link>
+                            </li>
 
-
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="rd-navbar-placeholder"></div>
+        </div>
     </div>
 </template>
 
 <script>
 export default {
+    data() {
+        return {
+            duration: 1000,
+        }
+    },
+    methods: {
+        preloader() {
+            let preloader = document.getElementById("preloader")
 
+            setTimeout(function () {
+                preloader.classList.add('loaded');
+            }, this.duration * .75);
+        },
+    },
+    mounted() {
+        this.preloader();
+
+    }
 }
 </script>
 
 <style scoped>
 
-    * {
-        -webkit-transition-property: all;
-        -webkit-transition-duration: .2s;
-        -moz-transition-timing-function: cubic-bezier(100,50,21,6);
-        -moz-transition-property: all;
-        -moz-transition-timing-function: cubic-bezier(100,50,21,6);
-    }
-    .style-1 {
-        text-align: center;
-    }
-    .btn{
-        color:#999;
-        background:rgba(0, 0, 0);
-        padding:10px 20px;
-        text-decoration:none;
-        text-transform:uppercase;
-    }
-
-    .btn:hover{
-        border:none;
-        background:rgba(0, 0, 0, 0.4);
-        background:#fff;
-        padding:9px 20px;
-        color:#1b1b1b;
-    }
-
-    .navbar-expand-lg {
-        height: 100px;
-    }
-
-    nav a{
-        margin-right: 20px;
-    }
 
 </style>

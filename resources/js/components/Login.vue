@@ -1,12 +1,33 @@
 <template>
-    <div>
-        <h2>Login Page Placeholder</h2>
+    <div class="vue-tempalte container">
+        <form>
+            <h3>Sign In</h3>
 
-        <input v-model="data.tagName" placeholder="Add tag name"/>
+            <div class="form-group">
+                <label>Email address</label>
+                <input type="email" class="form-control form-control-lg" />
+            </div>
 
-        <button type="submit" v-on:click="addTag()" > ADD </button>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-control form-control-lg" />
+            </div>
 
+            <button type="submit" class="btn btn-dark btn-lg btn-block">Sign In</button>
 
+            <p class="forgot-password text-right mt-2 mb-4">
+                <router-link to="/forgot-password">Forgot password ?</router-link>
+            </p>
+
+            <div class="social-icons">
+                <ul>
+                    <li><a href="#"><i class="fa fa-google"></i></a></li>
+                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                </ul>
+            </div>
+
+        </form>
     </div>
 </template>
 
@@ -21,20 +42,7 @@ export default {
     },
     name: 'Login',
     methods:{
-        async addTag() {
 
-            if (this.data.tagName.trim() == '') return "required";
-            const res = await this.callApi('post', 'app/create_tag', this.data)
-
-            if (res.status === 200) {
-                alert(res.data.msg)
-                this.data.tagName = ''
-            } else {
-                    alert("something went wrong")
-
-            }
-
-        },
     }
 }
 </script>

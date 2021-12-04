@@ -2,32 +2,44 @@ import Vue from "vue";
 import Router from "vue-router";
 
 Vue.use(Router);
-import FirstPage from "./components/myfirstvuepage.vue";
 import Test from "./components/test.vue";
 import HomePage from './components/HomePage.vue';
 import Login from './components/Login.vue';
-import Methods from './components/methods.vue';
+import About from './components/About.vue';
+import ContactUs from "./components/ContactUs";
+import Registration from "./components/Registration";
+import part from "./components/part";
 
 const routes = [
     {
         path: '/',
-        component: HomePage
+        component: HomePage,
+        name: "home",
     },
     {
-        path: "/my",
-        component: FirstPage,
+        path: "/about",
+        component: About,
+        name: "about",
     },
     {
-        path: "/test",
-        component: Test,
+        path: "/contact-us",
+        component: ContactUs,
+        name: "contact-us",
     },
     {
         path: '/login',
-        component: Login
+        component: Login,
+        name: "login",
     },
     {
-        path: '/methods',
-        component: Methods
+        path: '/registration',
+        component: Registration,
+        name: "registration",
+    },
+    {
+        path: '/part',
+        component: part,
+        name: "part",
     },
 ];
 

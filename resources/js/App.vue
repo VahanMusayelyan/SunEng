@@ -7,12 +7,11 @@
 
 <script>
 import Navbar from './components/Navbar.vue';
-import Methods from './components/methods.vue';
 
 export default {
     name: 'app',
     components: {
-        Navbar, Methods
+        Navbar
     }
 }
 </script>
