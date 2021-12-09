@@ -1,4 +1,5 @@
 require('./bootstrap');
+// import Bootstrap from "./bootstrap";
 import App from "./App.vue";
 window.Vue = require('vue').default;
 

@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,4 +22,21 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/checkUsername', 'UserController@checkUsername');
 Route::post('/checkPhone', 'UserController@checkPhone');
 Route::post('/register', 'UserController@register');
-Route::post('/login', 'UserController@login');
+//Route::post('/login', 'UserController@login');
+
+Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:sanctum'], function () {
+    Route::get('/', 'DashboardController@index');
+});
+
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'auth'
+], function ($router) {
+
+    Route::post('login', 'AuthController@login');
+    Route::post('logout', 'AuthController@logout');
+    Route::post('refresh', 'AuthController@refresh');
+    Route::post('me', 'AuthController@me');
+
+});

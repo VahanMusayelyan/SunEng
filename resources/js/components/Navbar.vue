@@ -59,6 +59,9 @@
                             <li class="rd-nav-item">
                                 <router-link class="rd-nav-link" to="/part">Particlar</router-link>
                             </li>
+                            <li class="rd-nav-item">
+                                <router-link class="rd-nav-link" to="/dashboard">Dashboard</router-link>
+                            </li>
                         </ul>
                         <ul class="rd-navbar-nav login-registr">
                             <li class="rd-nav-item">
@@ -66,6 +69,9 @@
                             </li>
                             <li class="rd-nav-item active">
                                 <router-link class="rd-nav-link" to="/registration">Registration</router-link>
+                            </li>
+                            <li class="rd-nav-item active">
+                                <a class="rd-nav-link" @click="logout()">Logout</a>
                             </li>
 
                         </ul>
@@ -88,10 +94,16 @@ export default {
         preloader() {
             let preloader = document.getElementById("preloader")
 
-            setTimeout(function () {
+            // setTimeout(function () {
                 preloader.classList.add('loaded');
-            }, this.duration * .75);
+            // }, this.duration * .75);
         },
+        async logout(){
+           axios.post("/logout").then(res => {
+               localStorage.removeItem("x_xsrf_token");
+               this.$router.push({name : "login"})
+           })
+        }
     },
     mounted() {
         this.preloader();

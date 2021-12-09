@@ -5,15 +5,15 @@
 
             <div class="form-group">
                 <label>Email address</label>
-                <input type="email" class="form-control form-control-lg" />
+                <input v-model="email" ref="email" type="email" class="form-control form-control-lg" required />
             </div>
 
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" class="form-control form-control-lg" />
+                <input  v-model="password" ref="password" type="password" class="form-control form-control-lg" required />
             </div>
 
-            <button type="submit" class="btn btn-dark btn-lg btn-block">Sign In</button>
+            <button type="button" @click="login()" class="btn btn-dark btn-lg btn-block">Sign In</button>
 
             <p class="forgot-password text-right mt-2 mb-4">
                 <router-link to="/forgot-password">Forgot password ?</router-link>
@@ -35,14 +35,48 @@
 export default {
     data() {
         return {
-            data: {
-                tagName: ''
-            }
+            data : {
+                device_name : "browser",
+                link: "https://www.youtube.com/watch?v=M0xOzWHaoOU",
+                link1: "https://www.youtube.com/watch?v=RDlc4G68IDM",
+            },
+            errors : {},
+            email: "",
+            password: "",
+
         }
     },
     name: 'Login',
     methods:{
+        async login(){
 
+            axios.get('/sanctum/csrf-cookie').then(response => {
+                axios.post('/login', {email: this.email, password: this.password})
+                    .then(r => {
+                        localStorage.setItem("x_xsrf_token", r.config.headers['X-XSRF-TOKEN']);
+                        this.$router.push({name : "dashboard"}).catch(()=>{});
+                })
+                .catch(err =>{
+                    console.log(err)
+                });
+            });
+
+
+            // axios.post("/api/auth/login", this.data).then((response)=>{
+            //     localStorage.setItem("token", response.data);
+            //     this.$router.push("/");
+            // }).catch((errors) => {
+            //     this.errors = errors.response.data.errors
+            // });
+        },
+        // async login(){
+        //     axios.post("/api/auth/login", this.data).then((response)=>{
+        //         localStorage.setItem("token", response.data);
+        //         this.$router.push("/");
+        //     }).catch((errors) => {
+        //         this.errors = errors.response.data.errors
+        //     });
+        // }
     }
 }
 </script>
