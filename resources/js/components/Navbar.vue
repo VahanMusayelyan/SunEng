@@ -59,18 +59,18 @@
                             <li class="rd-nav-item">
                                 <router-link class="rd-nav-link" to="/part">Particlar</router-link>
                             </li>
-                            <li class="rd-nav-item">
+                            <li v-if="token" class="rd-nav-item">
                                 <router-link class="rd-nav-link" to="/dashboard">Dashboard</router-link>
                             </li>
                         </ul>
                         <ul class="rd-navbar-nav login-registr">
-                            <li class="rd-nav-item">
+                            <li v-if="!token" class="rd-nav-item">
                                 <router-link class="rd-nav-link" to="/login">Login</router-link>
                             </li>
-                            <li class="rd-nav-item active">
+                            <li v-if="!token" class="rd-nav-item active">
                                 <router-link class="rd-nav-link" to="/registration">Registration</router-link>
                             </li>
-                            <li class="rd-nav-item active">
+                            <li v-if="token" class="rd-nav-item active">
                                 <a class="rd-nav-link" @click="logout()">Logout</a>
                             </li>
 
@@ -88,6 +88,7 @@ export default {
     data() {
         return {
             duration: 1000,
+            token: null,
         }
     },
     methods: {
@@ -98,16 +99,23 @@ export default {
                 preloader.classList.add('loaded');
             // }, this.duration * .75);
         },
-        async logout(){
+        logout(){
            axios.post("/logout").then(res => {
                localStorage.removeItem("x_xsrf_token");
                this.$router.push({name : "login"})
            })
+        },
+        getToken(){
+            this.token = localStorage.getItem("x_xsrf_token");
         }
     },
     mounted() {
         this.preloader();
+        this.getToken();
 
+    },
+    updated() {
+        this.getToken();
     }
 }
 </script>
