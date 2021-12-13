@@ -1,18 +1,41 @@
-import Vue from "vue";
-import Router from "vue-router";
-
-Vue.use(Router);
-import Dashboard from "./components/dashboard.vue";
-import HomePage from './components/HomePage.vue';
-import Login from './components/Login.vue';
-import About from './components/About.vue';
+import Vue from 'vue';
+import VueRouter from "vue-router";
+import FruitIndex from "./components/Fruit";
+import Login from "./components/User/Login";
+import Registration from "./components/User/Registration";
+import HomePage from "./components/HomePage";
+import About from "./components/About";
 import ContactUs from "./components/ContactUs";
-import Registration from "./components/Registration";
-import part from "./components/part";
+import Dashboard from "./components/Dashboard";
+import NotFount from "./components/NotFount";
+import Personal from "./components/User/Personal";
 
-const router = new Router({
-    mode: "history",
+Vue.use(VueRouter);
+
+
+const route = new VueRouter({
+    mode: 'history',
     routes: [
+        {
+            path: "/fruits",
+            component: FruitIndex,
+            name: "fruit.index"
+        },
+        {
+            path: "/users/registration",
+            component: Registration,
+            name: "users.registration"
+        },
+        {
+            path: "/users/login",
+            component: Login,
+            name: "users.login"
+        },
+        {
+            path: "/users/personal",
+            component: Personal,
+            name: "users.personal"
+        },
         {
             path: '/',
             component: HomePage,
@@ -29,58 +52,43 @@ const router = new Router({
             name: "contact-us",
         },
         {
-            path: '/login',
-            component: Login,
-            name: "login",
-        },
-        {
-            path: '/registration',
-            component: Registration,
-            name: "registration",
-        },
-        {
-            path: '/part',
-            component: part,
-            name: "part",
-        },
-        {
             path: '/dashboard',
             component: Dashboard,
             name: "dashboard",
+        },
+        {
+            path: '*',
+            component: NotFount,
+            name: "404",
         }
     ]
-
 })
 
 
-router.beforeEach((to, from, next) => {
-    const token = localStorage.getItem("x_xsrf_token");
+route.beforeEach((to, from, next) => {
 
-    if (!token) {
-        if (to.name === "login" || to.name === "registration") {
-            return next()
-        } else if (
-            to.name === "home" ||
-            to.name === "about" ||
-            to.name === "contact-us" ||
-            to.name === "part"
-        ) {
-            return next()
+    const access_token = localStorage.getItem("access_token");
+    if (!access_token) {
+        if (to.name === "users.login" || to.name === "users.registration") {
+            return next();
         } else {
-            return next({
-                name: "login"
-            })
+            if (!access_token) {
+                return next({
+                    name: "users.login"
+                })
+            }
         }
     }
 
-    if (to.name == "login" || to.name == "registration" && token) {
+
+    if (to.name === "users.login" || to.name === "users.registration" && access_token) {
         return next({
-            name: "dashboard"
-        })
+            name: "users.personal"
+        });
     }
 
-    next()
+    next();
 
-});
+})
 
-export default router;
+export default route

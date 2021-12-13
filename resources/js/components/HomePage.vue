@@ -253,6 +253,12 @@
 </template>
 
 <script>
+import particles from 'particles.js'
+import Vue from 'vue'
+import VueNumber from 'vue-number-animation'
+
+Vue.use(VueNumber)
+
 export default {
     name: "HomePage",
     methods: {
@@ -263,7 +269,7 @@ export default {
             console.log('Animation ends!');
         },
         playAnimation() {
-            this.$refs.number2.play()
+            this.$refs.number1.play()
         }
     },
     mounted()

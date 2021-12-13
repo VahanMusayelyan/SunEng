@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\SpaController;
-use App\Http\Controllers\TestController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -15,20 +15,7 @@ use App\Http\Controllers\TestController;
 |
 */
 
-Route::prefix('app')->middleware([AdminCheck::class])->group(function(){
-
-
-
-});
-
-
-Route::get('/', 'AdminController@index');
-
-
-Route::get('/{any}', 'SpaController@index')->where('any', '.*');
-
-
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('{page}', "App\Http\Controllers\IndexController@index")->where("page", ".*");
