@@ -1,15 +1,19 @@
-require('./bootstrap');
-import App from "./App.vue";
-window.Vue = require('vue').default;
+import Vue from "vue";
+import router from "./router"
+import Index from "./components/Index.vue"
 
-import router from "./router";
 import common from "./common";
 
 Vue.mixin(common);
 
 
+
+require('./bootstrap');
+
 const app = new Vue({
-    el: '#app',
-    components: { App },
+    el : "#app",
+    components: {
+        Index
+    },
     router
-});
+})

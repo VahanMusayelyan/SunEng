@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+
 
 class UserController extends Controller
 {
+
     public function checkUsername(Request $request){
         $this->validate($request, [
             "email" => "required",
@@ -65,5 +68,28 @@ class UserController extends Controller
         return response()->json([
             "msg" => "done"
         ]);
+    }
+
+    public function login(Request $request){
+        $this->validate($request, [
+            'email'     => 'required',
+            'password'  => 'required',
+        ]);
+
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            $user = User::where("email", $request->email)->first();
+            $k = $user->createToken($request->device_name)->plainTextToken;
+            dump($k);
+            die;
+
+//            return redirect()->intended('dashboard')
+//                ->withSuccess('Signed in');
+        }
+        dd(999);
+//        return redirect("login")->withSuccess('Login details are not valid');
+
+
     }
 }
