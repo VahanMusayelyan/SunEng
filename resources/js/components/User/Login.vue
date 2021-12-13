@@ -33,45 +33,25 @@
 
 <script>
 export default {
-    data() {
+    name: "Login",
+    data(){
         return {
-            data : {
-                device_name : "browser",
-                link: "https://www.youtube.com/watch?v=M0xOzWHaoOU",
-                link1: "https://www.youtube.com/watch?v=RDlc4G68IDM",
-            },
-            errors : {},
-            email: "",
-            password: "",
-
+            email: null,
+            password : null,
+            error: null
         }
     },
-    name: 'Login',
-    methods:{
-        // async login(){
-        //
-        //     axios.get('/sanctum/csrf-cookie').then(response => {
-        //         axios.post('api/auth/login', {email: this.email, password: this.password})
-        //             .then(r => {
-        //                 localStorage.setItem("x_xsrf_token", r.config.headers['X-XSRF-TOKEN']);
-        //                 localStorage.setItem("access_token", r.data.access_token);
-        //                 this.$router.push({name : "dashboard"}).catch(()=>{});
-        //         })
-        //         .catch(err =>{
-        //             console.log(err)
-        //         });
-        //     });
-        //
-        // },
-        async login(){
-            alert(1)
-            axios.post("/api/auth/login", {email: this.email, password: this.password}).then((response)=>{
-                localStorage.setItem("x_xsrf_token", response.config.headers['X-XSRF-TOKEN'])
-                localStorage.setItem("access_token", response.data.access_token);
-                this.$router.push("/");
-            }).catch((errors) => {
-                this.errors = errors.response.data.errors
-            });
+    methods : {
+        login() {
+            axios.post("/api/auth/login", {email: this.email, password: this.password})
+                .then(res => {
+                    localStorage.setItem("access_token", res.data.access_token)
+                    this.$router.push("/users/personal");
+
+                }).catch(error => {
+                console.log(error.response)
+                this.error = error.response.data.error;
+            })
         }
     }
 }

@@ -5614,7 +5614,9 @@ __webpack_require__.r(__webpack_exports__);
   name: "Index",
   data: function data() {
     return {
-      fruits: null
+      fruits: null,
+      hovered: false,
+      translation: null
     };
   },
   methods: {
@@ -5626,6 +5628,24 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    mouseOver: function mouseOver(event) {
+      var _this2 = this;
+
+      setTimeout(function () {
+        _this2.hovered = true;
+
+        if (_this2.hovered) {
+          _this2.translation = event.target.innerText;
+          axios.post('/api/translation', {
+            translation: _this2.translation
+          }).then(function (response) {
+            console.log(response);
+          })["catch"](function (error) {
+            console.log(error);
+          });
+        }
+      }, 2000);
     }
   },
   mounted: function mounted() {
@@ -6128,14 +6148,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 //
 //
 //
@@ -6170,63 +6182,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "Login",
   data: function data() {
     return {
-      data: {
-        device_name: "browser",
-        link: "https://www.youtube.com/watch?v=M0xOzWHaoOU",
-        link1: "https://www.youtube.com/watch?v=RDlc4G68IDM"
-      },
-      errors: {},
-      email: "",
-      password: ""
+      email: null,
+      password: null,
+      error: null
     };
   },
-  name: 'Login',
   methods: {
-    // async login(){
-    //
-    //     axios.get('/sanctum/csrf-cookie').then(response => {
-    //         axios.post('api/auth/login', {email: this.email, password: this.password})
-    //             .then(r => {
-    //                 localStorage.setItem("x_xsrf_token", r.config.headers['X-XSRF-TOKEN']);
-    //                 localStorage.setItem("access_token", r.data.access_token);
-    //                 this.$router.push({name : "dashboard"}).catch(()=>{});
-    //         })
-    //         .catch(err =>{
-    //             console.log(err)
-    //         });
-    //     });
-    //
-    // },
     login: function login() {
       var _this = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                alert(1);
-                axios.post("/api/auth/login", {
-                  email: _this.email,
-                  password: _this.password
-                }).then(function (response) {
-                  localStorage.setItem("x_xsrf_token", response.config.headers['X-XSRF-TOKEN']);
-                  localStorage.setItem("access_token", response.data.access_token);
+      axios.post("/api/auth/login", {
+        email: this.email,
+        password: this.password
+      }).then(function (res) {
+        localStorage.setItem("access_token", res.data.access_token);
 
-                  _this.$router.push("/");
-                })["catch"](function (errors) {
-                  _this.errors = errors.response.data.errors;
-                });
-
-              case 2:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
+        _this.$router.push("/users/personal");
+      })["catch"](function (error) {
+        console.log(error.response);
+        _this.error = error.response.data.error;
+      });
     }
   }
 });
@@ -6717,7 +6695,7 @@ route.beforeEach(function (to, from, next) {
   var access_token = localStorage.getItem("access_token");
 
   if (!access_token) {
-    if (to.name === "users.login" || to.name === "users.registration") {
+    if (to.name === "users.login" || to.name === "users.registration" || to.name === "home") {
       return next();
     } else {
       if (!access_token) {
@@ -11784,7 +11762,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#appA[data-v-fa44bb0e] {\n    position: absolute;\n    background-color: #000000;\n    width: 335px;\n    height: 210px;\n    margin-top: 20px;\n}\ncanvas[data-v-fa44bb0e] {\n    display: block;\n    vertical-align: bottom;\n}\n.lessonsNumber[data-v-fa44bb0e]{\n    font-size: 120px;\n    color: #ed6506;\n    position: absolute;\n    z-index: 1000000;\n    font-weight: 600;\n    width: 100%;\n    text-align: center;\n    pointer-events: none;\n}\n\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#appA[data-v-fa44bb0e] {\r\n    position: absolute;\r\n    background-color: #000000;\r\n    width: 335px;\r\n    height: 210px;\r\n    margin-top: 20px;\n}\ncanvas[data-v-fa44bb0e] {\r\n    display: block;\r\n    vertical-align: bottom;\n}\n.lessonsNumber[data-v-fa44bb0e]{\r\n    font-size: 120px;\r\n    color: #ed6506;\r\n    position: absolute;\r\n    z-index: 1000000;\r\n    font-weight: 600;\r\n    width: 100%;\r\n    text-align: center;\r\n    pointer-events: none;\n}\r\n\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -37803,7 +37781,9 @@ var render = function () {
           return _c("tr", [
             _c("td", [_vm._v(_vm._s(fruit.id))]),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(fruit.name))]),
+            _c("td", { on: { mouseover: _vm.mouseOver } }, [
+              _vm._v(_vm._s(fruit.name)),
+            ]),
             _vm._v(" "),
             _c("td", [_vm._v(_vm._s(fruit.price))]),
           ])
