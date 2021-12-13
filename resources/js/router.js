@@ -69,7 +69,7 @@ route.beforeEach((to, from, next) => {
 
     const access_token = localStorage.getItem("access_token");
     if (!access_token) {
-        if (to.name === "users.login" || to.name === "users.registration") {
+        if (to.name === "users.login" || to.name === "users.registration" || to.name === "home") {
             return next();
         } else {
             if (!access_token) {

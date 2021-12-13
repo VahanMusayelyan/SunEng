@@ -24,6 +24,7 @@ Route::group(['namespace' => 'App\Http\Controllers\User', 'prefix' => 'users'], 
 
 Route::post('/checkUsername', 'App\Http\Controllers\UserController@checkUsername');
 Route::post('/checkPhone', 'App\Http\Controllers\UserController@checkPhone');
+Route::post('/translation', 'App\Http\Controllers\TranslationController@translation');
 
 
 Route::group(['middleware' => 'api','prefix' => 'auth'], function ($router) {

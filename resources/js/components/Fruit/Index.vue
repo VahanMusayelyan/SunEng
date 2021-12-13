@@ -12,7 +12,7 @@
 
             <tr v-for="fruit in fruits">
                 <td>{{ fruit.id }}</td>
-                <td>{{ fruit.name }}</td>
+                <td @mouseover="mouseOver">{{ fruit.name }}</td>
                 <td>{{ fruit.price }}</td>
             </tr>
 
@@ -23,11 +23,14 @@
 
 <script>
 import API from "../../api";
+
 export default {
     name: "Index",
     data() {
         return {
             fruits: null,
+            hovered: false,
+            translation : null
         }
     },
     methods: {
@@ -41,6 +44,22 @@ export default {
                     console.log(error)
                 })
         },
+        mouseOver(event) {
+            setTimeout(() => {
+                this.hovered = true
+
+                if (this.hovered) {
+                    this.translation = event.target.innerText
+                    axios.post('/api/translation', {translation : this.translation})
+                        .then(response => {
+                            console.log(response)
+                        }).catch(error => {
+                        console.log(error)
+                    })
+                }
+
+            }, 2000)
+        }
 
     },
     mounted() {
