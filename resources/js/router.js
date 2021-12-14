@@ -6,7 +6,7 @@ import Registration from "./components/User/Registration";
 import HomePage from "./components/HomePage";
 import About from "./components/About";
 import ContactUs from "./components/ContactUs";
-import Dashboard from "./components/Dashboard";
+import Dashboard from "./components/Admin/Dashboard";
 import NotFount from "./components/NotFount";
 import Personal from "./components/User/Personal";
 

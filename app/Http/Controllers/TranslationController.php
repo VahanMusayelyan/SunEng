@@ -3,18 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Services\TranslationTrait;
+use \Statickidz\GoogleTranslate;
+use App\Enums\Translation;
 
 class TranslationController extends Controller
 {
 
     public function translation(Request $request)
     {
+        $validatedData = $request->validate([
+            'translate' => ['required'],
+        ], [
+            'translate.required' => 'The field is empty',
+        ]);
+        $trans = new GoogleTranslate();
+        $source = Translation::EN;
+        $target = Translation::RU;
 
-        $translation = $this->translation($request->translation);
+        $result = $trans->translate($source, $target, $request->translate);
 
         return response()->json([
-            "translation" => $translation
+            "translation" => $result
         ]);
     }
 }
