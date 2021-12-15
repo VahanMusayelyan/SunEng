@@ -1,3 +1,4 @@
+import API from "./api";
 export default {
     data() {
         return {}
@@ -14,6 +15,18 @@ export default {
             } catch (e) {
                 return e.response
             }
+
+        } ,
+        async checkAdmin() {
+            let self = this;
+            API.post("/api/auth/me", {access_token: localStorage.getItem("access_token")})
+                .then(res => {
+                    if(res.data.role_id == 0){
+                        this.$router.push({name : "home"})
+                    }
+                }).catch(error =>  {
+                console.log(error)
+            })
 
         }
     }

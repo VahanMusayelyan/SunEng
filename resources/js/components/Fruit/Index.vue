@@ -12,17 +12,27 @@
 
             <tr v-for="fruit in fruits">
                 <td>{{ fruit.id }}</td>
-                <td @mouseover="mouseOver">{{ fruit.name }}</td>
+                <td @mouseover="mouseOver" >
+                    <button v-tooltip="message" class="btn btn-primary">
+                    {{ fruit.name }}
+                </button></td>
                 <td>{{ fruit.price }}</td>
             </tr>
 
             </tbody>
         </table>
+        <span data-toggle="popover" data-content="ASDF">Super simple</span>
     </div>
 </template>
 
 <script>
 import API from "../../api";
+import Vue from 'vue'
+import { VTooltip, VPopover, VClosePopover } from 'v-tooltip'
+
+Vue.directive('tooltip', VTooltip)
+Vue.directive('close-popover', VClosePopover)
+Vue.component('v-popover', VPopover)
 
 export default {
     name: "Index",
@@ -30,7 +40,8 @@ export default {
         return {
             fruits: null,
             hovered: false,
-            translation : null
+            translate : null,
+            message: 'This is a button.'
         }
     },
     methods: {
@@ -49,9 +60,10 @@ export default {
                 this.hovered = true
 
                 if (this.hovered) {
-                    this.translation = event.target.innerText
-                    axios.post('/api/translation', {translation : this.translation})
+                    this.translate = event.target.innerText
+                    axios.post('/api/translation', {translate : this.translate})
                         .then(response => {
+                            this.hovered = false
                             console.log(response)
                         }).catch(error => {
                         console.log(error)
@@ -69,5 +81,29 @@ export default {
 </script>
 
 <style scoped>
+
+.tooltip {
+    display: block !important;
+    z-index: 10000;
+}
+
+.tooltip-inner {
+    background: black;
+    color: white;
+    border-radius: 16px;
+    padding: 5px 10px 4px;
+}
+
+.tooltip-arrow {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    position: absolute;
+    margin: 5px;
+    border-color: black;
+    z-index: 1;
+}
+
+
 
 </style>

@@ -7,7 +7,16 @@
 
 <script>
 export default {
-    name: "Dashboard"
+    name: "Dashboard",
+    data(){
+        return {
+
+        }
+    },
+    mounted(){
+        // checkAdmin;
+        const res = this.checkAdmin()
+    }
 }
 </script>
 

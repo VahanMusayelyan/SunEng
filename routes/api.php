@@ -34,9 +34,15 @@ Route::group(['middleware' => 'api','prefix' => 'auth'], function ($router) {
     Route::post('refresh', 'App\Http\Controllers\AuthController@refresh');
     Route::post('me', 'App\Http\Controllers\AuthController@me');
 
-//    Route::group(['middleware' => 'auth:api','prefix' => ''], function ($router) {
+
     Route::group(['middleware' => 'jwt.auth','prefix' => ''], function ($router) {
             Route::post("/fruits", 'App\Http\Controllers\Fruit\FruitController@index');
     });
 
+
+
+});
+
+Route::group(['middleware' => 'isAdmin','prefix' => 'dashboard'], function ($router) {
+    Route::get("/", 'App\Http\Controllers\Admin\AdminController@index');
 });
