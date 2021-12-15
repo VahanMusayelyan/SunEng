@@ -1,12 +1,4 @@
 <template>
-    <div class="container">
-        <router-link class="m-2" :to="{name : 'fruit.index'}">List</router-link>
-        <router-link class="m-2" v-if="!accessToken" :to="{name : 'users.login'}">Login</router-link>
-        <router-link class="m-2" v-if="!accessToken" :to="{name : 'users.registration'}">Registration</router-link>
-        <router-link class="m-2" v-if="accessToken" :to="{name : 'users.personal'}">Personal</router-link>
-        <a class="m-2" v-if="accessToken" @click.prevent="logout">Logout</a>
-        <router-view></router-view>
-    </div>
     <div>
         <div class="preloader" id="preloader">
             <div class="preloader-inner">
@@ -44,7 +36,7 @@
                             <router-link class="brand" to="/"><img class="brand-logo-dark" id="logo_menu"
                                                                    src="/images/logo.svg" alt="" width="195"
                                                                    height="39"/><img class="brand-logo-light"
-                                                                                     src="images/logo-inverse-195x39.png"
+                                                                                     src="/images/logo-inverse-195x39.png"
                                                                                      alt="" width="195" height="39"/>
                             </router-link>
                         </div>
@@ -64,22 +56,19 @@
                             <li class="rd-nav-item">
                                 <router-link class="rd-nav-link" to="/contact-us">Contact us</router-link>
                             </li>
-                            <li class="rd-nav-item">
-                                <router-link class="rd-nav-link" to="/part">Particlar</router-link>
-                            </li>
                             <li v-if="accessToken" class="rd-nav-item">
-                                <router-link class="rd-nav-link" to="/dashboard">Dashboard</router-link>
+                                <router-link class="rd-nav-link" to="/profile">Profile</router-link>
                             </li>
                         </ul>
                         <ul class="rd-navbar-nav login-registr">
                             <li v-if="!accessToken" class="rd-nav-item">
-                                <router-link class="rd-nav-link" to="{name : 'users.login'}">Login</router-link>
+                                <router-link class="rd-nav-link" v-if="!accessToken" :to="{name : 'users.login'}">Login</router-link>
                             </li>
                             <li v-if="!accessToken" class="rd-nav-item active">
-                                <router-link class="rd-nav-link" to="{name : 'users.registration'}">Registration</router-link>
+                                <router-link class="rd-nav-link" v-if="!accessToken" :to="{name : 'users.registration'}">Registration</router-link>
                             </li>
                             <li v-if="accessToken" class="rd-nav-item active">
-                                <a class="rd-nav-link" @click="logout()">Logout</a>
+                                <a class="rd-nav-link" v-if="accessToken" @click.prevent="logout">Logout</a>
                             </li>
 
                         </ul>
@@ -120,9 +109,9 @@ export default {
         preloader() {
             let preloader = document.getElementById("preloader")
 
-            // setTimeout(function () {
+            setTimeout(function () {
             preloader.classList.add('loaded');
-            // }, this.duration * .75);
+            }, this.duration * .75);
         },
     },
     updated() {

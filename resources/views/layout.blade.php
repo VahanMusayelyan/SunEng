@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width height=device-height initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="icon" href="images/fav-32.svg" type="image/x-icon">
+    <link rel="icon" href="/images/fav-32.svg" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,600,700,800,900%7CBaloo">
     <link rel="stylesheet" href="/css/all.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -18,7 +18,7 @@
     <div class="footer-classic-main">
         <div class="container">
             <div class="footer-classic-layout justify-content-sm-around justify-content-md-between">
-                <div class="footer-classic-layout-item"><a class="brand" href="index.html"><img class="brand-logo-dark" src="images/logo-default-195x39.png" alt="" width="195" height="39"/><img class="brand-logo-light" src="images/logo-inverse-195x39.png" alt="" width="195" height="39"/></a>
+                <div class="footer-classic-layout-item"><a class="brand" href="index.html"><img class="brand-logo-dark" src="/images/logo-default-195x39.png" alt="" width="195" height="39"/><img class="brand-logo-light" src="/images/logo-inverse-195x39.png" alt="" width="195" height="39"/></a>
                     <div class="footer-classic-item-block footer-classic-item-block-1">
                         <h6>10000+ Satisfied Students</h6>
                         <div class="owl-carousel-quote-light">

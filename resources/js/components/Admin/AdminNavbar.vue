@@ -1,13 +1,45 @@
 <template>
-
+    <div style="" class="d-inline-block menu-admin">
+        <div class="d-inline-block">
+            <router-link :to="{name: 'dashboard'}">
+            <img class="brand-logo-dark" id="logo_menu"
+                 src="/images/logo.svg" alt="" width="195"
+                 height="39"/></router-link>
+            <nav class="nav flex-column">
+                <router-link class="nav-link" :to="{name:'dashboard.categories'}">Categories</router-link>
+                <a class="nav-link" href="#">Link</a>
+                <a class="nav-link" href="#">Link</a>
+                <a class="nav-link" href="#">Disabled</a>
+                <a @click.prevent="logout">Logout</a>
+            </nav>
+        </div>
+    </div>
 </template>
 
 <script>
 export default {
-    name: "AdminNavbar"
+    name: "AdminNavbar",
+    data() {
+        return {
+        }
+    },
+    methods:{
+        logout(){
+            axios.post("/logout").then(res => {
+                localStorage.removeItem("access_token");
+                this.$router.push({name : "login"})
+            })
+        },
+    }
 }
 </script>
 
 <style scoped>
-
+.menu-admin{
+    background-color: #000000;
+    width: 11%;
+    margin: 0 2%;
+    border-radius: 15px;
+    padding: 10px;
+}
 </style>
