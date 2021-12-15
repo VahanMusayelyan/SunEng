@@ -5473,7 +5473,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "Dashboard"
+  name: "Dashboard",
+  data: function data() {
+    return {};
+  },
+  mounted: function mounted() {
+    // checkAdmin;
+    var res = this.checkAdmin();
+  }
 });
 
 /***/ }),
@@ -6093,15 +6100,99 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Index",
   data: function data() {
     return {
-      accessToken: null
+      accessToken: null,
+      duration: 1000
     };
   },
   mounted: function mounted() {
+    this.preloader();
     this.getAccessToken();
   },
   methods: {
@@ -6118,6 +6209,11 @@ __webpack_require__.r(__webpack_exports__);
           name: "users.login"
         });
       });
+    },
+    preloader: function preloader() {
+      var preloader = document.getElementById("preloader"); // setTimeout(function () {
+
+      preloader.classList.add('loaded'); // }, this.duration * .75);
     }
   },
   updated: function updated() {
@@ -6584,11 +6680,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./api */ "./resources/js/api.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -6624,6 +6722,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee, null, [[0, 6]]);
       }))();
+    },
+    checkAdmin: function checkAdmin() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var self;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                self = _this;
+                _api__WEBPACK_IMPORTED_MODULE_1__["default"].post("/api/auth/me", {
+                  access_token: localStorage.getItem("access_token")
+                }).then(function (res) {
+                  if (res.data.role_id == 0) {
+                    _this.$router.push({
+                      name: "home"
+                    });
+                  }
+                })["catch"](function (error) {
+                  console.log(error);
+                });
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
     }
   }
 });
@@ -6649,9 +6777,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_HomePage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/HomePage */ "./resources/js/components/HomePage.vue");
 /* harmony import */ var _components_About__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/About */ "./resources/js/components/About.vue");
 /* harmony import */ var _components_ContactUs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/ContactUs */ "./resources/js/components/ContactUs.vue");
-/* harmony import */ var _components_Admin_Dashboard__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/Admin/Dashboard */ "./resources/js/components/Admin/Dashboard.vue");
-/* harmony import */ var _components_NotFount__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/NotFount */ "./resources/js/components/NotFount.vue");
-/* harmony import */ var _components_User_Personal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/User/Personal */ "./resources/js/components/User/Personal.vue");
+/* harmony import */ var _components_NotFount__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/NotFount */ "./resources/js/components/NotFount.vue");
+/* harmony import */ var _components_User_Personal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/User/Personal */ "./resources/js/components/User/Personal.vue");
+/* harmony import */ var _components_Admin_Dashboard__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/Admin/Dashboard */ "./resources/js/components/Admin/Dashboard.vue");
 
 
 
@@ -6680,7 +6808,7 @@ var route = new vue_router__WEBPACK_IMPORTED_MODULE_10__["default"]({
     name: "users.login"
   }, {
     path: "/users/personal",
-    component: _components_User_Personal__WEBPACK_IMPORTED_MODULE_8__["default"],
+    component: _components_User_Personal__WEBPACK_IMPORTED_MODULE_7__["default"],
     name: "users.personal"
   }, {
     path: '/',
@@ -6696,11 +6824,11 @@ var route = new vue_router__WEBPACK_IMPORTED_MODULE_10__["default"]({
     name: "contact-us"
   }, {
     path: '/dashboard',
-    component: _components_Admin_Dashboard__WEBPACK_IMPORTED_MODULE_6__["default"],
+    component: _components_Admin_Dashboard__WEBPACK_IMPORTED_MODULE_8__["default"],
     name: "dashboard"
   }, {
     path: '*',
-    component: _components_NotFount__WEBPACK_IMPORTED_MODULE_7__["default"],
+    component: _components_NotFount__WEBPACK_IMPORTED_MODULE_6__["default"],
     name: "404"
   }]
 });
@@ -48157,70 +48285,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* binding */ render),
 /* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
 /* harmony export */ });
-var render = function () {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "container" },
-    [
-      _c(
-        "router-link",
-        { staticClass: "m-2", attrs: { to: { name: "fruit.index" } } },
-        [_vm._v("List")]
-      ),
-      _vm._v(" "),
-      !_vm.accessToken
-        ? _c(
-            "router-link",
-            { staticClass: "m-2", attrs: { to: { name: "users.login" } } },
-            [_vm._v("Login")]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      !_vm.accessToken
-        ? _c(
-            "router-link",
-            {
-              staticClass: "m-2",
-              attrs: { to: { name: "users.registration" } },
-            },
-            [_vm._v("Registration")]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.accessToken
-        ? _c(
-            "router-link",
-            { staticClass: "m-2", attrs: { to: { name: "users.personal" } } },
-            [_vm._v("Personal")]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.accessToken
-        ? _c(
-            "a",
-            {
-              staticClass: "m-2",
-              on: {
-                click: function ($event) {
-                  $event.preventDefault()
-                  return _vm.logout.apply(null, arguments)
-                },
-              },
-            },
-            [_vm._v("Logout")]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _c("router-view"),
-    ],
-    1
-  )
-}
+var render = function () {}
 var staticRenderFns = []
-render._withStripped = true
 
 
 
