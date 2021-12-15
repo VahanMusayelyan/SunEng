@@ -2,7 +2,7 @@
 
 @section("content")
     <div id="app">
-        <Index></Index>
+        <App></App>
 
     </div>
     <script src="{{mix("/js/app.js")}}"></script>

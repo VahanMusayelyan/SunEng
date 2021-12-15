@@ -35,9 +35,7 @@
                         <div class="rd-navbar-brand">
                             <router-link class="brand" to="/"><img class="brand-logo-dark" id="logo_menu"
                                                                    src="/images/logo.svg" alt="" width="195"
-                                                                   height="39"/><img class="brand-logo-light"
-                                                                                     src="images/logo-inverse-195x39.png"
-                                                                                     alt="" width="195" height="39"/>
+                                                                   height="39"/>
                             </router-link>
                         </div>
                     </div>
@@ -60,7 +58,7 @@
                                 <router-link class="rd-nav-link" to="/part">Particlar</router-link>
                             </li>
                             <li v-if="token" class="rd-nav-item">
-                                <router-link class="rd-nav-link" to="/dashboard">Dashboard</router-link>
+                                <router-link class="rd-nav-link" to="/profile">Profile</router-link>
                             </li>
                         </ul>
                         <ul class="rd-navbar-nav login-registr">

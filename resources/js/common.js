@@ -21,7 +21,7 @@ export default {
             let self = this;
             API.post("/api/auth/me", {access_token: localStorage.getItem("access_token")})
                 .then(res => {
-                    if(res.data.role_id == 0){
+                    if(res.data.role_id !== 0){
                         this.$router.push({name : "home"})
                     }
                 }).catch(error =>  {

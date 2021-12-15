@@ -1,7 +1,7 @@
 <template>
     <div>
 
-    <div class="parallax-container jumbotron-3-inner context-dark parallax-disabled" data-parallax-img="images/bg-image-01.jpg">
+    <div class="parallax-container jumbotron-3-inner context-dark parallax-disabled" data-parallax-img="/images/bg-image-01.jpg">
         <div class="parallax-content">
             <div class="container">
                 <div class="row">
@@ -88,7 +88,7 @@
                             <div class="row row-30 mt-xl-60">
                                 <div class="col-sm-6 wow fadeIn">
                                     <article class="tour-minimal context-dark">
-                                        <div class="tour-minimal-inner img-overlay" style="background-image: url(images/home-3-2-258x273.jpg);">
+                                        <div class="tour-minimal-inner img-overlay" style="background-image: url(/images/home-3-2-258x273.jpg);">
                                             <div class="tour-minimal-header">
                                             </div>
                                             <div class="tour-minimal-main">
@@ -106,7 +106,7 @@
                                 </div>
                                 <div class="col-sm-6 wow fadeIn" data-wow-delay=".05s">
                                     <article class="tour-minimal context-dark">
-                                        <div class="tour-minimal-inner img-overlay" style="background-image: url(images/home-3-3-258x273.jpg);">
+                                        <div class="tour-minimal-inner img-overlay" style="background-image: url(/images/home-3-3-258x273.jpg);">
                                             <div class="tour-minimal-header">
                                             </div>
                                             <div class="tour-minimal-main">
@@ -124,7 +124,7 @@
                                 </div>
                                 <div class="col-sm-6 wow fadeIn" data-wow-delay=".05s">
                                     <article class="tour-minimal context-dark">
-                                        <div class="tour-minimal-inner img-overlay" style="background-image: url(images/home-3-4-258x273.jpg);">
+                                        <div class="tour-minimal-inner img-overlay" style="background-image: url(/images/home-3-4-258x273.jpg);">
                                             <div class="tour-minimal-header">
                                             </div>
                                             <div class="tour-minimal-main">
@@ -142,7 +142,7 @@
                                 </div>
                                 <div class="col-sm-6 wow fadeIn" data-wow-delay=".1s">
                                     <article class="tour-minimal context-dark">
-                                        <div class="tour-minimal-inner img-overlay" style="background-image: url(images/home-3-5-258x273.jpg);">
+                                        <div class="tour-minimal-inner img-overlay" style="background-image: url(/images/home-3-5-258x273.jpg);">
                                             <div class="tour-minimal-header">
                                             </div>
                                             <div class="tour-minimal-main">
@@ -170,7 +170,7 @@
                 <div class="row row-30 row-sm-50 justify-content-center justify-content-lg-between">
                     <div class="col-sm-10 col-md-10 col-lg-8">
                         <h2 class="text-uppercase font-weight-bold text-center text-md-left">Our Gallery</h2>
-                        <div class="post-corporate-gallery post-corporate-gallery-2 inset-1" data-lightgallery="group"><a class="post-corporate-thumbnail post-corporate-thumbnail-1 post-corporate-thumbnail-custom" href="images/group-01-original.jpg" data-lightgallery="item"><img class="post-corporate-thumbnail-image" src="images/group-01-722x490.jpg" alt="" width="722" height="490"/></a><a class="post-corporate-thumbnail post-corporate-thumbnail-5" href="images/group-02-original.jpg" data-lightgallery="item"><img class="post-corporate-thumbnail-image" src="images/group-02-360x326.jpg" alt="" width="360" height="326"/></a><a class="post-corporate-thumbnail post-corporate-thumbnail-5" href="images/group-03-original.jpg" data-lightgallery="item"><img class="post-corporate-thumbnail-image" src="images/group-03-360x326.jpg" alt="" width="360" height="326"/></a></div>
+                        <div class="post-corporate-gallery post-corporate-gallery-2 inset-1" data-lightgallery="group"><a class="post-corporate-thumbnail post-corporate-thumbnail-1 post-corporate-thumbnail-custom" href="/images/group-01-original.jpg" data-lightgallery="item"><img class="post-corporate-thumbnail-image" src="/images/group-01-722x490.jpg" alt="" width="722" height="490"/></a><a class="post-corporate-thumbnail post-corporate-thumbnail-5" href="/images/group-02-original.jpg" data-lightgallery="item"><img class="post-corporate-thumbnail-image" src="/images/group-02-360x326.jpg" alt="" width="360" height="326"/></a><a class="post-corporate-thumbnail post-corporate-thumbnail-5" href="/images/group-03-original.jpg" data-lightgallery="item"><img class="post-corporate-thumbnail-image" src="/images/group-03-360x326.jpg" alt="" width="360" height="326"/></a></div>
                     </div>
                     <div class="col-lg-4 offset-top-96">
                         <div class="row row-40 row-md-50 row-xxl-80">
@@ -231,7 +231,7 @@
             </div>
         </section>
         <!-- Join Our Newsletter -->
-        <section class="section section-xl context-dark bg-image bg-overlay-1 text-center" style="background-image: url(images/bg-image-3.jpg);">
+        <section class="section section-xl context-dark bg-image bg-overlay-1 text-center" style="background-image: url(/images/bg-image-3.jpg);">
             <div class="container">
                 <h2 class="text-uppercase font-weight-bold wow fadeIn">Join Our Newsletter</h2>
                 <h3 class="font-weight-regular mt-md-20 mt-lg-40 wow fadeIn" data-wow-delay=".025s">Subscribe to our newsletter to receive the latest news & updates.</h3>

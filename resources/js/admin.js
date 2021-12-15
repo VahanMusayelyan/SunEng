@@ -1,6 +1,6 @@
 import Vue from "vue";
 import router from "./router"
-import App from "./components/App.vue"
+import adminapp from "./components/Admin/AdminApp.vue"
 
 import common from "./common";
 
@@ -11,9 +11,9 @@ Vue.mixin(common);
 require('./bootstrap');
 
 const app = new Vue({
-    el : "#app",
+    el : "#admin",
     components: {
-        App
+        adminapp
     },
     router
 })

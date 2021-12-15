@@ -11,7 +11,7 @@
                         </div><a class="button button-lg button-primary mt-lg-40" href="contact-us.html">Get Started</a>
                     </div>
                     <div class="col-md-10 col-lg-5 position-relative">
-                        <div class="figure-1"><img src="images/about-1-457x566.png" alt="" width="457" height="566"/>
+                        <div class="figure-1"><img src="/images/about-1-457x566.png" alt="" width="457" height="566"/>
                         </div>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                         <blockquote class="quote-classic">
                             <div class="quote-classic-inner">
                                 <div class="quote-classic-header">
-                                    <div class="quote-classic-profile"><img class="quote-classic-avatar" src="images/testimonials-1-84x84.jpg" alt="" width="84" height="84"/>
+                                    <div class="quote-classic-profile"><img class="quote-classic-avatar" src="/images/testimonials-1-84x84.jpg" alt="" width="84" height="84"/>
                                         <cite class="quote-classic-cite heading-5">Jane Smith</cite>
                                     </div>
                                     <div class="quote-classic-links"><a class="quote-classic-social-link mdi mdi-facebook" href="#"></a></div>
@@ -88,7 +88,7 @@
                         <blockquote class="quote-classic">
                             <div class="quote-classic-inner">
                                 <div class="quote-classic-header">
-                                    <div class="quote-classic-profile"><img class="quote-classic-avatar" src="images/testimonials-2-84x84.jpg" alt="" width="84" height="84"/>
+                                    <div class="quote-classic-profile"><img class="quote-classic-avatar" src="/images/testimonials-2-84x84.jpg" alt="" width="84" height="84"/>
                                         <cite class="quote-classic-cite heading-5">Peter McMillan</cite>
                                     </div>
                                     <div class="quote-classic-links"><a class="quote-classic-social-link mdi mdi-facebook" href="#"></a></div>
@@ -105,7 +105,7 @@
                         <blockquote class="quote-classic">
                             <div class="quote-classic-inner">
                                 <div class="quote-classic-header">
-                                    <div class="quote-classic-profile"><img class="quote-classic-avatar" src="images/testimonials-3-84x84.jpg" alt="" width="84" height="84"/>
+                                    <div class="quote-classic-profile"><img class="quote-classic-avatar" src="/images/testimonials-3-84x84.jpg" alt="" width="84" height="84"/>
                                         <cite class="quote-classic-cite heading-5">Samantha Lee</cite>
                                     </div>
                                     <div class="quote-classic-links"><a class="quote-classic-social-link mdi mdi-facebook" href="#"></a></div>
@@ -122,7 +122,7 @@
                         <blockquote class="quote-classic">
                             <div class="quote-classic-inner">
                                 <div class="quote-classic-header">
-                                    <div class="quote-classic-profile"><img class="quote-classic-avatar" src="images/testimonials-4-84x84.jpg" alt="" width="84" height="84"/>
+                                    <div class="quote-classic-profile"><img class="quote-classic-avatar" src="/images/testimonials-4-84x84.jpg" alt="" width="84" height="84"/>
                                         <cite class="quote-classic-cite heading-5">Kate Wilson</cite>
                                     </div>
                                     <div class="quote-classic-links"><a class="quote-classic-social-link mdi mdi-facebook" href="#"></a></div>
@@ -147,7 +147,7 @@
                         <!-- Owl Carousel-->
                         <div class="owl-carousel owl-1 mt-lg-50" data-items="1" data-sm-items="2" data-md-items="3" data-lg-items="2" data-xl-items="3" data-dots="true" data-nav="false" data-stage-padding="0" data-loop="false" data-margin="30" data-mouse-drag="false">
                             <!-- Profile Classic-->
-                            <article class="profile-classic"><img class="profile-classic-image" src="images/our-team-1-272x197.jpg" alt="" width="272" height="197"/>
+                            <article class="profile-classic"><img class="profile-classic-image" src="/images/our-team-1-272x197.jpg" alt="" width="272" height="197"/>
                                 <div class="profile-classic-main">
                                     <p class="heading-5 profile-classic-position">Spanish Teacher</p>
                                     <p class="profile-classic-name heading-4">Amanda Peterson</p>
@@ -157,7 +157,7 @@
                                 </div>
                             </article>
                             <!-- Profile Classic-->
-                            <article class="profile-classic"><img class="profile-classic-image" src="images/our-team-2-272x197.jpg" alt="" width="272" height="197"/>
+                            <article class="profile-classic"><img class="profile-classic-image" src="/images/our-team-2-272x197.jpg" alt="" width="272" height="197"/>
                                 <div class="profile-classic-main">
                                     <p class="heading-5 profile-classic-position">English Teacher</p>
                                     <p class="profile-classic-name heading-4">Sam Johnson</p>
@@ -167,7 +167,7 @@
                                 </div>
                             </article>
                             <!-- Profile Classic-->
-                            <article class="profile-classic"><img class="profile-classic-image" src="images/our-team-3-272x197.jpg" alt="" width="272" height="197"/>
+                            <article class="profile-classic"><img class="profile-classic-image" src="/images/our-team-3-272x197.jpg" alt="" width="272" height="197"/>
                                 <div class="profile-classic-main">
                                     <p class="heading-5 profile-classic-position">German Teacher</p>
                                     <p class="profile-classic-name heading-4">Pamela Reed</p>
@@ -187,14 +187,20 @@
         <section class="section section-lg bg-default">
             <div class="container">
                 <!-- Owl Carousel-->
-                <div class="owl-carousel owl-2" data-items="1" data-sm-items="2" data-md-items="3" data-lg-items="4" data-xl-items="5" data-dots="true" data-nav="false" data-stage-padding="0" data-loop="false" data-margin="30" data-mouse-drag="false"><a class="link-image" href="#"><img src="images/brand-1-229x162.png" alt="" width="229" height="162"/></a><a class="link-image" href="#"><img src="images/brand-2-228x162.png" alt="" width="228" height="162"/></a><a class="link-image" href="#"><img src="images/brand-3-228x154.png" alt="" width="228" height="154"/></a><a class="link-image" href="#"><img src="images/brand-4-228x162.png" alt="" width="228" height="162"/></a><a class="link-image" href="#"><img src="images/brand-5-228x162.png" alt="" width="228" height="162"/></a></div>
+                <div class="owl-carousel owl-2" data-items="1" data-sm-items="2" data-md-items="3" data-lg-items="4" data-xl-items="5" data-dots="true" data-nav="false" data-stage-padding="0" data-loop="false" data-margin="30" data-mouse-drag="false"><a class="link-image" href="#"><img src="/images/brand-1-229x162.png" alt="" width="229" height="162"/></a><a class="link-image" href="#"><img src="/images/brand-2-228x162.png" alt="" width="228" height="162"/></a><a class="link-image" href="#"><img src="/images/brand-3-228x154.png" alt="" width="228" height="154"/></a><a class="link-image" href="#"><img src="/images/brand-4-228x162.png" alt="" width="228" height="162"/></a><a class="link-image" href="#"><img src="/images/brand-5-228x162.png" alt="" width="228" height="162"/></a></div>
             </div>
         </section>
     </div>
 </template>
 <script>
 export default {
-    name: "About"
+    name: "About",
+    data(){
+        return {
+
+        }
+    },
+
 }
 </script>
 
