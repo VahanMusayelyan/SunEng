@@ -30,4 +30,10 @@ export default {
 #navbar{
     display: flex;
 }
+.content-dashboard{
+    border: 1px solid #000000;
+    border-radius: 15px;
+    background-color: #f1f1f1;
+    padding: 15px;
+}
 </style>

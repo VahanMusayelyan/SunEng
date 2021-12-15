@@ -15,6 +15,8 @@ import Dashboard from "./components/Admin/Dashboard";
 import FruitIndex from "./components/Fruit";
 import Personal from "./components/User/Personal";
 import Categories from "./components/Admin/Categories/Categories";
+import StudentsIndex from "./components/Admin/Students/StudentsIndex";
+import TeachersIndex from "./components/Admin/Teachers/TeachersIndex";
 
 Vue.use(VueRouter);
 
@@ -78,6 +80,16 @@ const route = new VueRouter({
             path: '/dashboard',
             component: Dashboard,
             name: "dashboard",
+        },
+        {
+            path: '/dashboard/students',
+            component: StudentsIndex,
+            name: "dashboard.students",
+        },
+        {
+            path: '/dashboard/teachers',
+            component: TeachersIndex,
+            name: "dashboard.teachers",
         },
 
 
