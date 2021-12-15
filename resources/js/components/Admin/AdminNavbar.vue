@@ -2,11 +2,13 @@
     <div style="" class="d-inline-block menu-admin">
         <div class="d-inline-block">
             <router-link :to="{name: 'dashboard'}">
-            <img class="brand-logo-dark" id="logo_menu"
-                 src="/images/logo.svg" alt="" width="195"
-                 height="39"/></router-link>
+                <img class="brand-logo-dark ml-auto mr-auto d-block mb-2" id="logo_menu"
+                     src="/images/logo.svg" alt="" width="195"
+                     height="39"/></router-link>
             <nav class="nav flex-column">
                 <router-link class="nav-link" :to="{name:'dashboard.categories'}">Categories</router-link>
+                <router-link class="nav-link" :to="{name:'dashboard.teachers'}">Teachers</router-link>
+                <router-link class="nav-link" :to="{name:'dashboard.students'}">Students</router-link>
                 <a class="nav-link" href="#">Link</a>
                 <a class="nav-link" href="#">Link</a>
                 <a class="nav-link" href="#">Disabled</a>
@@ -20,14 +22,13 @@
 export default {
     name: "AdminNavbar",
     data() {
-        return {
-        }
+        return {}
     },
-    methods:{
-        logout(){
+    methods: {
+        logout() {
             axios.post("/logout").then(res => {
                 localStorage.removeItem("access_token");
-                this.$router.push({name : "login"})
+                this.$router.push({name: "login"})
             })
         },
     }
@@ -35,7 +36,7 @@ export default {
 </script>
 
 <style scoped>
-.menu-admin{
+.menu-admin {
     background-color: #000000;
     width: 11%;
     margin: 0 2%;
