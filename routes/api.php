@@ -45,4 +45,5 @@ Route::group(['middleware' => 'api','prefix' => 'auth'], function ($router) {
 
 Route::group(['middleware' => 'isAdmin','prefix' => 'dashboard'], function ($router) {
     Route::get("/", 'App\Http\Controllers\Admin\AdminController@index');
+    Route::post("/courses", 'App\Http\Controllers\Admin\AdminController@courses');
 });

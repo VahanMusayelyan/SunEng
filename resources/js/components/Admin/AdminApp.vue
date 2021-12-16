@@ -6,7 +6,6 @@
 </template>
 
 <script>
-import AdminIndex from "./AdminIndex"
 import AdminNavbar from "./AdminNavbar";
 
 export default {
@@ -18,11 +17,7 @@ export default {
     },
     components: {
         AdminNavbar,
-        AdminIndex
     },
-    mounted() {
-        const res = this.checkAdmin()
-    }
 }
 </script>
 
@@ -31,9 +26,11 @@ export default {
     display: flex;
 }
 .content-dashboard{
-    border: 1px solid #000000;
+    border: 1px solid #fa9046;
     border-radius: 15px;
     background-color: #f1f1f1;
     padding: 15px;
+    -webkit-box-shadow: 0px 0px 5px 1px #fa9046;
+    box-shadow: 0px 0px 5px 1px #fa9046;
 }
 </style>

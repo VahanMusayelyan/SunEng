@@ -14,9 +14,10 @@ import Profile from "./components/User/Profile";
 import Dashboard from "./components/Admin/Dashboard";
 import FruitIndex from "./components/Fruit";
 import Personal from "./components/User/Personal";
-import Categories from "./components/Admin/Categories/Categories";
+import Courses from "./components/Admin/Courses/Courses";
 import StudentsIndex from "./components/Admin/Students/StudentsIndex";
 import TeachersIndex from "./components/Admin/Teachers/TeachersIndex";
+import CourseIndex from './components/Admin/Course/CourseIndex'
 
 Vue.use(VueRouter);
 
@@ -72,11 +73,6 @@ const route = new VueRouter({
 
         //Admin routes start
         {
-            path: '/dashboard/categories',
-            component: Categories,
-            name: "dashboard.categories",
-        },
-        {
             path: '/dashboard',
             component: Dashboard,
             name: "dashboard",
@@ -90,6 +86,16 @@ const route = new VueRouter({
             path: '/dashboard/teachers',
             component: TeachersIndex,
             name: "dashboard.teachers",
+        },
+        {
+            path: '/dashboard/courses',
+            component: Courses,
+            name: "dashboard.courses",
+        },
+        {
+            path: '/dashboard/course/:id',
+            component: CourseIndex,
+            name: "dashboard.course",
         },
 
 

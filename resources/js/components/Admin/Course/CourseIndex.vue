@@ -1,20 +1,24 @@
 <template>
     <div class="w-100 d-inline-block content-dashboard">
-        <h3>This is the Dashboard component for authenticated ADMIN</h3>
-        <router-view/>
+        <h1>Category</h1>
     </div>
 </template>
 
 <script>
-export default {
-    name: "Dashboard",
-    data(){
-        return {
+import API from "../../../api";
 
+export default {
+    name: "CourseIndex",
+    data() {
+        return {
+            categories: null,
         }
     },
+    methods: {
+
+    },
     mounted() {
-        const res = this.checkAdmin()
+        this.checkAdmin()
     }
 }
 </script>

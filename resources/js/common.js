@@ -1,4 +1,6 @@
 import API from "./api";
+import axios from "axios";
+import api from "./api";
 export default {
     data() {
         return {}
@@ -19,7 +21,7 @@ export default {
         } ,
         async checkAdmin() {
             let self = this;
-            API.post("/api/auth/me", {access_token: localStorage.getItem("access_token")})
+            await API.post("/api/auth/me", {access_token: localStorage.getItem("access_token")})
                 .then(res => {
                     if(res.data.role_id !== 0){
                         this.$router.push({name : "home"})
