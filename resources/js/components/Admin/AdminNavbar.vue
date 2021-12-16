@@ -6,12 +6,9 @@
                      src="/images/logo.svg" alt="" width="195"
                      height="39"/></router-link>
             <nav class="nav flex-column">
-                <router-link class="nav-link" :to="{name:'dashboard.categories'}">Categories</router-link>
+                <router-link class="nav-link" :to="{name:'dashboard.courses'}">Courses</router-link>
                 <router-link class="nav-link" :to="{name:'dashboard.teachers'}">Teachers</router-link>
                 <router-link class="nav-link" :to="{name:'dashboard.students'}">Students</router-link>
-                <a class="nav-link" href="#">Link</a>
-                <a class="nav-link" href="#">Link</a>
-                <a class="nav-link" href="#">Disabled</a>
                 <a @click.prevent="logout">Logout</a>
             </nav>
         </div>

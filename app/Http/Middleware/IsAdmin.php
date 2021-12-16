@@ -18,7 +18,6 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        dd(Auth::user());
         if (Auth::user() && Auth::user()->role_id == 0) {
             return $next($request);
         }

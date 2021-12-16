@@ -11,6 +11,9 @@ export default {
         return{
 
         }
+    },
+    mounted() {
+        const res = this.checkAdmin()
     }
 }
 </script>
