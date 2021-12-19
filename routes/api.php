@@ -46,4 +46,9 @@ Route::group(['middleware' => 'api','prefix' => 'auth'], function ($router) {
 Route::group(['middleware' => 'isAdmin','prefix' => 'dashboard'], function ($router) {
     Route::get("/", 'App\Http\Controllers\Admin\AdminController@index');
     Route::post("/courses", 'App\Http\Controllers\Admin\AdminController@courses');
+    Route::post("/parent-courses", 'App\Http\Controllers\Admin\AdminController@parent_courses');
+    Route::post("/add-course", 'App\Http\Controllers\Admin\AdminController@add_course');
+    Route::post("/edit-course", 'App\Http\Controllers\Admin\AdminController@edit_course');
+    Route::post("/delete-course", 'App\Http\Controllers\Admin\AdminController@delete_course');
+    Route::post("/add-main-course", 'App\Http\Controllers\Admin\AdminController@add_main_course');
 });

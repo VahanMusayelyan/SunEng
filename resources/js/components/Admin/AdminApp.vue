@@ -33,4 +33,19 @@ export default {
     -webkit-box-shadow: 0px 0px 5px 1px #fa9046;
     box-shadow: 0px 0px 5px 1px #fa9046;
 }
+.borderRed{
+    border: 1px solid red;
+}
+.borderGreen{
+    border: 1px solid green;
+}
+.borderBlue{
+    border: 1px solid blue;
+}
+.orangeText{
+    color: #ff6900;
+}
+.cursor-pointer{
+    cursor: pointer;
+}
 </style>
