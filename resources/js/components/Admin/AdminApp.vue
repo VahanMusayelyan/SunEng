@@ -18,6 +18,9 @@ export default {
     components: {
         AdminNavbar,
     },
+    mounted() {
+        this.checkAdmin()
+    }
 }
 </script>
 
