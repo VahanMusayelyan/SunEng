@@ -5485,7 +5485,9 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     AdminNavbar: _AdminNavbar__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  mounted: function mounted() {
+  mounted: function mounted() {// this.checkAdmin()
+  },
+  beforeMount: function beforeMount() {
     this.checkAdmin();
   }
 });
@@ -5569,9 +5571,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {},
-  mounted: function mounted() {
-    this.checkAdmin();
-  }
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -5588,6 +5588,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../../api */ "./resources/js/api.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -5758,6 +5769,8 @@ __webpack_require__.r(__webpack_exports__);
         _this5.editParentId = null;
 
         _this5.$modal.hide("edit");
+
+        _this5.showSuccessMsg();
       })["catch"](function (error) {
         console.log(error);
       });
@@ -5807,10 +5820,13 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    deleteMainCourse: function deleteMainCourse() {},
+    cancelMainCourse: function cancelMainCourse() {
+      this.$modal.hide("deleteMain");
     }
   },
   mounted: function mounted() {
-    this.checkAdmin();
     this.getCourses();
     this.getParentCourses();
   }
@@ -5841,9 +5857,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {};
   },
-  mounted: function mounted() {
-    var res = this.checkAdmin();
-  }
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -5870,9 +5884,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {};
   },
-  mounted: function mounted() {
-    this.checkAdmin();
-  }
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -5899,9 +5911,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {};
   },
-  mounted: function mounted() {
-    this.checkAdmin();
-  }
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -7175,6 +7185,9 @@ api.interceptors.response.use(function (config) {
       error.config.headers.authorization = "Bearer ".concat(res.data.access_token);
       return api.request(error.config);
     });
+  } else if (error.response.data.message === 'Unauthenticated.') {
+    localStorage.removeItem('access_token');
+    window.location.href = '/';
   }
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (api);
@@ -7345,7 +7358,7 @@ vue__WEBPACK_IMPORTED_MODULE_7__["default"].use(vue_notifications__WEBPACK_IMPOR
     showSuccessMsg: {
       type: vue_notifications__WEBPACK_IMPORTED_MODULE_3__["default"].types.success,
       title: 'Success',
-      message: 'That\'s the success!'
+      message: 'Your information saved'
     },
     showInfoMsg: {
       type: vue_notifications__WEBPACK_IMPORTED_MODULE_3__["default"].types.info,
@@ -7355,12 +7368,12 @@ vue__WEBPACK_IMPORTED_MODULE_7__["default"].use(vue_notifications__WEBPACK_IMPOR
     showWarnMsg: {
       type: vue_notifications__WEBPACK_IMPORTED_MODULE_3__["default"].types.warn,
       title: 'Warning',
-      message: 'That\'s the kind of warning'
+      message: 'Something went wrong'
     },
     showErrorMsg: {
       type: vue_notifications__WEBPACK_IMPORTED_MODULE_3__["default"].types.error,
       title: 'Error',
-      message: 'That\'s the error'
+      message: 'That\'s the error. Please try again'
     }
   }
 });
@@ -60344,6 +60357,67 @@ var render = function () {
                 },
               },
               [_vm._v("Update")]
+            ),
+          ]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("modal", { attrs: { name: "deleteMain" } }, [
+        _c("div", { staticClass: "col-12 p-5" }, [
+          _c("div", { staticClass: "form-group" }, [
+            _c("h4", { staticClass: "ml-3 mb-2 orangeText" }, [
+              _vm._v("Do you want delete course"),
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.mainEditId,
+                  expression: "mainEditId",
+                },
+              ],
+              attrs: { type: "text", hidden: "" },
+              domProps: { value: _vm.mainEditId },
+              on: {
+                input: function ($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.mainEditId = $event.target.value
+                },
+              },
+            }),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "ml-3 btn btn-primary mt-3",
+                attrs: { type: "button" },
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.deleteMainCourse.apply(null, arguments)
+                  },
+                },
+              },
+              [_vm._v("Confirm")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "ml-3 btn btn-primary mt-3",
+                attrs: { type: "button" },
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.cancelMainCourse.apply(null, arguments)
+                  },
+                },
+              },
+              [_vm._v("Cancel")]
             ),
           ]),
         ]),

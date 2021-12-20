@@ -19,6 +19,9 @@ export default {
         AdminNavbar,
     },
     mounted() {
+        // this.checkAdmin()
+    },
+    beforeMount(){
         this.checkAdmin()
     }
 }

@@ -81,6 +81,17 @@
             </div>
         </modal>
 
+        <modal name="deleteMain">
+            <div class="col-12 p-5">
+                <div class="form-group">
+                    <h4 class="ml-3 mb-2 orangeText">Do you want delete course</h4>
+                    <input type="text" hidden v-model="mainEditId">
+                    <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="deleteMainCourse">Confirm</button>
+                    <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="cancelMainCourse">Cancel</button>
+                </div>
+            </div>
+        </modal>
+
     </div>
 </template>
 
@@ -156,6 +167,7 @@ export default {
                     this.editCourseName = ""
                     this.editParentId = null
                     this.$modal.hide("edit")
+                    this.showSuccessMsg()
                 }).catch(error => {
                 console.log(error)
             })
@@ -196,9 +208,14 @@ export default {
                 console.log(error)
             })
         },
+        deleteMainCourse(){
+            
+        },
+        cancelMainCourse(){
+            this.$modal.hide("deleteMain")
+        }
     },
     mounted() {
-        this.checkAdmin()
         this.getCourses();
         this.getParentCourses();
     },

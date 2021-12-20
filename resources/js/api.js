@@ -33,6 +33,9 @@ api.interceptors.response.use(config => {
             return api.request(error.config)
         })
 
+    }else if(error.response.data.message === 'Unauthenticated.') {
+        localStorage.removeItem('access_token')
+        window.location.href = '/'
     }
 
 })
