@@ -30,6 +30,8 @@
                 <ul>
                     <li class="d-block" v-for="(course, index) in courses" :key="index" v-if="course.course_id == 0">
                         <a v-if="course.course_id == 0">
+                            <i class="fa fa-edit cursor-pointer" @click.prevent="editMainCourse(course.id)"></i>
+                            <i class="fa fa-trash cursor-pointer mr-2 ml-2" @click.prevent="deleteMainCourse(course.id)"></i>
                             <span class="text-uppercase font-weight-bold">{{ course.course }}</span>
                             <ul class="d-block pl-4" v-if="course.children.length">
                                 <li class="d-block" v-for="(child, ind) in course.children" :key="ind">
@@ -46,6 +48,39 @@
                 </ul>
             </div>
         </div>
+
+        <modal name="edit">
+            <div class="col-12 p-5">
+                <div class="form-group">
+                    <h4 class="ml-3 mb-2 orangeText">Edit Sub Course</h4>
+                    <div class="col-12">
+                        <input v-model="editCourseName" placeholder="Sub Course Name" class="form-control" id="editcourse" ref="editcourse" type="text" required>
+                    </div>
+                    <div  class="col-12 mt-3">
+                        <select  v-model="editParentId"  class="select_parent" name="edit_parent_courses" ref="edit_parent_courses" id="edit_parent_courses">
+                            <option :value="null" disabled>Choose Parent Course</option>
+                            <option v-for="parent in parents" v-bind:value="parent.id">{{ parent.course }}</option>
+                        </select>
+                    </div>
+                    <input type="text" hidden v-model="editId">
+                    <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="updateCourse">Update</button>
+                </div>
+            </div>
+        </modal>
+
+        <modal name="editMain">
+            <div class="col-12 p-5">
+                <div class="form-group">
+                        <h4 class="ml-3 mb-2 orangeText">Edit Course</h4>
+                        <div class="col-12">
+                            <input v-model="mainEditCourse" placeholder="Course Name" class="form-control" id="maineditcourse" type="text" required>
+                        </div>
+                    <input type="text" hidden v-model="mainEditId">
+                    <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="updateMainCourse">Update</button>
+                </div>
+            </div>
+        </modal>
+
     </div>
 </template>
 
@@ -62,6 +97,12 @@ export default {
             parentId : null,
             courseId : null,
             mainCourse: null,
+            editCourseName:null,
+            editParentId: null,
+            editId: null,
+            mainEditCourse: null,
+            mainEditId: null,
+
         }
     },
     methods: {
@@ -95,11 +136,26 @@ export default {
         },
         //TodDo add modal, click insert modal values => then update course
         editCourse(id){
-            API.post("/api/dashboard/edit-course", {courseId : id})
+            this.$modal.show('edit');
+            API.post("/api/dashboard/edit-course", {id : id})
                 .then(res => {
                     console.log(res.data.cat.course)
-                    this.courseName = res.data.cat.course
-                    this.parentId = res.data.cat.course_id
+                    this.editCourseName = res.data.cat.course
+                    this.editParentId = res.data.cat.course_id
+                    this.editId = res.data.cat.id
+                }).catch(error => {
+                console.log(error)
+            })
+        },
+        updateCourse(){
+            if(this.editCourseName == null) return alert("Please fill course name");
+            if(this.editParentId == null) return alert("Please choose parent course");
+            API.post("/api/dashboard/update-course", {parentId : this.editParentId, courseName : this.editCourseName, id: this.editId})
+                .then(res => {
+                    this.courses = res.data.cat
+                    this.editCourseName = ""
+                    this.editParentId = null
+                    this.$modal.hide("edit")
                 }).catch(error => {
                 console.log(error)
             })
@@ -116,7 +172,30 @@ export default {
                 }).catch(error => {
                 console.log(error)
             })
-        }
+        },
+        editMainCourse(id){
+            this.$modal.show('editMain');
+            API.post("/api/dashboard/edit-main-course", {id : id})
+                .then(res => {
+                    this.mainEditCourse = res.data.cat.course
+                    this.mainEditId = res.data.cat.id
+                }).catch(error => {
+                console.log(error)
+            })
+        },
+        updateMainCourse(){
+            if(this.mainEditCourse == null) return alert("Please fill course name");
+
+            API.post("/api/dashboard/update-main-course", {course : this.mainEditCourse, id: this.mainEditId})
+                .then(res => {
+                    this.courses = res.data.cat
+                    this.mainEditCourse = ""
+                    this.$modal.hide("editMain")
+                    this.showSuccessMsg()
+                }).catch(error => {
+                console.log(error)
+            })
+        },
     },
     mounted() {
         this.checkAdmin()

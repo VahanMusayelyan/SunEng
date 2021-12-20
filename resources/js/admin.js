@@ -6,6 +6,8 @@ import common from "./common";
 
 Vue.mixin(common);
 
+import VModal from 'vue-js-modal'
+Vue.use(VModal)
 
 
 require('./bootstrap');
