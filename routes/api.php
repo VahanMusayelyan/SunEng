@@ -47,11 +47,15 @@ Route::group(['middleware' => 'isAdmin','prefix' => 'dashboard'], function ($rou
     Route::get("/", 'App\Http\Controllers\Admin\AdminController@index');
     Route::post("/courses", 'App\Http\Controllers\Admin\AdminController@courses');
     Route::post("/parent-courses", 'App\Http\Controllers\Admin\AdminController@parent_courses');
+
     Route::post("/add-course", 'App\Http\Controllers\Admin\AdminController@add_course');
     Route::post("/edit-course", 'App\Http\Controllers\Admin\AdminController@edit_course');
     Route::post("/update-course", 'App\Http\Controllers\Admin\AdminController@update_course');
     Route::post("/delete-course", 'App\Http\Controllers\Admin\AdminController@delete_course');
+
     Route::post("/add-main-course", 'App\Http\Controllers\Admin\AdminController@add_main_course');
     Route::post("/edit-main-course", 'App\Http\Controllers\Admin\AdminController@edit_main_course');
     Route::post("/update-main-course", 'App\Http\Controllers\Admin\AdminController@update_main_course');
+    Route::post("/delete-main-course", 'App\Http\Controllers\Admin\AdminController@delete_main_course');
+
 });

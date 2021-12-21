@@ -5598,6 +5598,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Courses",
@@ -5613,7 +5616,8 @@ __webpack_require__.r(__webpack_exports__);
       editParentId: null,
       editId: null,
       mainEditCourse: null,
-      mainEditId: null
+      mainEditId: null,
+      mainDelete: null
     };
   },
   methods: {
@@ -5734,7 +5738,26 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
-    deleteMainCourse: function deleteMainCourse() {},
+    deleteMainCourse: function deleteMainCourse() {
+      var _this9 = this;
+
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].post("/api/dashboard/delete-main-course", {
+        id: this.mainDelete
+      }).then(function (res) {
+        _this9.courses = res.data.cat;
+        _this9.mainDelete = "";
+
+        _this9.$modal.hide("deleteMain");
+
+        _this9.showSuccessMsg();
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    deleteModal: function deleteModal(id) {
+      this.mainDelete = id;
+      this.$modal.show("deleteMain");
+    },
     cancelMainCourse: function cancelMainCourse() {
       this.$modal.hide("deleteMain");
     }
@@ -59878,7 +59901,7 @@ var render = function () {
                                 on: {
                                   click: function ($event) {
                                     $event.preventDefault()
-                                    return _vm.deleteMainCourse(course.id)
+                                    return _vm.deleteModal(course.id)
                                   },
                                 },
                               }),
@@ -59922,7 +59945,7 @@ var render = function () {
                                               on: {
                                                 click: function ($event) {
                                                   $event.preventDefault()
-                                                  return _vm.deleteCourse(
+                                                  return _vm.deleteModal(
                                                     child.id
                                                   )
                                                 },
@@ -60171,7 +60194,7 @@ var render = function () {
       _c("modal", { attrs: { name: "deleteMain" } }, [
         _c("div", { staticClass: "col-12 p-5" }, [
           _c("div", { staticClass: "form-group" }, [
-            _c("h4", { staticClass: "ml-3 mb-2 orangeText" }, [
+            _c("h4", { staticClass: "ml-3 mb-2 orangeText text-center" }, [
               _vm._v("Do you want delete course"),
             ]),
             _vm._v(" "),
@@ -60180,51 +60203,53 @@ var render = function () {
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.mainEditId,
-                  expression: "mainEditId",
+                  value: _vm.mainDelete,
+                  expression: "mainDelete",
                 },
               ],
               attrs: { type: "text", hidden: "" },
-              domProps: { value: _vm.mainEditId },
+              domProps: { value: _vm.mainDelete },
               on: {
                 input: function ($event) {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.mainEditId = $event.target.value
+                  _vm.mainDelete = $event.target.value
                 },
               },
             }),
             _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "ml-3 btn btn-primary mt-3",
-                attrs: { type: "button" },
-                on: {
-                  click: function ($event) {
-                    $event.preventDefault()
-                    return _vm.deleteMainCourse.apply(null, arguments)
+            _c("div", { staticClass: "w-50 ml-auto  mr-auto" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "ml-3 btn btn-primary mt-3",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function ($event) {
+                      $event.preventDefault()
+                      return _vm.deleteMainCourse.apply(null, arguments)
+                    },
                   },
                 },
-              },
-              [_vm._v("Confirm")]
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "ml-3 btn btn-primary mt-3",
-                attrs: { type: "button" },
-                on: {
-                  click: function ($event) {
-                    $event.preventDefault()
-                    return _vm.cancelMainCourse.apply(null, arguments)
+                [_vm._v("Confirm")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "ml-3 btn btn-primary mt-3",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function ($event) {
+                      $event.preventDefault()
+                      return _vm.cancelMainCourse.apply(null, arguments)
+                    },
                   },
                 },
-              },
-              [_vm._v("Cancel")]
-            ),
+                [_vm._v("Cancel")]
+              ),
+            ]),
           ]),
         ]),
       ]),
