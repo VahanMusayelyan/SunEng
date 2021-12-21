@@ -5484,9 +5484,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {},
-  mounted: function mounted() {
-    this.checkAdmin();
-  }
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -5589,6 +5587,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Courses",
@@ -5604,7 +5616,8 @@ __webpack_require__.r(__webpack_exports__);
       editParentId: null,
       editId: null,
       mainEditCourse: null,
-      mainEditId: null
+      mainEditId: null,
+      mainDelete: null
     };
   },
   methods: {
@@ -5646,7 +5659,6 @@ __webpack_require__.r(__webpack_exports__);
     editCourse: function editCourse(id) {
       var _this4 = this;
 
-      this.$modal.show('edit');
       _api__WEBPACK_IMPORTED_MODULE_0__["default"].post("/api/dashboard/edit-course", {
         id: id
       }).then(function (res) {
@@ -5654,6 +5666,8 @@ __webpack_require__.r(__webpack_exports__);
         _this4.editCourseName = res.data.cat.course;
         _this4.editParentId = res.data.cat.course_id;
         _this4.editId = res.data.cat.id;
+
+        _this4.$modal.show('edit');
       })["catch"](function (error) {
         console.log(error);
       });
@@ -5673,6 +5687,8 @@ __webpack_require__.r(__webpack_exports__);
         _this5.editParentId = null;
 
         _this5.$modal.hide("edit");
+
+        _this5.showSuccessMsg();
       })["catch"](function (error) {
         console.log(error);
       });
@@ -5695,12 +5711,13 @@ __webpack_require__.r(__webpack_exports__);
     editMainCourse: function editMainCourse(id) {
       var _this7 = this;
 
-      this.$modal.show('editMain');
       _api__WEBPACK_IMPORTED_MODULE_0__["default"].post("/api/dashboard/edit-main-course", {
         id: id
       }).then(function (res) {
         _this7.mainEditCourse = res.data.cat.course;
         _this7.mainEditId = res.data.cat.id;
+
+        _this7.$modal.show('editMain');
       })["catch"](function (error) {
         console.log(error);
       });
@@ -5722,10 +5739,32 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    deleteMainCourse: function deleteMainCourse() {
+      var _this9 = this;
+
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].post("/api/dashboard/delete-main-course", {
+        id: this.mainDelete
+      }).then(function (res) {
+        _this9.courses = res.data.cat;
+        _this9.mainDelete = "";
+
+        _this9.$modal.hide("deleteMain");
+
+        _this9.showSuccessMsg();
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    deleteModal: function deleteModal(id) {
+      this.mainDelete = id;
+      this.$modal.show("deleteMain");
+    },
+    cancelMainCourse: function cancelMainCourse() {
+      this.$modal.hide("deleteMain");
     }
   },
   mounted: function mounted() {
-    this.checkAdmin();
     this.getCourses();
     this.getParentCourses();
   }
@@ -5756,9 +5795,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {};
   },
-  mounted: function mounted() {
-    var res = this.checkAdmin();
-  }
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -5785,9 +5822,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {};
   },
-  mounted: function mounted() {
-    this.checkAdmin();
-  }
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -5814,9 +5849,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {};
   },
-  mounted: function mounted() {
-    this.checkAdmin();
-  }
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -7255,6 +7288,9 @@ api.interceptors.response.use(function (config) {
       error.config.headers.authorization = "Bearer ".concat(res.data.access_token);
       return api.request(error.config);
     });
+  } else if (error.response.data.message === 'Unauthenticated.') {
+    localStorage.removeItem('access_token');
+    window.location.href = '/';
   }
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (api);
@@ -7425,7 +7461,7 @@ vue__WEBPACK_IMPORTED_MODULE_7__["default"].use(vue_notifications__WEBPACK_IMPOR
     showSuccessMsg: {
       type: vue_notifications__WEBPACK_IMPORTED_MODULE_3__["default"].types.success,
       title: 'Success',
-      message: 'That\'s the success!'
+      message: 'Your information saved'
     },
     showInfoMsg: {
       type: vue_notifications__WEBPACK_IMPORTED_MODULE_3__["default"].types.info,
@@ -7435,12 +7471,12 @@ vue__WEBPACK_IMPORTED_MODULE_7__["default"].use(vue_notifications__WEBPACK_IMPOR
     showWarnMsg: {
       type: vue_notifications__WEBPACK_IMPORTED_MODULE_3__["default"].types.warn,
       title: 'Warning',
-      message: 'That\'s the kind of warning'
+      message: 'Something went wrong'
     },
     showErrorMsg: {
       type: vue_notifications__WEBPACK_IMPORTED_MODULE_3__["default"].types.error,
       title: 'Error',
-      message: 'That\'s the error'
+      message: 'That\'s the error. Please try again'
     }
   }
 });
@@ -12653,7 +12689,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#course[data-v-bd0ff8f4], #maincourse[data-v-bd0ff8f4] {\n    background-color: #f1f1f1;\n    border-radius: 5px;\n}\n.select_parent[data-v-bd0ff8f4]{\n    padding: 10px 5px;\n    width: 100%;\n    background-color: #f1f1f1;\n    border-radius: 5px;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#course[data-v-bd0ff8f4], #maincourse[data-v-bd0ff8f4] {\n    background-color: #f1f1f1;\n    border-radius: 5px;\n}\n.select_parent[data-v-bd0ff8f4]{\n    padding: 10px 5px;\n    width: 100%;\n    background-color: #f1f1f1;\n    border-radius: 5px;\n}\n.deleteMain[data-v-bd0ff8f4]{\n    height: 204px;\n    border-radius: 15px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -59867,7 +59903,7 @@ var render = function () {
                                 on: {
                                   click: function ($event) {
                                     $event.preventDefault()
-                                    return _vm.deleteMainCourse(course.id)
+                                    return _vm.deleteModal(course.id)
                                   },
                                 },
                               }),
@@ -59911,7 +59947,7 @@ var render = function () {
                                               on: {
                                                 click: function ($event) {
                                                   $event.preventDefault()
-                                                  return _vm.deleteCourse(
+                                                  return _vm.deleteModal(
                                                     child.id
                                                   )
                                                 },
@@ -60156,6 +60192,73 @@ var render = function () {
           ]),
         ]),
       ]),
+      _vm._v(" "),
+      _c(
+        "modal",
+        { staticClass: "deleteMain", attrs: { name: "deleteMain" } },
+        [
+          _c("div", { staticClass: "col-12 p-5" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("h4", { staticClass: "ml-3 mb-2 orangeText text-center" }, [
+                _vm._v("Do you want delete course"),
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.mainDelete,
+                    expression: "mainDelete",
+                  },
+                ],
+                attrs: { type: "text", hidden: "" },
+                domProps: { value: _vm.mainDelete },
+                on: {
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.mainDelete = $event.target.value
+                  },
+                },
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "w-50 ml-auto  mr-auto" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "ml-3 btn btn-primary mt-3",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function ($event) {
+                        $event.preventDefault()
+                        return _vm.deleteMainCourse.apply(null, arguments)
+                      },
+                    },
+                  },
+                  [_vm._v("Confirm")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "ml-3 btn btn-primary mt-3",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function ($event) {
+                        $event.preventDefault()
+                        return _vm.cancelMainCourse.apply(null, arguments)
+                      },
+                    },
+                  },
+                  [_vm._v("Cancel")]
+                ),
+              ]),
+            ]),
+          ]),
+        ]
+      ),
     ],
     1
   )

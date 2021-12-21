@@ -56,7 +56,7 @@ export default {
         showSuccessMsg: {
             type: VueNotifications.types.success,
             title: 'Success',
-            message: 'That\'s the success!'
+            message: 'Your information saved'
         },
         showInfoMsg: {
             type: VueNotifications.types.info,
@@ -66,12 +66,12 @@ export default {
         showWarnMsg: {
             type: VueNotifications.types.warn,
             title: 'Warning',
-            message: 'That\'s the kind of warning'
+            message: 'Something went wrong'
         },
         showErrorMsg: {
             type: VueNotifications.types.error,
             title: 'Error',
-            message: 'That\'s the error'
+            message: 'That\'s the error. Please try again'
         }
     },
 }

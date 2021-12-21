@@ -31,12 +31,12 @@
                     <li class="d-block" v-for="(course, index) in courses" :key="index" v-if="course.course_id == 0">
                         <a v-if="course.course_id == 0">
                             <i class="fa fa-edit cursor-pointer" @click.prevent="editMainCourse(course.id)"></i>
-                            <i class="fa fa-trash cursor-pointer mr-2 ml-2" @click.prevent="deleteMainCourse(course.id)"></i>
+                            <i class="fa fa-trash cursor-pointer mr-2 ml-2" @click.prevent="deleteModal(course.id)"></i>
                             <span class="text-uppercase font-weight-bold">{{ course.course }}</span>
                             <ul class="d-block pl-4" v-if="course.children.length">
                                 <li class="d-block" v-for="(child, ind) in course.children" :key="ind">
                                     <i class="fa fa-edit cursor-pointer" @click.prevent="editCourse(child.id)"></i>
-                                    <i class="fa fa-trash cursor-pointer mr-2 ml-2" @click.prevent="deleteCourse(child.id)"></i>
+                                    <i class="fa fa-trash cursor-pointer mr-2 ml-2" @click.prevent="deleteModal(child.id)"></i>
                                     <router-link :to="{ name: 'dashboard.course', params: { id: child.id }}">
                                         {{ child.course }}
                                     </router-link>
@@ -81,6 +81,20 @@
             </div>
         </modal>
 
+        <modal name="deleteMain" class="deleteMain">
+            <div class="col-12 p-5">
+                <div class="form-group">
+                    <h4 class="ml-3 mb-2 orangeText text-center">Do you want delete course</h4>
+                    <input type="text" hidden v-model="mainDelete">
+                    <div class="w-50 ml-auto  mr-auto">
+                        <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="deleteMainCourse">Confirm</button>
+                        <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="cancelMainCourse">Cancel</button>
+                    </div>
+
+                </div>
+            </div>
+        </modal>
+
     </div>
 </template>
 
@@ -102,6 +116,7 @@ export default {
             editId: null,
             mainEditCourse: null,
             mainEditId: null,
+            mainDelete: null,
 
         }
     },
@@ -136,16 +151,18 @@ export default {
         },
         //TodDo add modal, click insert modal values => then update course
         editCourse(id){
-            this.$modal.show('edit');
+
             API.post("/api/dashboard/edit-course", {id : id})
                 .then(res => {
                     console.log(res.data.cat.course)
                     this.editCourseName = res.data.cat.course
                     this.editParentId = res.data.cat.course_id
                     this.editId = res.data.cat.id
+                    this.$modal.show('edit');
                 }).catch(error => {
                 console.log(error)
             })
+
         },
         updateCourse(){
             if(this.editCourseName == null) return alert("Please fill course name");
@@ -156,6 +173,7 @@ export default {
                     this.editCourseName = ""
                     this.editParentId = null
                     this.$modal.hide("edit")
+                    this.showSuccessMsg()
                 }).catch(error => {
                 console.log(error)
             })
@@ -174,11 +192,11 @@ export default {
             })
         },
         editMainCourse(id){
-            this.$modal.show('editMain');
             API.post("/api/dashboard/edit-main-course", {id : id})
                 .then(res => {
                     this.mainEditCourse = res.data.cat.course
                     this.mainEditId = res.data.cat.id
+                    this.$modal.show('editMain');
                 }).catch(error => {
                 console.log(error)
             })
@@ -196,9 +214,26 @@ export default {
                 console.log(error)
             })
         },
+        deleteMainCourse(){
+            API.post("/api/dashboard/delete-main-course", {id : this.mainDelete})
+                .then(res => {
+                    this.courses = res.data.cat
+                    this.mainDelete = ""
+                    this.$modal.hide("deleteMain")
+                    this.showSuccessMsg()
+                }).catch(error => {
+                console.log(error)
+            })
+        },
+        deleteModal(id){
+            this.mainDelete = id;
+            this.$modal.show("deleteMain")
+        },
+        cancelMainCourse(){
+            this.$modal.hide("deleteMain")
+        }
     },
     mounted() {
-        this.checkAdmin()
         this.getCourses();
         this.getParentCourses();
     },
@@ -218,5 +253,8 @@ export default {
     background-color: #f1f1f1;
     border-radius: 5px;
 }
-
+.deleteMain{
+    height: 204px;
+    border-radius: 15px;
+}
 </style>

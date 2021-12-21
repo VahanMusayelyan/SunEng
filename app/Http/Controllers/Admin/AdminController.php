@@ -74,4 +74,11 @@ class AdminController extends Controller
 
         return $this->courses();
     }
+
+    public function delete_main_course(Request $request)
+    {
+        Course::where("id", $request->id)->delete();
+
+        return $this->courses();
+    }
 }
