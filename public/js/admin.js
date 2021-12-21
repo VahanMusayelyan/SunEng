@@ -5746,7 +5746,6 @@ __webpack_require__.r(__webpack_exports__);
     editCourse: function editCourse(id) {
       var _this4 = this;
 
-      this.$modal.show('edit');
       _api__WEBPACK_IMPORTED_MODULE_0__["default"].post("/api/dashboard/edit-course", {
         id: id
       }).then(function (res) {
@@ -5754,6 +5753,8 @@ __webpack_require__.r(__webpack_exports__);
         _this4.editCourseName = res.data.cat.course;
         _this4.editParentId = res.data.cat.course_id;
         _this4.editId = res.data.cat.id;
+
+        _this4.$modal.show('edit');
       })["catch"](function (error) {
         console.log(error);
       });
@@ -5797,12 +5798,13 @@ __webpack_require__.r(__webpack_exports__);
     editMainCourse: function editMainCourse(id) {
       var _this7 = this;
 
-      this.$modal.show('editMain');
       _api__WEBPACK_IMPORTED_MODULE_0__["default"].post("/api/dashboard/edit-main-course", {
         id: id
       }).then(function (res) {
         _this7.mainEditCourse = res.data.cat.course;
         _this7.mainEditId = res.data.cat.id;
+
+        _this7.$modal.show('editMain');
       })["catch"](function (error) {
         console.log(error);
       });
@@ -12657,7 +12659,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#course[data-v-bd0ff8f4], #maincourse[data-v-bd0ff8f4] {\n    background-color: #f1f1f1;\n    border-radius: 5px;\n}\n.select_parent[data-v-bd0ff8f4]{\n    padding: 10px 5px;\n    width: 100%;\n    background-color: #f1f1f1;\n    border-radius: 5px;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#course[data-v-bd0ff8f4], #maincourse[data-v-bd0ff8f4] {\n    background-color: #f1f1f1;\n    border-radius: 5px;\n}\n.select_parent[data-v-bd0ff8f4]{\n    padding: 10px 5px;\n    width: 100%;\n    background-color: #f1f1f1;\n    border-radius: 5px;\n}\n.deleteMain[data-v-bd0ff8f4]{\n    height: 204px;\n    border-radius: 15px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -60385,68 +60387,72 @@ var render = function () {
         ]),
       ]),
       _vm._v(" "),
-      _c("modal", { attrs: { name: "deleteMain" } }, [
-        _c("div", { staticClass: "col-12 p-5" }, [
-          _c("div", { staticClass: "form-group" }, [
-            _c("h4", { staticClass: "ml-3 mb-2 orangeText text-center" }, [
-              _vm._v("Do you want delete course"),
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.mainDelete,
-                  expression: "mainDelete",
-                },
-              ],
-              attrs: { type: "text", hidden: "" },
-              domProps: { value: _vm.mainDelete },
-              on: {
-                input: function ($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.mainDelete = $event.target.value
-                },
-              },
-            }),
-            _vm._v(" "),
-            _c("div", { staticClass: "w-50 ml-auto  mr-auto" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "ml-3 btn btn-primary mt-3",
-                  attrs: { type: "button" },
-                  on: {
-                    click: function ($event) {
-                      $event.preventDefault()
-                      return _vm.deleteMainCourse.apply(null, arguments)
-                    },
-                  },
-                },
-                [_vm._v("Confirm")]
-              ),
+      _c(
+        "modal",
+        { staticClass: "deleteMain", attrs: { name: "deleteMain" } },
+        [
+          _c("div", { staticClass: "col-12 p-5" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("h4", { staticClass: "ml-3 mb-2 orangeText text-center" }, [
+                _vm._v("Do you want delete course"),
+              ]),
               _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "ml-3 btn btn-primary mt-3",
-                  attrs: { type: "button" },
-                  on: {
-                    click: function ($event) {
-                      $event.preventDefault()
-                      return _vm.cancelMainCourse.apply(null, arguments)
-                    },
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.mainDelete,
+                    expression: "mainDelete",
+                  },
+                ],
+                attrs: { type: "text", hidden: "" },
+                domProps: { value: _vm.mainDelete },
+                on: {
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.mainDelete = $event.target.value
                   },
                 },
-                [_vm._v("Cancel")]
-              ),
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "w-50 ml-auto  mr-auto" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "ml-3 btn btn-primary mt-3",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function ($event) {
+                        $event.preventDefault()
+                        return _vm.deleteMainCourse.apply(null, arguments)
+                      },
+                    },
+                  },
+                  [_vm._v("Confirm")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "ml-3 btn btn-primary mt-3",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function ($event) {
+                        $event.preventDefault()
+                        return _vm.cancelMainCourse.apply(null, arguments)
+                      },
+                    },
+                  },
+                  [_vm._v("Cancel")]
+                ),
+              ]),
             ]),
           ]),
-        ]),
-      ]),
+        ]
+      ),
     ],
     1
   )

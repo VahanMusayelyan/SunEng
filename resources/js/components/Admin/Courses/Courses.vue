@@ -151,16 +151,18 @@ export default {
         },
         //TodDo add modal, click insert modal values => then update course
         editCourse(id){
-            this.$modal.show('edit');
+
             API.post("/api/dashboard/edit-course", {id : id})
                 .then(res => {
                     console.log(res.data.cat.course)
                     this.editCourseName = res.data.cat.course
                     this.editParentId = res.data.cat.course_id
                     this.editId = res.data.cat.id
+                    this.$modal.show('edit');
                 }).catch(error => {
                 console.log(error)
             })
+
         },
         updateCourse(){
             if(this.editCourseName == null) return alert("Please fill course name");
@@ -190,11 +192,11 @@ export default {
             })
         },
         editMainCourse(id){
-            this.$modal.show('editMain');
             API.post("/api/dashboard/edit-main-course", {id : id})
                 .then(res => {
                     this.mainEditCourse = res.data.cat.course
                     this.mainEditId = res.data.cat.id
+                    this.$modal.show('editMain');
                 }).catch(error => {
                 console.log(error)
             })
