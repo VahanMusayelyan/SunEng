@@ -23,7 +23,9 @@ Vue.use(VueNotifications, options)
 
 export default {
     data() {
-        return {}
+        return {
+            deleteId : null
+        }
 
     },
     methods: {
@@ -50,7 +52,14 @@ export default {
                 console.log(error)
             })
 
-        }
+        },
+        cancelModal(name){
+            this.$modal.hide(name)
+        },
+        deleteModal(deleteId, name) {
+            this.deleteId = deleteId;
+            this.$modal.show(name)
+        },
     },
     notifications: {
         showSuccessMsg: {

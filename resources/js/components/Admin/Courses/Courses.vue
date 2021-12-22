@@ -31,7 +31,7 @@
                     <li class="d-block" v-for="(course, index) in courses" :key="index" v-if="course.course_id == 0">
                         <a v-if="course.course_id == 0">
                             <i class="fa fa-edit cursor-pointer" @click.prevent="editMainCourse(course.id)"></i>
-                            <i class="fa fa-trash cursor-pointer mr-2 ml-2" @click.prevent="deleteModal(course.id)"></i>
+                            <i class="fa fa-trash cursor-pointer mr-3 ml-3" @click.prevent="deleteModal(course.id)"></i>
                             <span class="text-uppercase font-weight-bold">{{ course.course }}</span>
                             <ul class="d-block pl-4" v-if="course.children.length">
                                 <li class="d-block" v-for="(child, ind) in course.children" :key="ind">
@@ -49,7 +49,8 @@
             </div>
         </div>
 
-        <modal name="edit">
+        <modal name="edit" class="showModal"  id="showModal">
+            <div class="backgroundImg position-absolute"></div>
             <div class="col-12 p-5">
                 <div class="form-group">
                     <h4 class="ml-3 mb-2 orangeText">Edit Sub Course</h4>
@@ -68,7 +69,8 @@
             </div>
         </modal>
 
-        <modal name="editMain">
+        <modal name="editMain" class="editMain showModal"  id="showModal">
+            <div class="backgroundImg position-absolute"></div>
             <div class="col-12 p-5">
                 <div class="form-group">
                         <h4 class="ml-3 mb-2 orangeText">Edit Course</h4>
@@ -79,12 +81,14 @@
                     <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="updateMainCourse">Update</button>
                 </div>
             </div>
+
         </modal>
 
-        <modal name="deleteMain" class="deleteMain">
+        <modal name="deleteMain" class="deleteMain showModal"  id="showModal">
+            <div class="backgroundImg position-absolute"></div>
             <div class="col-12 p-5">
                 <div class="form-group">
-                    <h4 class="ml-3 mb-2 orangeText text-center">Do you want delete course</h4>
+                    <h4 class="ml-3 mb-2 orangeText text-center">Do you want delete course ?</h4>
                     <input type="text" hidden v-model="mainDelete">
                     <div class="w-50 ml-auto  mr-auto">
                         <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="deleteMainCourse">Confirm</button>

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 use Illuminate\Http\Request;
 
-class AdminController extends Controller
+class AdminCourseController extends Controller
 {
     public function index()
     {
@@ -16,7 +16,7 @@ class AdminController extends Controller
 
     public function courses()
     {
-        return response()->json(['cat' => Course::with('children')->orderBy('course_id', 'asc')->get()->toArray()]);
+        return response()->json(['cat' => Course::with('children')->get()->toArray()]);
     }
 
     public function parent_courses()

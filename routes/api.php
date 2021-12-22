@@ -44,18 +44,25 @@ Route::group(['middleware' => 'api','prefix' => 'auth'], function ($router) {
 });
 
 Route::group(['middleware' => 'isAdmin','prefix' => 'dashboard'], function ($router) {
-    Route::get("/", 'App\Http\Controllers\Admin\AdminController@index');
-    Route::post("/courses", 'App\Http\Controllers\Admin\AdminController@courses');
-    Route::post("/parent-courses", 'App\Http\Controllers\Admin\AdminController@parent_courses');
+    Route::get("/", 'App\Http\Controllers\Admin\AdminCourseController@index');
+    Route::post("/courses", 'App\Http\Controllers\Admin\AdminCourseController@courses');
+    Route::post("/parent-courses", 'App\Http\Controllers\Admin\AdminCourseController@parent_courses');
 
-    Route::post("/add-course", 'App\Http\Controllers\Admin\AdminController@add_course');
-    Route::post("/edit-course", 'App\Http\Controllers\Admin\AdminController@edit_course');
-    Route::post("/update-course", 'App\Http\Controllers\Admin\AdminController@update_course');
-    Route::post("/delete-course", 'App\Http\Controllers\Admin\AdminController@delete_course');
+    Route::post("/add-course", 'App\Http\Controllers\Admin\AdminCourseController@add_course');
+    Route::post("/edit-course", 'App\Http\Controllers\Admin\AdminCourseController@edit_course');
+    Route::post("/update-course", 'App\Http\Controllers\Admin\AdminCourseController@update_course');
+    Route::post("/delete-course", 'App\Http\Controllers\Admin\AdminCourseController@delete_course');
 
-    Route::post("/add-main-course", 'App\Http\Controllers\Admin\AdminController@add_main_course');
-    Route::post("/edit-main-course", 'App\Http\Controllers\Admin\AdminController@edit_main_course');
-    Route::post("/update-main-course", 'App\Http\Controllers\Admin\AdminController@update_main_course');
-    Route::post("/delete-main-course", 'App\Http\Controllers\Admin\AdminController@delete_main_course');
+    Route::post("/add-main-course", 'App\Http\Controllers\Admin\AdminCourseController@add_main_course');
+    Route::post("/edit-main-course", 'App\Http\Controllers\Admin\AdminCourseController@edit_main_course');
+    Route::post("/update-main-course", 'App\Http\Controllers\Admin\AdminCourseController@update_main_course');
+    Route::post("/delete-main-course", 'App\Http\Controllers\Admin\AdminCourseController@delete_main_course');
+
+    Route::post("/course-lessons", 'App\Http\Controllers\Admin\AdminLessonController@index');
+    Route::post("/lessons-list", 'App\Http\Controllers\Admin\AdminLessonController@lessons_list');
+    Route::post("/add-lesson", 'App\Http\Controllers\Admin\AdminLessonController@add_lesson');
+    Route::post("/edit-lesson", 'App\Http\Controllers\Admin\AdminLessonController@edit_lesson');
+    Route::post("/update-lesson", 'App\Http\Controllers\Admin\AdminLessonController@update_lesson');
+    Route::post("/delete-lesson", 'App\Http\Controllers\Admin\AdminLessonController@delete_lesson');
 
 });

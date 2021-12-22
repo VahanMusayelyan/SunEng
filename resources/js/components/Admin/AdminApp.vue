@@ -54,4 +54,23 @@ export default {
 .cursor-pointer{
     cursor: pointer;
 }
+
+.backgroundImg{
+    width: 100%;
+    height: 100%;
+    background-image: url('/images/logo.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity:0.1;
+}
+.selectBackground{
+    padding: 10px 5px;
+    width: 100%;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+}
+
+#showModal{
+    top:-250px;
+}
 </style>

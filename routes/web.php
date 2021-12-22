@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Auth::routes();
-Route::get('/dashboard', "App\Http\Controllers\Admin\AdminController@index");
-Route::get('/dashboard/{any}', "App\Http\Controllers\Admin\AdminController@index")->where("any", ".*");
-Route::get('/dashboard/{any}/{page}', "App\Http\Controllers\Admin\AdminController@index")->where("any", ".*")->where("page", ".*");
+Route::get('/dashboard', "App\Http\Controllers\Admin\AdminCourseController@index");
+Route::get('/dashboard/{any}', "App\Http\Controllers\Admin\AdminCourseController@index")->where("any", ".*");
+Route::get('/dashboard/{any}/{page}', "App\Http\Controllers\Admin\AdminCourseController@index")->where("any", ".*")->where("page", ".*");
 Route::get('{page}', "App\Http\Controllers\IndexController@index")->where("page", ".*");
