@@ -64,5 +64,9 @@ Route::group(['middleware' => 'isAdmin','prefix' => 'dashboard'], function ($rou
     Route::post("/edit-lesson", 'App\Http\Controllers\Admin\AdminLessonController@edit_lesson');
     Route::post("/update-lesson", 'App\Http\Controllers\Admin\AdminLessonController@update_lesson');
     Route::post("/delete-lesson", 'App\Http\Controllers\Admin\AdminLessonController@delete_lesson');
+    Route::post("/lesson-show", 'App\Http\Controllers\Admin\AdminLessonController@lesson_show');
+    Route::post("/lesson-title", 'App\Http\Controllers\Admin\AdminLessonController@lesson_title');
+    Route::post("/add-slide", 'App\Http\Controllers\Admin\AdminLessonController@add_slide');
+    Route::post("/slides-list", 'App\Http\Controllers\Admin\AdminLessonController@getSlides');
 
 });

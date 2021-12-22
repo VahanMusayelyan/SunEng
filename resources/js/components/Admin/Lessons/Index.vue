@@ -121,6 +121,7 @@ export default {
                 this.lessons = response.data.lessons
                 this.lesson = ""
                 this.subcourse = null
+                this.showSuccessMsg()
             }).catch(error => {
                 console.log(error)
             })
@@ -142,6 +143,7 @@ export default {
                     this.lessons = response.data.lessons
                     this.editLess = ""
                     this.courseId = ""
+                    this.showSuccessMsg()
                 }).catch(error => {
                 console.log(error)
             })

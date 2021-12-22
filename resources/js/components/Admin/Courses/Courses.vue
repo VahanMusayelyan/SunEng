@@ -149,6 +149,7 @@ export default {
                 this.courses = res.data.cat
                 this.courseName = ""
                 this.parentId = null
+                this.showSuccessMsg()
             }).catch(error => {
                 console.log(error)
             })
@@ -158,7 +159,6 @@ export default {
 
             API.post("/api/dashboard/edit-course", {id : id})
                 .then(res => {
-                    console.log(res.data.cat.course)
                     this.editCourseName = res.data.cat.course
                     this.editParentId = res.data.cat.course_id
                     this.editId = res.data.cat.id

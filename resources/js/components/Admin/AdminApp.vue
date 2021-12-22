@@ -73,4 +73,13 @@ export default {
 #showModal{
     top:-250px;
 }
+.w-30{
+    width: 30%;
+}
+.select_item{
+    padding: 10px 5px;
+    width: 100%;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+}
 </style>
