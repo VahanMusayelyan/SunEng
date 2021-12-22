@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Lesson;
+use App\Models\Slide;
+use App\Models\SlideList;
 use Illuminate\Http\Request;
 
 class AdminLessonController extends Controller
@@ -60,5 +62,35 @@ class AdminLessonController extends Controller
         Lesson::where("id", $request->id)->delete();
 
         return $this->lessons_list();
+    }
+
+    public function lesson_show(Request $request)
+    {
+        return response()->json([
+            'lesson' => Lesson::with("course.parent")->where("id", $request->id)->first()
+        ]);
+    }
+
+    public function lesson_title(Request $request)
+    {
+        Lesson::where("id", $request->id)->update([
+           'title' => $request->title
+        ]);
+        return response()->json([
+            'lesson' => Lesson::with("course.parent")->where("id", $request->id)->first()
+        ]);
+    }
+
+    public function getSlides()
+    {
+        return response()->json([
+            "slides" => SlideList::all()
+        ]);
+    }
+    public function add_slide(Request $request)
+    {
+        SlideList::insert(['slide' => $request->slide]);
+
+        return $this->getSlides();
     }
 }

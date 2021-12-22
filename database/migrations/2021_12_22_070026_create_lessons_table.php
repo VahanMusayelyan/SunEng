@@ -17,6 +17,7 @@ class CreateLessonsTable extends Migration
             $table->id();
             $table->bigInteger("course_id")->unsigned();
             $table->text("lesson");
+            $table->text("title")->nullable();
             $table->timestamps();
         });
 
