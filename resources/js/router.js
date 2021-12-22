@@ -19,6 +19,9 @@ import StudentsIndex from "./components/Admin/Students/StudentsIndex";
 import TeachersIndex from "./components/Admin/Teachers/TeachersIndex";
 import CourseIndex from './components/Admin/Course/CourseIndex'
 
+import Lessons from './components/Admin/Lessons/Index'
+import Lesson from './components/Admin/Lessons/Show'
+
 Vue.use(VueRouter);
 
 
@@ -72,20 +75,11 @@ const route = new VueRouter({
         },
 
         //Admin routes start
+        // courses
         {
             path: '/dashboard',
             component: Dashboard,
             name: "dashboard",
-        },
-        {
-            path: '/dashboard/students',
-            component: StudentsIndex,
-            name: "dashboard.students",
-        },
-        {
-            path: '/dashboard/teachers',
-            component: TeachersIndex,
-            name: "dashboard.teachers",
         },
         {
             path: '/dashboard/courses',
@@ -97,9 +91,30 @@ const route = new VueRouter({
             component: CourseIndex,
             name: "dashboard.course",
         },
+        // lessons
+        {
+            path: '/dashboard/lessons',
+            component: Lessons,
+            name: "lessons.index",
+        },
+        {
+            path: '/dashboard/lesson/:id',
+            component: Lesson,
+            name: "lesson",
+        },
 
 
-
+        // other route
+        {
+            path: '/dashboard/students',
+            component: StudentsIndex,
+            name: "dashboard.students",
+        },
+        {
+            path: '/dashboard/teachers',
+            component: TeachersIndex,
+            name: "dashboard.teachers",
+        },
         {
             path: '*',
             component: NotFound,
