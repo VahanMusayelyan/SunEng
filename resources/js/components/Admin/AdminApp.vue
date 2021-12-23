@@ -82,4 +82,7 @@ export default {
     background-color: #f1f1f1;
     border-radius: 5px;
 }
+.btn-primary:active{
+    background-color: #fa9046!important;
+}
 </style>

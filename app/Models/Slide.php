@@ -13,7 +13,11 @@ class Slide extends Model
 
     protected $fillable = [
         'lesson_id',
-        'slide',
+        'slide_id',
     ];
+
+    public function slideName(){
+        return $this->belongsTo(SlideList::class, "slide_id");
+    }
 
 }

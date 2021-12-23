@@ -24,7 +24,7 @@ class AdminCourseController extends Controller
         return response()->json(['parent_courses' => Course::where("course_id", .0)->get()->toArray()]);
     }
 
-    public function add_course(Request $request)
+    public function addCourse(Request $request)
     {
         Course::insert([
             "course_id" => $request->parentId,
@@ -34,13 +34,13 @@ class AdminCourseController extends Controller
         return $this->courses();
     }
 
-    public function edit_course(Request $request)
+    public function editCourse(Request $request)
     {
         return response()->json(['cat' => Course::where("id", $request->id)->first()]);
 
     }
 
-    public function update_course(Request $request)
+    public function updateCourse(Request $request)
     {
         Course::where("id", $request->id)->update([
             "course_id" => $request->parentId,
@@ -50,7 +50,7 @@ class AdminCourseController extends Controller
         return $this->courses();
     }
 
-    public function add_main_course(Request $request)
+    public function addMainCourse(Request $request)
     {
         Course::insert([
             "course_id" => 0,
@@ -60,13 +60,13 @@ class AdminCourseController extends Controller
         return $this->courses();
     }
 
-    public function edit_main_course(Request $request)
+    public function editMainCourse(Request $request)
     {
         return response()->json(['cat' => Course::where("id", $request->id)->first()]);
 
     }
 
-    public function update_main_course(Request $request)
+    public function updateMainCourse(Request $request)
     {
         Course::where("id", $request->id)->update([
             "course"    => $request->course,
@@ -75,7 +75,7 @@ class AdminCourseController extends Controller
         return $this->courses();
     }
 
-    public function delete_main_course(Request $request)
+    public function deleteMainCourse(Request $request)
     {
         Course::where("id", $request->id)->delete();
 

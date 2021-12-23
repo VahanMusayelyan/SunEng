@@ -15345,3 +15345,25 @@ html[class*="ie"] .dtp-hand, html[class*="ie"] .dtp-hour-hand {
 .parallax-container.jumbotron-3-inner.context-dark{
     background-image: url('/images/bg-image-01.jpg');
 }
+
+.cursor-pointer{
+    cursor: pointer;
+}
+
+.backgroundImg{
+    width: 100%;
+    height: 100%;
+    background-image: url('/images/logo.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity:0.1;
+    z-index: 0;
+}
+
+.btnModal{
+    z-index: 1;
+}
+
+.btn-primary:active{
+    background-color: #fa9046;
+}

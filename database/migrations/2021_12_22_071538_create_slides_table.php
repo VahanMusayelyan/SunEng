@@ -16,7 +16,7 @@ class CreateSlidesTable extends Migration
         Schema::create('slides', function (Blueprint $table) {
             $table->id();
             $table->bigInteger("lesson_id")->unsigned();
-            $table->string("slide");
+            $table->bigInteger("slide_id")->unsigned();
             $table->timestamps();
         });
 
@@ -24,6 +24,11 @@ class CreateSlidesTable extends Migration
             $table->foreign('lesson_id')
                 ->references('id')
                 ->on('lessons')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreign('slide_id')
+                ->references('id')
+                ->on('slides_list')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
         });

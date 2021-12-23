@@ -6,7 +6,7 @@
         <ul v-if="lessons">
             <li class="d-block" v-for="(lesson , ind) in lessons">
                 {{ind+1}}.
-                <router-link :to='lesson'>
+                <router-link :to="{ name: 'lesson', params: { id: lesson.id }}">
                         {{lesson.lesson}}
                 </router-link>
             </li>
