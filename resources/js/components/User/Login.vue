@@ -13,7 +13,7 @@
                 <input  v-model="password" ref="password" type="password" class="form-control form-control-lg" required />
             </div>
 
-            <button type="button" @click.prevent="login" class="btn btn-dark btn-lg btn-block">Sign In</button>
+            <button type="button" @click.prevent="login" class="btn btn-primary btn-lg btn-block">Sign In</button>
 
             <p class="forgot-password text-right mt-2 mb-4">
                 <router-link to="/forgot-password">Forgot password ?</router-link>

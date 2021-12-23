@@ -45,7 +45,7 @@
                         <i class="fa fa-check addConfirm" @click.prevent="addHomework"></i>
                     </div>
                     <div class="col-12">
-                        <select class="select_item w-75 mt-3" v-model="homeworkId" name="homeworkId" id="homeworkId">
+                        <select class="select_item w-75 mt-3" v-model="homeworkId" name="homeworkId" id="homeworkId" multiple>
                             <option :value="null" disabled>Choose lesson homework</option>
                             <option v-for="(work, index) in homeworks" :value="work.id">
                                 {{work.homework}}
@@ -56,6 +56,51 @@
                 <button class="ml-3 btn btn-primary" type="button" @click.prevent="addLessonHomework">Submit</button>
             </div>
         </div>
+        <div class="d-flex mt-5 border-top p-3">
+            <div class="w-50" v-if="slidesLesson && slidesLesson.length > 0">
+                <h4>Lesson Slides</h4>
+                <p v-for="(slideItem , ind) in slidesLesson">
+                    <i class="fa fa-trash cursor-pointer" @click.prevent="deleteModal(slideItem.id, 'deleteLessonModal')"></i>
+                    {{++ind}}) {{slideItem.slide_name.slide}}
+                </p>
+            </div>
+            <div  class="w-50" v-if="homeworksLesson && homeworksLesson.length > 0">
+                <h4>Lesson Homeworks</h4>
+                <p v-for="(workItem , index) in homeworksLesson">
+                    <i class="fa fa-trash cursor-pointer" @click.prevent="deleteModal(workItem.id, 'deleteLessonModalWork')"></i>
+                    {{++index}}) {{workItem.homework_name.homework}}
+                </p>
+            </div>
+        </div>
+
+        <modal name="deleteLessonModal" class="deleteLesson showModal"  id="showModal">
+            <div class="backgroundImg position-absolute"></div>
+            <div class="col-12 p-5">
+                <div class="form-group">
+                    <h4 class="ml-3 mb-2 orangeText text-center">Do you want delete lesson's slide ?</h4>
+                    <input type="text" hidden v-model="deleteId">
+                    <div class="w-50 ml-auto  mr-auto">
+                        <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="deleteLessonSlide()">Confirm</button>
+                        <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="cancelModal('deleteLessonModal')">Cancel</button>
+                    </div>
+
+                </div>
+            </div>
+        </modal>
+        <modal name="deleteLessonModalWork" class="deleteLesson showModal"  id="deleteLessonModalWork">
+            <div class="backgroundImg position-absolute"></div>
+            <div class="col-12 p-5">
+                <div class="form-group">
+                    <h4 class="ml-3 mb-2 orangeText text-center">Do you want delete lesson's homework ?</h4>
+                    <input type="text" hidden v-model="deleteId">
+                    <div class="w-50 ml-auto  mr-auto">
+                        <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="deleteLessonWork()">Confirm</button>
+                        <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="cancelModal('deleteLessonModalWork')">Cancel</button>
+                    </div>
+
+                </div>
+            </div>
+        </modal>
     </div>
 </template>
 
@@ -67,19 +112,22 @@ export default {
     data() {
         return {
             lesson: null,
-            lesson_id: null,
+            lesson_id: parseInt(this.$route.params.id),
             lessonTitle: null,
             slides: null,
             slide: null,
             homework: null,
-            slideId: null,
+            slideId: [],
             homeworks: null,
-            homeworkId: null,
+            slidesLesson: null,
+            homeworksLesson: null,
+            homeworkId: [],
+            slideLessId: null,
+            deleteId: null,
         }
     },
     methods: {
         getLesson() {
-            this.lesson_id = parseInt(this.$route.params.id)
             API.post("/api/dashboard/lesson-show", {id: this.lesson_id})
                 .then(response => {
                     this.lesson = response.data.lesson.lesson
@@ -96,6 +144,25 @@ export default {
                 console.log(error)
             })
         },
+        getHomeworks() {
+            API.post("/api/dashboard/homeworks-list")
+                .then(response => {
+                    this.homeworks = response.data.homeworks
+                }).catch(error => {
+                console.log(error)
+            })
+        },
+
+        getSlideWork(){
+            API.post("/api/dashboard/slides-and-homeworks", {lesson_id: this.lesson_id})
+            .then(res => {
+                this.homeworksLesson = res.data.homeworksLesson
+                this.slidesLesson = res.data.slidesLesson
+            }).catch(err => {
+                console.log(err)
+            })
+        },
+
         addLessonTitle() {
             API.post("/api/dashboard/lesson-title", {id: this.lesson_id, title: this.lessonTitle})
                 .then(response => {
@@ -106,10 +173,27 @@ export default {
             })
         },
         addLessonSlide() {
+            API.post("/api/dashboard/add-lesson-slide", {lesson_id: this.lesson_id, slides: this.slideId})
+            .then(res => {
+                this.homeworksLesson = res.data.homeworksLesson
+                this.slidesLesson = res.data.slidesLesson
+                this.slideId = [];
+                this.showSuccessMsg()
+            }).catch(err=>{
+                console.log(err)
+            })
 
         },
         addLessonHomework() {
-
+            API.post("/api/dashboard/add-lesson-homework", {lesson_id: this.lesson_id, homeworks: this.homeworkId})
+                .then(res => {
+                    this.homeworksLesson = res.data.homeworksLesson
+                    this.slidesLesson = res.data.slidesLesson
+                    this.homeworkId = [];
+                    this.showSuccessMsg()
+                }).catch(err=>{
+                console.log(err)
+            })
         },
         addSlide() {
             API.post("/api/dashboard/add-slide", {slide: this.slide})
@@ -122,12 +206,48 @@ export default {
             })
         },
         addHomework() {
+            API.post("/api/dashboard/add-homework", {homework: this.homework})
+                .then(response => {
+                    this.homeworks = response.data.homeworks
+                    this.homework = ""
+                    this.showSuccessMsg()
+                }).catch(error => {
+                console.log(error)
+            })
+        },
+        deleteLessonWork(){
+            API.post("/api/dashboard/delete-lesson-homework", {lesson_id: this.lesson_id, id : this.deleteId})
+            .then(res =>{
+                this.homeworksLesson = res.data.homeworksLesson
+                this.slidesLesson = res.data.slidesLesson
+                this.deleteId = ""
+                this.cancelModal('deleteLessonModalWork')
+                this.showSuccessMsg()
+            }).catch(err => {
+
+            })
+
+        },
+        deleteLessonSlide(){
+            API.post("/api/dashboard/delete-lesson-slide", {lesson_id: this.lesson_id , id : this.deleteId})
+                .then(res =>{
+                    this.homeworksLesson = res.data.homeworksLesson
+                    this.slidesLesson = res.data.slidesLesson
+                    this.deleteId = ""
+                    this.cancelModal('deleteLessonModal')
+                    this.showSuccessMsg()
+                }).catch(err => {
+
+            })
 
         }
+
     },
     mounted() {
         this.getLesson()
         this.getSlides()
+        this.getHomeworks()
+        this.getSlideWork()
     }
 }
 </script>

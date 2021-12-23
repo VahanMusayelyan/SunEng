@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course;
+use App\Models\Homework;
+use App\Models\HomeworkList;
 use App\Models\Lesson;
 use App\Models\Slide;
 use App\Models\SlideList;
@@ -18,7 +20,7 @@ class AdminLessonController extends Controller
         ]);
     }
 
-    public function lessons_list(){
+    public function lessonsList(){
         $lessons = Lesson::with("course.parent")->get()->toArray();
 
         $course = Course::with("children")->where("course_id", "0")->get()->toArray();
@@ -29,7 +31,7 @@ class AdminLessonController extends Controller
         ]);
     }
 
-    public function add_lesson(Request $request)
+    public function addLesson(Request $request)
     {
 
         Lesson::insert([
@@ -39,39 +41,39 @@ class AdminLessonController extends Controller
 
         $lessons = Lesson::with("course.parent")->get()->toArray();
 
-        return $this->lessons_list();
+        return $this->lessonsList();
     }
 
-    public function edit_lesson(Request $request)
+    public function editLesson(Request $request)
     {
         return response()->json(Lesson::with("course")->where("id", $request->id)->first());
     }
 
-    public function update_lesson(Request $request)
+    public function updateLesson(Request $request)
     {
         Lesson::where("id", $request->id)->update([
            "lesson"    => $request->lesson,
            "course_id" => $request->course_id,
         ]);
 
-        return $this->lessons_list();
+        return $this->lessonsList();
     }
 
-    public function delete_lesson(Request $request)
+    public function deleteLesson(Request $request)
     {
         Lesson::where("id", $request->id)->delete();
 
-        return $this->lessons_list();
+        return $this->lessonsList();
     }
 
-    public function lesson_show(Request $request)
+    public function lessonShow(Request $request)
     {
         return response()->json([
             'lesson' => Lesson::with("course.parent")->where("id", $request->id)->first()
         ]);
     }
 
-    public function lesson_title(Request $request)
+    public function lessonTitle(Request $request)
     {
         Lesson::where("id", $request->id)->update([
            'title' => $request->title
@@ -87,10 +89,78 @@ class AdminLessonController extends Controller
             "slides" => SlideList::all()
         ]);
     }
-    public function add_slide(Request $request)
+    public function addSlide(Request $request)
     {
         SlideList::insert(['slide' => $request->slide]);
 
         return $this->getSlides();
+    }
+
+    public function getHomeworks()
+    {
+        return response()->json([
+            "homeworks" => HomeworkList::all()
+        ]);
+    }
+
+    public function addHomework(Request $request)
+    {
+        HomeworkList::insert(['homework' => $request->homework]);
+
+        return $this->getHomeworks();
+    }
+
+    public function addLessonSlide(Request $request)
+    {
+        $lessonId = $request->lesson_id;
+
+        foreach ($request->slides as $slide){
+            Slide::insert([
+                "slide_id" => $slide,
+                "lesson_id" => $lessonId,
+            ]);
+        }
+        return $this->listSlidesHomeworks();
+    }
+
+    public function addLessonHomework(Request $request)
+    {
+        $lessonId = $request->lesson_id;
+        foreach ($request->homeworks as $homework){
+            Homework::insert([
+                "homework_id" => $homework,
+                "lesson_id" => $lessonId,
+            ]);
+        }
+        return $this->listSlidesHomeworks($lessonId);
+    }
+
+    public function listSlidesHomeworks($lessonId = null)
+    {
+        if($lessonId){
+            return response()->json([
+                'slidesLesson' => Slide::where('lesson_id', $lessonId)->with('slideName')->get()->toArray(),
+                'homeworksLesson' => Homework::where('lesson_id', $lessonId)->with('homeworkName')->get()->toArray(),
+            ]);
+        }
+
+        return response()->json([
+            'slidesLesson' => Slide::where('lesson_id', request()->lesson_id)->with('slideName')->get()->toArray(),
+            'homeworksLesson' => Homework::where('lesson_id', request()->lesson_id)->with('homeworkName')->get()->toArray(),
+        ]);
+    }
+
+    public function deleteLessonWork(Request $request)
+    {
+        Homework::where('id', $request->id)->delete();
+
+        return $this->listSlidesHomeworks($request->lesson_id);
+    }
+
+    public function deleteLessonSlide(Request $request)
+    {
+        Slide::where('id', $request->id)->delete();
+
+        return $this->listSlidesHomeworks($request->lesson_id);
     }
 }

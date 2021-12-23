@@ -220,7 +220,7 @@
                                     <li><a href="#">Request a Callback</a></li>
                                 </ul>
                                 <ul class="list-inline list-inline-md">
-                                    <li><a class="link-2 icon mdi mdi-instagram" href="#"></a></li>
+                                    <li><a class="link-2 icon mdi mdi-instagram" target="_blank" href="https://www.instagram.com/suneng.school/"></a></li>
                                     <li><a class="link-2 icon mdi mdi-facebook" href="#"></a></li>
                                     <li><a class="link-2 icon mdi mdi-youtube-play" href="#"></a></li>
                                 </ul>
