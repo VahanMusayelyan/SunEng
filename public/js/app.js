@@ -5956,13 +5956,11 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    getLessons: function getLessons() {
+    getCourses: function getCourses() {
       var _this = this;
 
-      _api__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/dashboard/lessons-list").then(function (response) {
-        _this.courses = response.data.course;
-        _this.lessons = response.data.lessons;
-        console.log(_this.lessons[0]);
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/dashboard/courses").then(function (res) {
+        _this.courses = res.data.cat;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -5976,7 +5974,6 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this2.lessons = response.data.lessons;
         _this2.lesson = "";
-        _this2.subcourse = null;
 
         _this2.showSuccessMsg();
       })["catch"](function (error) {
@@ -6029,10 +6026,24 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    showSubCourseLessons: function showSubCourseLessons() {
+      var _this6 = this;
+
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].post("/api/dashboard/lessons-list-course", {
+        course_id: this.subcourse
+      }).then(function (response) {
+        _this6.lessons = response.data.lessons;
+        console.log(_this6.lessons);
+
+        _this6.showInfoMsg();
+      })["catch"](function (error) {
+        console.log(error);
+      });
     }
   },
   mounted: function mounted() {
-    this.getLessons();
+    this.getCourses();
   }
 });
 
@@ -61925,19 +61936,22 @@ var render = function () {
                 staticClass: "selectBackground mt-3",
                 attrs: { name: "lesson", id: "lessonList" },
                 on: {
-                  change: function ($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function (o) {
-                        return o.selected
-                      })
-                      .map(function (o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.subcourse = $event.target.multiple
-                      ? $$selectedVal
-                      : $$selectedVal[0]
-                  },
+                  change: [
+                    function ($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function (o) {
+                          return o.selected
+                        })
+                        .map(function (o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.subcourse = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    },
+                    _vm.showSubCourseLessons,
+                  ],
                 },
               },
               [

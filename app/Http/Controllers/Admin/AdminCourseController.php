@@ -16,12 +16,12 @@ class AdminCourseController extends Controller
 
     public function courses()
     {
-        return response()->json(['cat' => Course::with('children')->get()->toArray()]);
+        return response()->json(['cat' => Course::with('children')->where("course_id", 0)->get()->toArray()]);
     }
 
     public function parent_courses()
     {
-        return response()->json(['parent_courses' => Course::where("course_id", .0)->get()->toArray()]);
+        return response()->json(['parent_courses' => Course::where("course_id", 0)->get()->toArray()]);
     }
 
     public function addCourse(Request $request)

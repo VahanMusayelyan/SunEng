@@ -6,7 +6,7 @@
                 <div class="col-12  mb-3">
                     <input v-model="lesson" placeholder="Lesson Name" class="form-control" id="lesson" ref="lesson"
                            type="text" required>
-                    <select v-model="subcourse" class="selectBackground mt-3" name="lesson" id="lessonList">
+                    <select v-model="subcourse" class="selectBackground mt-3" name="lesson" id="lessonList" @change="showSubCourseLessons">
                         <option :value="null" disabled>Choose Course</option>
                         <optgroup v-for="(course, index) in courses" v-bind:label="course.course">
                             <option v-for="(children, ind) in course.children" v-bind:value="children.id">
@@ -106,13 +106,11 @@ export default {
         }
     },
     methods: {
-        getLessons() {
-            API.get("/api/dashboard/lessons-list").then(response => {
-                this.courses = response.data.course
-                this.lessons = response.data.lessons
-                console.log(this.lessons[0])
-
-            }).catch(error => {
+        getCourses() {
+            API.get("/api/dashboard/courses")
+                .then(res => {
+                    this.courses = res.data.cat
+                }).catch(error => {
                 console.log(error)
             })
         },
@@ -120,7 +118,6 @@ export default {
             API.post("/api/dashboard/add-lesson", {lesson: this.lesson, subcourse: this.subcourse}).then(response => {
                 this.lessons = response.data.lessons
                 this.lesson = ""
-                this.subcourse = null
                 this.showSuccessMsg()
             }).catch(error => {
                 console.log(error)
@@ -157,10 +154,19 @@ export default {
                 console.log(error)
             })
 
+        },
+        showSubCourseLessons(){
+            API.post("/api/dashboard/lessons-list-course", {course_id : this.subcourse}).then(response => {
+                this.lessons = response.data.lessons
+                console.log(this.lessons)
+                this.showInfoMsg()
+            }).catch(error => {
+                console.log(error)
+            })
         }
     },
     mounted() {
-        this.getLessons()
+        this.getCourses()
     }
 }
 </script>
