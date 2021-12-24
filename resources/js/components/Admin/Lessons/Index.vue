@@ -107,7 +107,7 @@ export default {
     },
     methods: {
         getLessons() {
-            API.post("/api/dashboard/lessons-list").then(response => {
+            API.get("/api/dashboard/lessons-list").then(response => {
                 this.courses = response.data.course
                 this.lessons = response.data.lessons
                 console.log(this.lessons[0])

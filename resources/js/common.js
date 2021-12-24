@@ -56,6 +56,9 @@ export default {
         cancelModal(name){
             this.$modal.hide(name)
         },
+        showModal(name){
+            this.$modal.show(name)
+        },
         deleteModal(deleteId, name) {
             this.deleteId = deleteId;
             this.$modal.show(name)

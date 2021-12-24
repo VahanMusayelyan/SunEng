@@ -32,6 +32,10 @@ class CreateSlidesTable extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
         });
+
+        Schema::table('slides', function (Blueprint $table) {
+            $table->unique(["lesson_id", "slide_id"], 'lesson_slide_unique');
+        });
     }
 
     /**

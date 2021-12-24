@@ -8,6 +8,8 @@
             <nav class="nav flex-column">
                 <router-link class="nav-link" :to="{name:'dashboard.courses'}">Courses</router-link>
                 <router-link class="nav-link" :to="{name:'lessons.index'}">Lessons</router-link>
+                <router-link class="nav-link" :to="{name:'slides.index'}">Slides</router-link>
+                <router-link class="nav-link" :to="{name:'homeworks.index'}">Homeworks</router-link>
                 <router-link class="nav-link" :to="{name:'dashboard.teachers'}">Teachers</router-link>
                 <router-link class="nav-link" :to="{name:'dashboard.students'}">Students</router-link>
                 <a class="cursor-pointer" @click.prevent="logout">Logout</a>

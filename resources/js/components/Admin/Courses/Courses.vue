@@ -126,7 +126,7 @@ export default {
     },
     methods: {
         getCourses() {
-            API.post("/api/dashboard/courses")
+            API.get("/api/dashboard/courses")
                 .then(res => {
                     this.courses = res.data.cat
                 }).catch(error => {
@@ -134,7 +134,7 @@ export default {
             })
         },
         getParentCourses() {
-            API.post("/api/dashboard/parent-courses")
+            API.get("/api/dashboard/parent-courses")
                 .then(res => {
                     this.parents = res.data.parent_courses
                 }).catch(error => {
@@ -182,10 +182,8 @@ export default {
                 console.log(error)
             })
         },
-        deleteCourse(){
-
-        },
         addMainCourse(){
+            if(this.mainCourse == null) return alert("Please fill course name");
             API.post("/api/dashboard/add-main-course", {mainCourse : this.mainCourse})
                 .then(res => {
                     this.courses = res.data.cat
