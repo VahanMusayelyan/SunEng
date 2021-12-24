@@ -21,6 +21,8 @@ import CourseIndex from './components/Admin/Course/CourseIndex'
 
 import Lessons from './components/Admin/Lessons/Index'
 import Lesson from './components/Admin/Lessons/Show'
+import SlideIndex from "./components/Admin/SlidesHomeworks/SlideIndex";
+import HomeworkIndex from "./components/Admin/SlidesHomeworks/HomeworkIndex";
 
 Vue.use(VueRouter);
 
@@ -101,6 +103,17 @@ const route = new VueRouter({
             path: '/dashboard/lesson/:id',
             component: Lesson,
             name: "lesson",
+        },
+        // works slides
+        {
+            path: '/dashboard/slides',
+            component: SlideIndex,
+            name: "slides.index",
+        },
+        {
+            path: '/dashboard/homeworks',
+            component: HomeworkIndex,
+            name: "homeworks.index",
         },
 
 

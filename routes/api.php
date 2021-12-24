@@ -45,8 +45,8 @@ Route::group(['middleware' => 'api','prefix' => 'auth'], function ($router) {
 
 Route::group(['middleware' => 'isAdmin','prefix' => 'dashboard'], function ($router) {
     Route::get("/", 'App\Http\Controllers\Admin\AdminCourseController@index');
-    Route::post("/courses", 'App\Http\Controllers\Admin\AdminCourseController@courses');
-    Route::post("/parent-courses", 'App\Http\Controllers\Admin\AdminCourseController@parent_courses');
+    Route::get("/courses", 'App\Http\Controllers\Admin\AdminCourseController@courses');
+    Route::get("/parent-courses", 'App\Http\Controllers\Admin\AdminCourseController@parent_courses');
 
     Route::post("/add-course", 'App\Http\Controllers\Admin\AdminCourseController@addCourse');
     Route::post("/edit-course", 'App\Http\Controllers\Admin\AdminCourseController@editCourse');
@@ -59,21 +59,31 @@ Route::group(['middleware' => 'isAdmin','prefix' => 'dashboard'], function ($rou
     Route::post("/delete-main-course", 'App\Http\Controllers\Admin\AdminCourseController@deleteMainCourse');
 
     Route::post("/course-lessons", 'App\Http\Controllers\Admin\AdminLessonController@index');
-    Route::post("/lessons-list", 'App\Http\Controllers\Admin\AdminLessonController@lessonsList');
+    Route::get("/lessons-list", 'App\Http\Controllers\Admin\AdminLessonController@lessonsList');
     Route::post("/add-lesson", 'App\Http\Controllers\Admin\AdminLessonController@addLesson');
     Route::post("/edit-lesson", 'App\Http\Controllers\Admin\AdminLessonController@editLesson');
     Route::post("/update-lesson", 'App\Http\Controllers\Admin\AdminLessonController@updateLesson');
     Route::post("/delete-lesson", 'App\Http\Controllers\Admin\AdminLessonController@deleteLesson');
     Route::post("/lesson-show", 'App\Http\Controllers\Admin\AdminLessonController@lessonShow');
     Route::post("/lesson-title", 'App\Http\Controllers\Admin\AdminLessonController@lessonTitle');
-    Route::post("/add-slide", 'App\Http\Controllers\Admin\AdminLessonController@addSlide');
-    Route::post("/slides-list", 'App\Http\Controllers\Admin\AdminLessonController@getSlides');
-    Route::post("/add-homework", 'App\Http\Controllers\Admin\AdminLessonController@addHomework');
-    Route::post("/homeworks-list", 'App\Http\Controllers\Admin\AdminLessonController@getHomeworks');
+
+
     Route::post("/add-lesson-slide", 'App\Http\Controllers\Admin\AdminLessonController@addLessonSlide');
     Route::post("/add-lesson-homework", 'App\Http\Controllers\Admin\AdminLessonController@addLessonHomework');
     Route::post("/slides-and-homeworks", 'App\Http\Controllers\Admin\AdminLessonController@listSlidesHomeworks');
     Route::post("/delete-lesson-homework", 'App\Http\Controllers\Admin\AdminLessonController@deleteLessonWork');
     Route::post("/delete-lesson-slide", 'App\Http\Controllers\Admin\AdminLessonController@deleteLessonSlide');
+
+    Route::get("/homeworks", 'App\Http\Controllers\Admin\AdminSlideWorkController@getHomeworks');
+    Route::post("/edit-homework", 'App\Http\Controllers\Admin\AdminSlideWorkController@editHomework');
+    Route::post("/delete-homework", 'App\Http\Controllers\Admin\AdminSlideWorkController@deleteHomework');
+    Route::post("/update-homework", 'App\Http\Controllers\Admin\AdminSlideWorkController@updateHomework');
+    Route::post("/add-homework", 'App\Http\Controllers\Admin\AdminSlideWorkController@addHomework');
+
+    Route::get("/slides", 'App\Http\Controllers\Admin\AdminSlideWorkController@getSlides');
+    Route::post("/edit-slide", 'App\Http\Controllers\Admin\AdminSlideWorkController@editSlide');
+    Route::post("/delete-slide", 'App\Http\Controllers\Admin\AdminSlideWorkController@deleteSlide');
+    Route::post("/update-slide", 'App\Http\Controllers\Admin\AdminSlideWorkController@updateSlide');
+    Route::post("/add-slide", 'App\Http\Controllers\Admin\AdminSlideWorkController@addSlide');
 
 });

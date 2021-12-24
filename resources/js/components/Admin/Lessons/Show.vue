@@ -137,7 +137,7 @@ export default {
             })
         },
         getSlides() {
-            API.post("/api/dashboard/slides-list")
+            API.get("/api/dashboard/slides")
                 .then(response => {
                     this.slides = response.data.slides
                 }).catch(error => {
@@ -145,7 +145,7 @@ export default {
             })
         },
         getHomeworks() {
-            API.post("/api/dashboard/homeworks-list")
+            API.get("/api/dashboard/homeworks")
                 .then(response => {
                     this.homeworks = response.data.homeworks
                 }).catch(error => {
@@ -164,6 +164,7 @@ export default {
         },
 
         addLessonTitle() {
+            if(this.lessonTitle.length < 1) return this.showWarnMsg()
             API.post("/api/dashboard/lesson-title", {id: this.lesson_id, title: this.lessonTitle})
                 .then(response => {
                     this.lessonTitle = response.data.lesson.title
@@ -173,24 +174,35 @@ export default {
             })
         },
         addLessonSlide() {
+            if(this.slideId.length < 1) return this.showWarnMsg()
             API.post("/api/dashboard/add-lesson-slide", {lesson_id: this.lesson_id, slides: this.slideId})
             .then(res => {
-                this.homeworksLesson = res.data.homeworksLesson
-                this.slidesLesson = res.data.slidesLesson
-                this.slideId = [];
-                this.showSuccessMsg()
+                if(res.data.error && res.data.error !== ""){
+                    this.showErrorMsg()
+                }else {
+                    this.homeworksLesson = res.data.homeworksLesson
+                    this.slidesLesson = res.data.slidesLesson
+                    this.slideId = [];
+                    this.showSuccessMsg()
+                }
             }).catch(err=>{
                 console.log(err)
             })
 
         },
         addLessonHomework() {
+            if(this.homeworkId.length < 1) return this.showWarnMsg()
             API.post("/api/dashboard/add-lesson-homework", {lesson_id: this.lesson_id, homeworks: this.homeworkId})
                 .then(res => {
-                    this.homeworksLesson = res.data.homeworksLesson
-                    this.slidesLesson = res.data.slidesLesson
-                    this.homeworkId = [];
-                    this.showSuccessMsg()
+                    if(res.data.error && res.data.error !== ""){
+                        this.showErrorMsg()
+                    }else{
+                        this.homeworksLesson = res.data.homeworksLesson
+                        this.slidesLesson = res.data.slidesLesson
+                        this.homeworkId = [];
+                        this.showSuccessMsg()
+                    }
+
                 }).catch(err=>{
                 console.log(err)
             })

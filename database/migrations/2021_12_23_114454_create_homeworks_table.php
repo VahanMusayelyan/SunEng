@@ -32,6 +32,10 @@ class CreateHomeworksTable extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
         });
+
+        Schema::table('homeworks', function (Blueprint $table) {
+            $table->unique(["lesson_id", "homework_id"], 'lesson_homework_unique');
+        });
     }
 
     /**
