@@ -20,9 +20,13 @@ class AdminLessonController extends Controller
         ]);
     }
 
-    public function lessonsList()
+    public function lessonsList($courseId = null)
     {
-        $lessons = Lesson::with("course.parent")->get()->toArray();
+        if($courseId){
+            $lessons = Lesson::with("course.parent")->where('course_id', $courseId)->get()->toArray();
+        }else{
+            $lessons = Lesson::with("course.parent")->get()->toArray();
+        }
 
         $course = Course::with("children")->where("course_id", "0")->get()->toArray();
 
@@ -34,13 +38,12 @@ class AdminLessonController extends Controller
 
     public function addLesson(Request $request)
     {
-
         Lesson::insert([
             "lesson" => $request->lesson,
             "course_id" => $request->subcourse,
         ]);
 
-        return $this->lessonsList();
+        return $this->lessonsList($request->subcourse);
     }
 
     public function editLesson(Request $request)
@@ -102,7 +105,6 @@ class AdminLessonController extends Controller
                 ]);
             }
         }
-
     }
 
     public function addLessonHomework(Request $request)
@@ -126,7 +128,6 @@ class AdminLessonController extends Controller
                 ]);
             }
         }
-
     }
 
     public function listSlidesHomeworks($lessonId = null)
@@ -156,5 +157,12 @@ class AdminLessonController extends Controller
         Slide::where('id', $request->id)->delete();
 
         return $this->listSlidesHomeworks($request->lesson_id);
+    }
+
+    public function lessonsListCourse(Request $request)
+    {
+        return response()->json([
+            'lessons' => Lesson::with("course.parent")->where('course_id', $request->course_id)->get()->toArray()
+        ]);
     }
 }

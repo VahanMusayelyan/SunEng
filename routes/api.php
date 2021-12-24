@@ -60,6 +60,7 @@ Route::group(['middleware' => 'isAdmin','prefix' => 'dashboard'], function ($rou
 
     Route::post("/course-lessons", 'App\Http\Controllers\Admin\AdminLessonController@index');
     Route::get("/lessons-list", 'App\Http\Controllers\Admin\AdminLessonController@lessonsList');
+    Route::post("/lessons-list-course", 'App\Http\Controllers\Admin\AdminLessonController@lessonsListCourse');
     Route::post("/add-lesson", 'App\Http\Controllers\Admin\AdminLessonController@addLesson');
     Route::post("/edit-lesson", 'App\Http\Controllers\Admin\AdminLessonController@editLesson');
     Route::post("/update-lesson", 'App\Http\Controllers\Admin\AdminLessonController@updateLesson');
