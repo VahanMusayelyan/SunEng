@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\HomeworkList;
+use App\Models\Slide;
 use App\Models\SlideList;
+use App\Models\SlideTask;
 use Illuminate\Http\Request;
 
 class AdminSlideWorkController extends Controller
@@ -83,5 +85,47 @@ class AdminSlideWorkController extends Controller
         return $this->getSlides();
     }
 
+    public function addSlideTask(Request $request)
+    {
+        SlideTask::insert([
+            'task'     => $request->task,
+            'slide_id' => $request->slideId,
+        ]);
 
+        return response()->json([
+            "slideTasks" => SlideList::where("id", $request->slideId)->with("tasks")->first(),
+        ]);
+    }
+
+    public function showSlideTasks(Request $request)
+    {
+        return response()->json([
+            "slideTasks" => SlideList::where("id", $request->id)->with("tasks")->first(),
+        ]);
+    }
+
+    public function editSlideTask(Request $request)
+    {
+        return response()->json(SlideTask::where("id", $request->id)->first());
+    }
+
+    public function updateSlideTask(Request $request)
+    {
+        SlideTask::where("id", $request->id)->update([
+            'task' => $request->slideTask
+        ]);
+
+        return response()->json([
+            "slideTasks" => SlideList::where("id", $request->slideId)->with("tasks")->first(),
+        ]);
+    }
+
+    public function deleteSlideTask(Request $request)
+    {
+        SlideTask::where("id", $request->id)->delete();
+
+        return response()->json([
+            "slideTasks" => SlideList::where("id", $request->slideId)->with("tasks")->first(),
+        ]);
+    }
 }

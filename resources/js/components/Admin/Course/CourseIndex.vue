@@ -1,5 +1,5 @@
 <template>
-    <div class="w-100 d-inline-block content-dashboard">
+    <div class="w-100 d-inline-block content-dashboard position-relative">
         <h4 class="text-uppercase font-weight-bold">{{course}} course</h4>
         <h6 class="orangeText">{{level}} level</h6>
         <p>Lessons</p>
@@ -12,6 +12,7 @@
             </li>
         </ul>
         <p v-if="!lessons.length">There is no lessons</p>
+        <div class="position-absolute routing"><router-link :to="{name: 'dashboard.courses'}">Back to courses</router-link></div>
     </div>
 </template>
 
@@ -53,5 +54,7 @@ export default {
 </script>
 
 <style scoped>
-
+.routing{
+    bottom: 10px;
+}
 </style>

@@ -19,4 +19,8 @@ class Homework extends Model
     public function homeworkName(){
         return $this->belongsTo(HomeworkList::class, "homework_id");
     }
+
+    public function lessonName(){
+        return $this->belongsTo(Lesson::class, "lesson_id");
+    }
 }

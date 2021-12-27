@@ -86,5 +86,12 @@ Route::group(['middleware' => 'isAdmin','prefix' => 'dashboard'], function ($rou
     Route::post("/delete-slide", 'App\Http\Controllers\Admin\AdminSlideWorkController@deleteSlide');
     Route::post("/update-slide", 'App\Http\Controllers\Admin\AdminSlideWorkController@updateSlide');
     Route::post("/add-slide", 'App\Http\Controllers\Admin\AdminSlideWorkController@addSlide');
+    Route::post("/slide-tasks", 'App\Http\Controllers\Admin\AdminSlideWorkController@showSlideTasks');
+    Route::post("/slide-task-add", 'App\Http\Controllers\Admin\AdminSlideWorkController@addSlideTask');
+    Route::post("/slide-task-edit", 'App\Http\Controllers\Admin\AdminSlideWorkController@editSlideTask');
+    Route::post("/slide-task-update", 'App\Http\Controllers\Admin\AdminSlideWorkController@updateSlideTask');
+    Route::post("/slide-task-delete", 'App\Http\Controllers\Admin\AdminSlideWorkController@deleteSlideTask');
+
+    Route::post("/lesson-slide", 'App\Http\Controllers\Admin\AdminLessonController@lessonSlide');
 
 });

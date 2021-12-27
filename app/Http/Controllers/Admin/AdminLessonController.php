@@ -58,14 +58,14 @@ class AdminLessonController extends Controller
             "course_id" => $request->course_id,
         ]);
 
-        return $this->lessonsList();
+        return $this->lessonsList($request->course_id);
     }
 
     public function deleteLesson(Request $request)
     {
         Lesson::where("id", $request->id)->delete();
 
-        return $this->lessonsList();
+        return $this->lessonsList($request->course_id);
     }
 
     public function lessonShow(Request $request)
@@ -163,6 +163,12 @@ class AdminLessonController extends Controller
     {
         return response()->json([
             'lessons' => Lesson::with("course.parent")->where('course_id', $request->course_id)->get()->toArray()
+        ]);
+    }
+
+    public function lessonSlide(Request $request){
+        return response()->json([
+            'lessonSlide' => Slide::where("id", $request->id)->with(["slideName", "lessonName"])->first()
         ]);
     }
 }

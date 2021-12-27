@@ -5,18 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SlideList extends Model
+class SlideTask extends Model
 {
     use HasFactory;
 
-    protected $table = 'slides_list';
+    protected $table = 'slides_tasks';
 
     protected $fillable = [
-        'slide'
+        'slide_id',
+        'task'
     ];
-
-    public function tasks()
-    {
-        return $this->hasMany(SlideTask::class, "slide_id");
-    }
 }
