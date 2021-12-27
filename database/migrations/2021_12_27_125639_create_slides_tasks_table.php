@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSlidesTable extends Migration
+class CreateSlidesTasksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,26 +13,19 @@ class CreateSlidesTable extends Migration
      */
     public function up()
     {
-        Schema::create('slides', function (Blueprint $table) {
+        Schema::create('slides_tasks', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger("lesson_id")->unsigned();
             $table->bigInteger("slide_id")->unsigned();
+            $table->text("task");
             $table->timestamps();
         });
 
-        Schema::table('slides', function($table) {
-            $table->foreign('lesson_id')
-                ->references('id')
-                ->on('lessons')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+        Schema::table('slides_tasks', function($table) {
             $table->foreign('slide_id')
                 ->references('id')
                 ->on('slides_list')
-                ->onUpdate('cascade')
                 ->onDelete('cascade');
         });
-
     }
 
     /**
@@ -42,6 +35,6 @@ class CreateSlidesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('slides');
+        Schema::dropIfExists('slides_tasks');
     }
 }

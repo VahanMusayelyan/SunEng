@@ -16,8 +16,16 @@ class Slide extends Model
         'slide_id',
     ];
 
-    public function slideName(){
+    public function slideName()
+    {
         return $this->belongsTo(SlideList::class, "slide_id");
     }
+
+    public function lessonName()
+    {
+        return $this->belongsTo(Lesson::class, "lesson_id");
+    }
+
+
 
 }

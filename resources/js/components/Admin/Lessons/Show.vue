@@ -1,8 +1,8 @@
 <template>
-    <div class="w-100 d-inline-block content-dashboard">
+    <div class="w-100 d-inline-block content-dashboard position-relative">
         <h4 class="ml-3 mb-2">Lesson : {{ lesson }}</h4>
         <div class="d-flex">
-            <div class="w-30 d-inline-block">
+            <div class="w-30 d-inline-block position-relative">
                 <div class="form-group">
                     <h6 class="ml-3 mb-2 orangeText">Title</h6>
                     <div class="col-12">
@@ -12,6 +12,9 @@
                     </div>
                 </div>
                 <button class="ml-3 btn btn-primary" type="button" @click.prevent="addLessonTitle">Submit</button>
+                <div class="position-absolute routing">
+                    <router-link :to="{name: 'dashboard.course', params: { id: courseId }}">Back to lessons</router-link>
+                </div>
             </div>
             <div class="borderDivide d-inline-block"></div>
             <div class="w-30  d-inline-block  ml-2">
@@ -56,19 +59,23 @@
                 <button class="ml-3 btn btn-primary" type="button" @click.prevent="addLessonHomework">Submit</button>
             </div>
         </div>
-        <div class="d-flex mt-5 border-top p-3">
+        <div class="d-flex mt-4 border-top p-3">
             <div class="w-50" v-if="slidesLesson && slidesLesson.length > 0">
                 <h4>Lesson Slides</h4>
                 <p v-for="(slideItem , ind) in slidesLesson">
                     <i class="fa fa-trash cursor-pointer" @click.prevent="deleteModal(slideItem.id, 'deleteLessonModal')"></i>
+                    <router-link :to="{ name: 'lesson.slide.content', params: { id: slideItem.id }}">
                     {{++ind}}) {{slideItem.slide_name.slide}}
+                    </router-link>
                 </p>
             </div>
             <div  class="w-50" v-if="homeworksLesson && homeworksLesson.length > 0">
                 <h4>Lesson Homeworks</h4>
                 <p v-for="(workItem , index) in homeworksLesson">
                     <i class="fa fa-trash cursor-pointer" @click.prevent="deleteModal(workItem.id, 'deleteLessonModalWork')"></i>
+<!--                    <router-link :to="{ name: 'lesson.homework.content', params: { id: workItem.id }}">-->
                     {{++index}}) {{workItem.homework_name.homework}}
+<!--                    </router-link>-->
                 </p>
             </div>
         </div>
@@ -124,6 +131,7 @@ export default {
             homeworkId: [],
             slideLessId: null,
             deleteId: null,
+            courseId: null,
         }
     },
     methods: {
@@ -131,6 +139,7 @@ export default {
             API.post("/api/dashboard/lesson-show", {id: this.lesson_id})
                 .then(response => {
                     this.lesson = response.data.lesson.lesson
+                    this.courseId = response.data.lesson.course.id
                     this.lessonTitle = response.data.lesson.title
                 }).catch(error => {
                 console.log(error)
@@ -277,5 +286,9 @@ export default {
     color: green;
     margin-left: 5px;
     cursor: pointer;
+}
+.routing{
+    bottom: 0;
+    left:15px;
 }
 </style>

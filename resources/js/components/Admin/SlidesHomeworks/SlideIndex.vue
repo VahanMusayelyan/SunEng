@@ -15,9 +15,11 @@
                 <h4 class="mb-3">Slides</h4>
                 <ul>
                     <li v-for="(item , ind) in slides">
-                        <i class="fa fa-trash cursor-pointer mr-1" @click.prevent="deleteModal(item.id, 'deleteSlide')"></i>
-                        <i class="fa fa-edit cursor-pointer mr-1" @click.prevent="editModal(item.id)"></i>
-                        {{ ++ind }}) {{ item.slide }}
+                        <i class="fa fa-trash cursor-pointer mr-2" @click.prevent="deleteModal(item.id, 'deleteSlide')"></i>
+                        <i class="fa fa-edit cursor-pointer mr-2" @click.prevent="editModal(item.id)"></i>
+                        <router-link :to="{ name: 'slide.show', params: { id: item.id }}">
+                            {{ ++ind }}) {{ item.slide }}
+                        </router-link>
                     </li>
                 </ul>
             </div>

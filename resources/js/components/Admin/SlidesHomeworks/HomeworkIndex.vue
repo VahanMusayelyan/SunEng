@@ -15,8 +15,8 @@
                 <h4 class="mb-3">Homeworks</h4>
                 <ul>
                     <li v-for="(work , ind) in homeworks">
-                        <i class="fa fa-trash cursor-pointer mr-1" @click.prevent="deleteModal(work.id, 'deleteHomework')"></i>
-                        <i class="fa fa-edit cursor-pointer mr-1" @click.prevent="editModal(work.id)"></i>
+                        <i class="fa fa-trash cursor-pointer mr-2" @click.prevent="deleteModal(work.id, 'deleteHomework')"></i>
+                        <i class="fa fa-edit cursor-pointer mr-2" @click.prevent="editModal(work.id)"></i>
                         {{ ++ind }}) {{ work.homework }}
                     </li>
                 </ul>
