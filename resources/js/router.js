@@ -26,6 +26,7 @@ import HomeworkIndex from "./components/Admin/SlidesHomeworks/HomeworkIndex";
 
 import LessonSlideContent from "./components/Admin/Lessons/LessonSlideContent";
 import SlideShow from "./components/Admin/SlidesHomeworks/SlideShow";
+import HomeworkShow from './components/Admin/SlidesHomeworks/HomeworkShow'
 
 Vue.use(VueRouter);
 
@@ -129,6 +130,12 @@ const route = new VueRouter({
             path: '/dashboard/lesson-slide/:id',
             component: LessonSlideContent,
             name: "lesson.slide.content",
+        },
+        //lessons homeworks content
+        {
+            path: '/dashboard/lesson-homework/:id',
+            component: HomeworkShow,
+            name: "lesson.homework.content",
         },
 
 

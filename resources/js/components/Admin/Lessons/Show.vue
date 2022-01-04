@@ -73,9 +73,9 @@
                 <h4>Lesson Homeworks</h4>
                 <p v-for="(workItem , index) in homeworksLesson">
                     <i class="fa fa-trash cursor-pointer" @click.prevent="deleteModal(workItem.id, 'deleteLessonModalWork')"></i>
-<!--                    <router-link :to="{ name: 'lesson.homework.content', params: { id: workItem.id }}">-->
+                    <router-link :to="{ name: 'lesson.homework.content', params: { id: workItem.id }}">
                     {{++index}}) {{workItem.homework_name.homework}}
-<!--                    </router-link>-->
+                    </router-link>
                 </p>
             </div>
         </div>

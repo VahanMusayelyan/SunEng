@@ -7,6 +7,7 @@ use App\Models\Course;
 use App\Models\Homework;
 use App\Models\Lesson;
 use App\Models\Slide;
+use App\Models\TaskType;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
@@ -166,9 +167,14 @@ class AdminLessonController extends Controller
         ]);
     }
 
-    public function lessonSlide(Request $request){
+    public function lessonSlide(Request $request)
+    {
         return response()->json([
             'lessonSlide' => Slide::where("id", $request->id)->with(["slideName", "lessonName"])->first()
         ]);
+    }
+
+    public function taskTypes(Request $request){
+        return response()->json(TaskType::get()->toArray());
     }
 }

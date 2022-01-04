@@ -94,4 +94,12 @@ Route::group(['middleware' => 'isAdmin','prefix' => 'dashboard'], function ($rou
 
     Route::post("/lesson-slide", 'App\Http\Controllers\Admin\AdminLessonController@lessonSlide');
 
+    Route::post("/tasks-types", 'App\Http\Controllers\Admin\AdminLessonController@taskTypes');
+
+    Route::post("/general-task", 'App\Http\Controllers\Admin\AdminTaskController@getGeneralTasks');
+    Route::post("/add-general-task", 'App\Http\Controllers\Admin\AdminTaskController@addGeneralTask');
+    Route::post("/edit-general-task", 'App\Http\Controllers\Admin\AdminTaskController@editGeneralTask');
+    Route::post("/update-general-task", 'App\Http\Controllers\Admin\AdminTaskController@addGeneralTask');
+    Route::post("/delete-general-task", 'App\Http\Controllers\Admin\AdminTaskController@deleteGeneralTask');
+
 });

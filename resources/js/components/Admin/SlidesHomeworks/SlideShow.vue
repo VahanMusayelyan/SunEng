@@ -142,6 +142,7 @@ export default {
     },
     mounted() {
         this.getSlide()
+        this.getTaskTypes()
     }
 }
 </script>
