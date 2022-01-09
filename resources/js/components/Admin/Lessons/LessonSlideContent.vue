@@ -5,7 +5,7 @@
             <div class="w-25 mt-3 border p-3">
                 <select class="custom-select" v-model="typeId" @change="chooseType" name="types" id="types">
                     <option :value="null"> Choose task type</option>
-                    <option v-for="(type , ind) in taskTypes" :value="type.id">{{ type.type }}</option>
+                    <option v-for="(type , ind) in taskTypes" :value="type.id">{{ type.id }} {{ type.type }}</option>
                 </select>
             </div>
             <!-- Boolean tasks -->
@@ -15,13 +15,13 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">Write reading text</span>
                         </div>
-                        <textarea class="form-control" name="text" v-model="reading" id="text" cols="10"
+                        <textarea class="form-control" name="text" v-model="readingBoolean" id="text" cols="10"
                                   rows="6"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="question">Please write question</label>
-                    <input class="form-control" name="question" v-model="quest" id="question">
+                    <input class="form-control" name="question" v-model="questionBoolean" id="question">
                 </div>
                 <div class="form-group">
                     <label for="answerBoolean">Correct Answer</label>
@@ -36,6 +36,15 @@
             </div>
             <!-- General tasks -->
             <div id="blockSecond" class="w-75 mt-3 ml-5  border p-3 blocksTasks">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Write reading text</span>
+                        </div>
+                        <textarea class="form-control" name="text" v-model="readingGeneral" id="textGeneral" cols="10"
+                                  rows="6"></textarea>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label for="question">Please write question</label>
                     <input class="form-control" name="question" v-model="questionGeneral" id="questionGeneral">
@@ -53,7 +62,17 @@
                 <li class="mt-2" v-for="(generalTask , ind) in generalTasks" :value="generalTask.id">
                     <i @click="editGeneralTask(generalTask.id)" class="fa fa-edit mr-2 cursor-pointer"></i>
                     <i @click="deleteGeneralTask(generalTask.id)" class="fa fa-trash mr-2 cursor-pointer"></i>
-                    {{ generalTask.quest }}
+                    {{ generalTask.question }}
+                </li>
+            </ol>
+            <ol v-if="(booleanTasks && booleanTasks.length > 0)">
+                <li class="mt-2" v-for="(booleanTask , ind) in booleanTasks" :value="booleanTask.id">
+                    <i @click="editGeneralTask(booleanTask.id)" class="fa fa-edit mr-2 cursor-pointer"></i>
+                    <i @click="deleteGeneralTask(booleanTask.id)" class="fa fa-trash mr-2 cursor-pointer"></i>
+                    {{ booleanTask.question }}
+                    -
+                    <span v-if="booleanTask.answer == 1"> True</span>
+                    <span v-if="booleanTask.answer != 1"> False</span>
                 </li>
             </ol>
         </div>
@@ -91,8 +110,8 @@ export default {
             lessonSlide: null,
             taskTypes: null,
             typeId: null,
-            reading: null,
-            quest: null,
+            readingBoolean: null,
+            questionBoolean: null,
             answerBoolean: null,
             questionGeneral: null,
             generalTasks: null,
@@ -100,6 +119,7 @@ export default {
             deleteId: null,
             url: null,
             booleanTasks: null,
+            readingGeneral: null,
         }
     },
     methods: {
@@ -124,16 +144,24 @@ export default {
         chooseType() {
             document.querySelector("#blockFirst").style.display = "none";
             document.querySelector("#blockSecond").style.display = "none";
-
-            if (this.typeId == 1) {
-                this.generalTasks = null
-                document.querySelector("#blockFirst").style.display = "block";
-            } else if (this.typeId == 2) {
+            if (this.typeId == 2) {
                 this.booleanTasks = null
                 document.querySelector("#blockSecond").style.display = "block";
                 API.post('/api/dashboard/general-task', {lessonSlideId: this.lessonSlideId})
                     .then(res => {
-                        this.generalTasks = res.data.generalTasks
+                        this.generalTasks = res.data.questions
+                        this.readingGeneral = res.data.reading
+                    }).catch(err => {
+                    console.log(err)
+                })
+            } else if (this.typeId == 1) {
+
+                this.generalTasks = null
+                document.querySelector("#blockFirst").style.display = "block";
+                API.post('/api/dashboard/boolean-task', {lessonSlideId: this.lessonSlideId})
+                    .then(res => {
+                        this.booleanTasks = res.data.questions
+                        this.readingBoolean = res.data.reading
                     }).catch(err => {
                     console.log(err)
                 })
@@ -141,7 +169,7 @@ export default {
 
         },
         addGeneralTask() {
-            if (this.editId) {
+            if (!this.editId) {
                 this.url = "/api/dashboard/add-general-task";
             } else {
                 this.url = "/api/dashboard/update-general-task";
@@ -154,6 +182,7 @@ export default {
             API.post(this.url, {
                 questionGeneral: this.questionGeneral,
                 lessonSlideId: this.lessonSlideId,
+                readingGeneral: this.readingGeneral,
                 id: this.editId
             })
                 .then(res => {
@@ -196,14 +225,17 @@ export default {
 
         },
         addBooleanTask(){
-            API.post('/api/dashboard/add-boolean-task', {reading: this.reading, quest: this.quest, answer: this.answerBoolean})
+            API.post('/api/dashboard/add-boolean-task', {
+                readingBoolean: this.readingBoolean,
+                questionBoolean: this.questionBoolean,
+                answerBoolean: this.answerBoolean,
+                lessonSlideId: this.lessonSlideId
+            })
                 .then(res => {
-                    this.editId = null
-                    this.deleteId = null
-                    this.questionGeneral = ""
-                    this.cancelModal("deleteGeneral")
                     this.showSuccessMsg()
-                    this.generalTasks = res.data.generalTasks
+                    this.booleanTasks = res.data.question
+                    this.questionBoolean = ""
+                    this.answerBoolean = null
                 }).catch(err => {
                 console.log(err)
             })

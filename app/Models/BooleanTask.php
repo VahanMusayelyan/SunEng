@@ -12,6 +12,6 @@ class BooleanTask extends Model
     protected $table = "boolean_tasks";
 
     protected $fillable = [
-        "lesson_id", "reading_id", "question", "answer"
+        "reading_id", "question", "answer"
     ];
 }

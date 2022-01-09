@@ -6144,6 +6144,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "LessonSlideContent",
@@ -6153,15 +6172,16 @@ __webpack_require__.r(__webpack_exports__);
       lessonSlide: null,
       taskTypes: null,
       typeId: null,
-      reading: null,
-      quest: null,
+      readingBoolean: null,
+      questionBoolean: null,
       answerBoolean: null,
       questionGeneral: null,
       generalTasks: null,
       editId: null,
       deleteId: null,
       url: null,
-      booleanTasks: null
+      booleanTasks: null,
+      readingGeneral: null
     };
   },
   methods: {
@@ -6192,16 +6212,25 @@ __webpack_require__.r(__webpack_exports__);
       document.querySelector("#blockFirst").style.display = "none";
       document.querySelector("#blockSecond").style.display = "none";
 
-      if (this.typeId == 1) {
-        this.generalTasks = null;
-        document.querySelector("#blockFirst").style.display = "block";
-      } else if (this.typeId == 2) {
+      if (this.typeId == 2) {
         this.booleanTasks = null;
         document.querySelector("#blockSecond").style.display = "block";
         _api__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/dashboard/general-task', {
           lessonSlideId: this.lessonSlideId
         }).then(function (res) {
-          _this3.generalTasks = res.data.generalTasks;
+          _this3.generalTasks = res.data.questions;
+          _this3.readingGeneral = res.data.reading;
+        })["catch"](function (err) {
+          console.log(err);
+        });
+      } else if (this.typeId == 1) {
+        this.generalTasks = null;
+        document.querySelector("#blockFirst").style.display = "block";
+        _api__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/dashboard/boolean-task', {
+          lessonSlideId: this.lessonSlideId
+        }).then(function (res) {
+          _this3.booleanTasks = res.data.questions;
+          _this3.readingBoolean = res.data.reading;
         })["catch"](function (err) {
           console.log(err);
         });
@@ -6210,7 +6239,7 @@ __webpack_require__.r(__webpack_exports__);
     addGeneralTask: function addGeneralTask() {
       var _this4 = this;
 
-      if (this.editId) {
+      if (!this.editId) {
         this.url = "/api/dashboard/add-general-task";
       } else {
         this.url = "/api/dashboard/update-general-task";
@@ -6224,6 +6253,7 @@ __webpack_require__.r(__webpack_exports__);
       _api__WEBPACK_IMPORTED_MODULE_0__["default"].post(this.url, {
         questionGeneral: this.questionGeneral,
         lessonSlideId: this.lessonSlideId,
+        readingGeneral: this.readingGeneral,
         id: this.editId
       }).then(function (res) {
         _this4.editId = null;
@@ -6279,19 +6309,16 @@ __webpack_require__.r(__webpack_exports__);
       var _this7 = this;
 
       _api__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/dashboard/add-boolean-task', {
-        reading: this.reading,
-        quest: this.quest,
-        answer: this.answerBoolean
+        readingBoolean: this.readingBoolean,
+        questionBoolean: this.questionBoolean,
+        answerBoolean: this.answerBoolean,
+        lessonSlideId: this.lessonSlideId
       }).then(function (res) {
-        _this7.editId = null;
-        _this7.deleteId = null;
-        _this7.questionGeneral = "";
-
-        _this7.cancelModal("deleteGeneral");
-
         _this7.showSuccessMsg();
 
-        _this7.generalTasks = res.data.generalTasks;
+        _this7.booleanTasks = res.data.question;
+        _this7.questionBoolean = "";
+        _this7.answerBoolean = null;
       })["catch"](function (err) {
         console.log(err);
       });
@@ -14225,7 +14252,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.borderDivide[data-v-1fe17308] {\n    min-height: 100px;\n    height: auto;\n    border: 1px solid #fa90467a;\n    width: 1px;\n}\n.addConfirm[data-v-1fe17308] {\n    font-size: 25px;\n    color: green;\n    margin-left: 5px;\n    cursor: pointer;\n}\n.routing[data-v-1fe17308]{\n    bottom: 0;\n    left:15px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.borderDivide[data-v-1fe17308] {\r\n    min-height: 100px;\r\n    height: auto;\r\n    border: 1px solid #fa90467a;\r\n    width: 1px;\n}\n.addConfirm[data-v-1fe17308] {\r\n    font-size: 25px;\r\n    color: green;\r\n    margin-left: 5px;\r\n    cursor: pointer;\n}\n.routing[data-v-1fe17308]{\r\n    bottom: 0;\r\n    left:15px;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -14297,7 +14324,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.tasks li[data-v-153ad336]{\n    display: block;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.tasks li[data-v-153ad336]{\r\n    display: block;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -63315,7 +63342,7 @@ var render = function () {
               _vm._v(" "),
               _vm._l(_vm.taskTypes, function (type, ind) {
                 return _c("option", { domProps: { value: type.id } }, [
-                  _vm._v(_vm._s(type.type)),
+                  _vm._v(_vm._s(type.id) + " " + _vm._s(type.type)),
                 ])
               }),
             ],
@@ -63339,19 +63366,19 @@ var render = function () {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.reading,
-                      expression: "reading",
+                      value: _vm.readingBoolean,
+                      expression: "readingBoolean",
                     },
                   ],
                   staticClass: "form-control",
                   attrs: { name: "text", id: "text", cols: "10", rows: "6" },
-                  domProps: { value: _vm.reading },
+                  domProps: { value: _vm.readingBoolean },
                   on: {
                     input: function ($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.reading = $event.target.value
+                      _vm.readingBoolean = $event.target.value
                     },
                   },
                 }),
@@ -63368,19 +63395,19 @@ var render = function () {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.quest,
-                    expression: "quest",
+                    value: _vm.questionBoolean,
+                    expression: "questionBoolean",
                   },
                 ],
                 staticClass: "form-control",
                 attrs: { name: "question", id: "question" },
-                domProps: { value: _vm.quest },
+                domProps: { value: _vm.questionBoolean },
                 on: {
                   input: function ($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.quest = $event.target.value
+                    _vm.questionBoolean = $event.target.value
                   },
                 },
               }),
@@ -63448,6 +63475,39 @@ var render = function () {
             attrs: { id: "blockSecond" },
           },
           [
+            _c("div", { staticClass: "form-group" }, [
+              _c("div", { staticClass: "input-group" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c("textarea", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.readingGeneral,
+                      expression: "readingGeneral",
+                    },
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    name: "text",
+                    id: "textGeneral",
+                    cols: "10",
+                    rows: "6",
+                  },
+                  domProps: { value: _vm.readingGeneral },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.readingGeneral = $event.target.value
+                    },
+                  },
+                }),
+              ]),
+            ]),
+            _vm._v(" "),
             _c("div", { staticClass: "form-group" }, [
               _c("label", { attrs: { for: "question" } }, [
                 _vm._v("Please write question"),
@@ -63520,9 +63580,53 @@ var render = function () {
                     }),
                     _vm._v(
                       "\n                " +
-                        _vm._s(generalTask.quest) +
+                        _vm._s(generalTask.question) +
                         "\n            "
                     ),
+                  ]
+                )
+              }),
+              0
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.booleanTasks && _vm.booleanTasks.length > 0
+          ? _c(
+              "ol",
+              _vm._l(_vm.booleanTasks, function (booleanTask, ind) {
+                return _c(
+                  "li",
+                  { staticClass: "mt-2", attrs: { value: booleanTask.id } },
+                  [
+                    _c("i", {
+                      staticClass: "fa fa-edit mr-2 cursor-pointer",
+                      on: {
+                        click: function ($event) {
+                          return _vm.editGeneralTask(booleanTask.id)
+                        },
+                      },
+                    }),
+                    _vm._v(" "),
+                    _c("i", {
+                      staticClass: "fa fa-trash mr-2 cursor-pointer",
+                      on: {
+                        click: function ($event) {
+                          return _vm.deleteGeneralTask(booleanTask.id)
+                        },
+                      },
+                    }),
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(booleanTask.question) +
+                        "\n                -\n                "
+                    ),
+                    booleanTask.answer == 1
+                      ? _c("span", [_vm._v(" True")])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    booleanTask.answer != 1
+                      ? _c("span", [_vm._v(" False")])
+                      : _vm._e(),
                   ]
                 )
               }),
@@ -63611,6 +63715,16 @@ var render = function () {
   )
 }
 var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [
+        _vm._v("Write reading text"),
+      ]),
+    ])
+  },
   function () {
     var _vm = this
     var _h = _vm.$createElement

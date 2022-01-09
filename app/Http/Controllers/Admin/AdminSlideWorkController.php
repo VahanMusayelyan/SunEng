@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\HomeworkList;
 use App\Models\Slide;
 use App\Models\SlideList;
-use App\Models\SlideTask;
+use App\Models\SlideTaskTitle;
 use Illuminate\Http\Request;
 
 class AdminSlideWorkController extends Controller
@@ -87,7 +87,7 @@ class AdminSlideWorkController extends Controller
 
     public function addSlideTask(Request $request)
     {
-        SlideTask::insert([
+        SlideTaskTitle::insert([
             'task'     => $request->task,
             'slide_id' => $request->slideId,
         ]);
@@ -106,12 +106,12 @@ class AdminSlideWorkController extends Controller
 
     public function editSlideTask(Request $request)
     {
-        return response()->json(SlideTask::where("id", $request->id)->first());
+        return response()->json(SlideTaskTitle::where("id", $request->id)->first());
     }
 
     public function updateSlideTask(Request $request)
     {
-        SlideTask::where("id", $request->id)->update([
+        SlideTaskTitle::where("id", $request->id)->update([
             'task' => $request->slideTask
         ]);
 
@@ -122,7 +122,7 @@ class AdminSlideWorkController extends Controller
 
     public function deleteSlideTask(Request $request)
     {
-        SlideTask::where("id", $request->id)->delete();
+        SlideTaskTitle::where("id", $request->id)->delete();
 
         return response()->json([
             "slideTasks" => SlideList::where("id", $request->slideId)->with("tasks")->first(),

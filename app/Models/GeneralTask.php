@@ -12,6 +12,6 @@ class GeneralTask extends Model
     protected $table = "general_tasks";
 
     protected $fillable = [
-      'lesson_id', 'question'
+      'reading_id', 'question'
     ];
 }

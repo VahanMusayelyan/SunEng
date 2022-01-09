@@ -102,4 +102,10 @@ Route::group(['middleware' => 'isAdmin','prefix' => 'dashboard'], function ($rou
     Route::post("/update-general-task", 'App\Http\Controllers\Admin\AdminTaskController@addGeneralTask');
     Route::post("/delete-general-task", 'App\Http\Controllers\Admin\AdminTaskController@deleteGeneralTask');
 
+    Route::post("/boolean-task", 'App\Http\Controllers\Admin\AdminTaskController@getBooleanTasks');
+    Route::post("/add-boolean-task", 'App\Http\Controllers\Admin\AdminTaskController@addBooleanTask');
+    Route::post("/edit-boolean-task", 'App\Http\Controllers\Admin\AdminTaskController@editBooleanTask');
+    Route::post("/update-boolean-task", 'App\Http\Controllers\Admin\AdminTaskController@addBooleanTask');
+    Route::post("/delete-boolean-task", 'App\Http\Controllers\Admin\AdminTaskController@deleteBooleanTask');
+
 });
