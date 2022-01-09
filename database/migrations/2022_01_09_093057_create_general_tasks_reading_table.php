@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBooleanTasksReadingTable extends Migration
+class CreateGeneralTasksReadingTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateBooleanTasksReadingTable extends Migration
      */
     public function up()
     {
-        Schema::create('boolean_tasks_reading', function (Blueprint $table) {
+        Schema::create('general_tasks_reading', function (Blueprint $table) {
             $table->id();
-            $table->text('reading');
+            $table->text("reading");
             $table->bigInteger('slide_lesson_id')->unsigned();
             $table->timestamps();
         });
 
-        Schema::table('boolean_tasks_reading', function (Blueprint $table) {
+        Schema::table('general_tasks_reading', function (Blueprint $table) {
             $table->foreign('slide_lesson_id')
                 ->references('id')
                 ->on('slides')
@@ -36,6 +36,6 @@ class CreateBooleanTasksReadingTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('boolean_tasks_reading');
+        Schema::dropIfExists('general_tasks_reading');
     }
 }

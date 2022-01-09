@@ -17,6 +17,6 @@ class SlideList extends Model
 
     public function tasks()
     {
-        return $this->hasMany(SlideTask::class, "slide_id");
+        return $this->hasMany(SlideTaskTitle::class, "slide_id");
     }
 }

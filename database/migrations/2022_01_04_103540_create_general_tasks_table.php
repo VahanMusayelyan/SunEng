@@ -15,15 +15,15 @@ class CreateGeneralTasksTable extends Migration
     {
         Schema::create('general_tasks', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('slide_lesson_id')->unsigned();
             $table->text('question');
+            $table->bigInteger('reading_id')->unsigned();
             $table->timestamps();
         });
 
         Schema::table('general_tasks', function (Blueprint $table) {
-            $table->foreign('slide_lesson_id')
+            $table->foreign('reading_id')
                 ->references('id')
-                ->on('slides')
+                ->on('general_tasks_reading')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
         });

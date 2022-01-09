@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSlidesTasksTable extends Migration
+class CreateSlidesTasksTitleTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateSlidesTasksTable extends Migration
      */
     public function up()
     {
-        Schema::create('slides_tasks', function (Blueprint $table) {
+        Schema::create('slides_tasks_title', function (Blueprint $table) {
             $table->id();
             $table->bigInteger("slide_id")->unsigned();
             $table->text("task");
             $table->timestamps();
         });
 
-        Schema::table('slides_tasks', function($table) {
+        Schema::table('slides_tasks_title', function($table) {
             $table->foreign('slide_id')
                 ->references('id')
                 ->on('slides_list')
@@ -35,6 +35,6 @@ class CreateSlidesTasksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('slides_tasks');
+        Schema::dropIfExists('slides_tasks_title');
     }
 }

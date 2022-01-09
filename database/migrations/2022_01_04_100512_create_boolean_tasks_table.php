@@ -15,10 +15,10 @@ class CreateBooleanTasksTable extends Migration
     {
         Schema::create('boolean_tasks', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('slide_lesson_id')->unsigned();
+
             $table->bigInteger('reading_id')->unsigned();
-            $table->text('quest');
-            $table->tinyInteger('answert');
+            $table->text('question');
+            $table->tinyInteger('answer');
             $table->timestamps();
         });
 
@@ -26,12 +26,6 @@ class CreateBooleanTasksTable extends Migration
             $table->foreign('reading_id')
                 ->references('id')
                 ->on('boolean_tasks_reading')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-
-            $table->foreign('slide_lesson_id')
-                ->references('id')
-                ->on('slides')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
         });
