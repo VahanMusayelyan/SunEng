@@ -175,7 +175,7 @@ export default {
                 this.url = "/api/dashboard/update-general-task";
             }
 
-            if(!this.questionGeneral){
+            if(!this.questionGeneral && !this.readingGeneral){
                 this.showErrorMsg()
                 return false
             }
@@ -225,7 +225,17 @@ export default {
 
         },
         addBooleanTask(){
-            API.post('/api/dashboard/add-boolean-task', {
+            if (!this.editId) {
+                this.url = "/api/dashboard/add-boolean-task";
+            } else {
+                this.url = "/api/dashboard/update-boolean-task";
+            }
+
+            if(!this.questionBoolean && !this.readingBoolean){
+                this.showErrorMsg()
+                return false
+            }
+            API.post(this.url, {
                 readingBoolean: this.readingBoolean,
                 questionBoolean: this.questionBoolean,
                 answerBoolean: this.answerBoolean,
