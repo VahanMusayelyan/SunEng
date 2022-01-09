@@ -44,10 +44,12 @@ class AdminTaskController extends Controller
                 'question' => $request->questionGeneral
             ]);
         }else{
-            $addTask = GeneralTask::insert([
-                'reading_id'      => $reading->id,
-                'question'        => $request->questionGeneral
-            ]);
+            if($request->questionGeneral != ""){
+                $addTask = GeneralTask::insert([
+                    'reading_id'      => $reading->id,
+                    'question'        => $request->questionGeneral
+                ]);
+            }
         }
 
 
@@ -105,11 +107,13 @@ class AdminTaskController extends Controller
                     'question' => $request->questionBoolean
                 ]);
         }else{
-            $addTask = BooleanTask::insert([
-                'reading_id' => $reading->id,
-                'question'   => $request->questionBoolean,
-                'answer'     => $request->answerBoolean
-            ]);
+            if($request->questionBoolean != ""){
+                $addTask = BooleanTask::insert([
+                    'reading_id' => $reading->id,
+                    'question'   => $request->questionBoolean,
+                    'answer'     => $request->answerBoolean
+                ]);
+            }
         }
 
 
