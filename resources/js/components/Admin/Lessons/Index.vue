@@ -4,7 +4,7 @@
             <div class="form-group">
                 <h4 class="ml-3 mb-2 orangeText">Add New Lesson</h4>
                 <div class="col-12  mb-3">
-                    <input v-model="lesson" placeholder="Lesson Name" class="form-control" id="lesson" ref="lesson"
+                    <input autocomplete="off" v-model="lesson" placeholder="Lesson Name" class="form-control" id="lesson" ref="lesson"
                            type="text" required>
                     <select v-model="subcourse" class="selectBackground mt-3" name="lesson" id="lessonList" @change="showSubCourseLessons">
                         <option :value="null" disabled>Choose Course</option>
@@ -50,7 +50,7 @@
                 <div class="form-group">
                     <h4 class="ml-3 mb-2 orangeText">Edit Lesson</h4>
                     <div class="col-12">
-                        <input v-model="editLess" placeholder="Lesson Name" class="form-control" id="editLess"
+                        <input autocomplete="off" v-model="editLess" placeholder="Lesson Name" class="form-control" id="editLess"
                                type="text" required>
                         <select v-model="courseId" class="selectBackground mt-3" name="lesson" id="courseId">
                             <option :value="null" disabled>Choose Course</option>
@@ -61,7 +61,7 @@
                             </optgroup>
                         </select>
                     </div>
-                    <input type="text" hidden v-model="lessonId">
+                    <input autocomplete="off" type="text" hidden v-model="lessonId">
                     <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="updateLesson">Update
                     </button>
                 </div>
@@ -74,7 +74,7 @@
                     <div class="col-12 p-5">
                         <div class="form-group">
                             <h4 class="ml-3 mb-2 orangeText text-center">Do you want delete lesson ?</h4>
-                            <input type="text" hidden v-model="deleteId">
+                            <input autocomplete="off" type="text" hidden v-model="deleteId">
                             <div class="w-50 ml-auto  mr-auto">
                                 <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="deleteLesson">Confirm</button>
                                 <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="cancelModal('deleteLesson')">Cancel</button>

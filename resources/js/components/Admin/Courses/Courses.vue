@@ -5,7 +5,7 @@
                 <div class="form-group">
                     <h4 class="ml-3 mb-2 orangeText">Add New Course</h4>
                     <div class="col-12">
-                        <input v-model="mainCourse" placeholder="Course Name" class="form-control" id="maincourse" ref="maincourse" type="text" required>
+                        <input autocomplete="off" v-model="mainCourse" placeholder="Course Name" class="form-control" id="maincourse" ref="maincourse" type="text" required>
                     </div>
                 </div>
                 <button class="ml-3 btn btn-primary" type="button" @click.prevent="addMainCourse">Submit</button>
@@ -14,7 +14,7 @@
                     <div class="form-group">
                         <h4 class="ml-3 mb-2 orangeText">Add New Sub Course</h4>
                         <div class="col-12">
-                            <input v-model="courseName" placeholder="Sub Course Name" class="form-control" id="course" ref="course" type="text" required>
+                            <input autocomplete="off" v-model="courseName" placeholder="Sub Course Name" class="form-control" id="course" ref="course" type="text" required>
                         </div>
                         <div  class="col-12 mt-3">
                             <select  v-model="parentId"  class="select_parent" name="parent_courses" ref="parent_courses" id="parent_courses">
@@ -55,7 +55,7 @@
                 <div class="form-group">
                     <h4 class="ml-3 mb-2 orangeText">Edit Sub Course</h4>
                     <div class="col-12">
-                        <input v-model="editCourseName" placeholder="Sub Course Name" class="form-control" id="editcourse" ref="editcourse" type="text" required>
+                        <input autocomplete="off" v-model="editCourseName" placeholder="Sub Course Name" class="form-control" id="editcourse" ref="editcourse" type="text" required>
                     </div>
                     <div  class="col-12 mt-3">
                         <select  v-model="editParentId"  class="select_parent" name="edit_parent_courses" ref="edit_parent_courses" id="edit_parent_courses">
@@ -63,7 +63,7 @@
                             <option v-for="parent in parents" v-bind:value="parent.id">{{ parent.course }}</option>
                         </select>
                     </div>
-                    <input type="text" hidden v-model="editId">
+                    <input autocomplete="off" type="text" hidden v-model="editId">
                     <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="updateCourse">Update</button>
                 </div>
             </div>
@@ -75,9 +75,9 @@
                 <div class="form-group">
                         <h4 class="ml-3 mb-2 orangeText">Edit Course</h4>
                         <div class="col-12">
-                            <input v-model="mainEditCourse" placeholder="Course Name" class="form-control" id="maineditcourse" type="text" required>
+                            <input autocomplete="off" v-model="mainEditCourse" placeholder="Course Name" class="form-control" id="maineditcourse" type="text" required>
                         </div>
-                    <input type="text" hidden v-model="mainEditId">
+                    <input autocomplete="off" type="text" hidden v-model="mainEditId">
                     <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="updateMainCourse">Update</button>
                 </div>
             </div>
@@ -89,7 +89,7 @@
             <div class="col-12 p-5">
                 <div class="form-group">
                     <h4 class="ml-3 mb-2 orangeText text-center">Do you want delete course ?</h4>
-                    <input type="text" hidden v-model="mainDelete">
+                    <input autocomplete="off" type="text" hidden v-model="mainDelete">
                     <div class="w-50 ml-auto  mr-auto">
                         <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="deleteMainCourse">Confirm</button>
                         <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="cancelMainCourse">Cancel</button>

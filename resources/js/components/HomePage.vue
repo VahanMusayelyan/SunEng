@@ -34,17 +34,17 @@
                                     <form class="rd-form rd-mailform form-lg" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
                                         <div class="form-wrap form-wrap-icon wow fadeIn" data-wow-delay=".05s">
                                             <label class="form-label form-label-outside" for="contact-1-name">Name</label>
-                                            <input class="form-input" id="contact-1-name" type="text" name="name" data-constraints="@Required">
+                                            <input autocomplete="off" class="form-input" id="contact-1-name" type="text" name="name" data-constraints="@Required">
                                             <div class="icon form-icon mdi mdi-account-outline"></div>
                                         </div>
                                         <div class="form-wrap form-wrap-icon wow fadeIn" data-wow-delay=".1s">
                                             <label class="form-label form-label-outside" for="contact-1-phone">Phone</label>
-                                            <input class="form-input" id="contact-1-phone" type="text" name="phone" data-constraints="@PhoneNumber">
+                                            <input autocomplete="off" class="form-input" id="contact-1-phone" type="text" name="phone" data-constraints="@PhoneNumber">
                                             <div class="icon form-icon mdi mdi-phone"></div>
                                         </div>
                                         <div class="form-wrap form-wrap-icon wow fadeIn" data-wow-delay=".15s">
                                             <label class="form-label form-label-outside" for="contact-1-email">E-mail</label>
-                                            <input class="form-input" id="contact-1-email" type="email" name="email" data-constraints="@Email @Required">
+                                            <input autocomplete="off" class="form-input" id="contact-1-email" type="email" name="email" data-constraints="@Email @Required">
                                             <div class="icon form-icon mdi mdi-email-outline"></div>
                                         </div>
                                         <div class="form-wrap wow fadeIn" data-wow-delay=".2s">
@@ -238,7 +238,7 @@
                 <div class="block-2 block-centered mt-30 mt-lg-60 wow fadeIn" data-wow-delay=".05s">
                     <form class="rd-form rd-mailform form-inline form-lg" data-form-output="form-output-global" data-form-type="subscribe" method="post" action="bat/rd-mailform.php">
                         <div class="form-wrap form-wrap-icon">
-                            <input class="form-input" id="subscribe-form-email" type="email" name="email" data-constraints="@Email @Required">
+                            <input autocomplete="off" class="form-input" id="subscribe-form-email" type="email" name="email" data-constraints="@Email @Required">
                             <label class="form-label" for="subscribe-form-email">E-mail</label>
                             <div class="icon form-icon form-icon-2 mdi mdi-email-outline"></div>
                         </div>

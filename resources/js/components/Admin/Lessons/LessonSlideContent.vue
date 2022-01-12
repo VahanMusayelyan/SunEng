@@ -21,7 +21,7 @@
                 </div>
                 <div class="form-group">
                     <label for="question">Please write question</label>
-                    <input class="form-control" name="question" v-model="questionBoolean" id="question">
+                    <input autocomplete="off" class="form-control" name="question" v-model="questionBoolean" id="question">
                 </div>
                 <div class="form-group">
                     <label for="answerBoolean">Correct Answer</label>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="form-group">
                     <label for="question">Please write question</label>
-                    <input class="form-control" name="question" v-model="questionGeneral" id="questionGeneral">
+                    <input autocomplete="off" class="form-control" name="question" v-model="questionGeneral" id="questionGeneral">
                 </div>
                 <div class="form-group">
                     <button @click="addGeneralTask" class="btn btn-primary">Submit</button>
@@ -67,8 +67,8 @@
             </ol>
             <ol v-if="(booleanTasks && booleanTasks.length > 0)">
                 <li class="mt-2" v-for="(booleanTask , ind) in booleanTasks" :value="booleanTask.id">
-                    <i @click="editGeneralTask(booleanTask.id)" class="fa fa-edit mr-2 cursor-pointer"></i>
-                    <i @click="deleteGeneralTask(booleanTask.id)" class="fa fa-trash mr-2 cursor-pointer"></i>
+                    <i @click="editBooleanTask(booleanTask.id)" class="fa fa-edit mr-2 cursor-pointer"></i>
+                    <i @click="deleteBooleanTask(booleanTask.id)" class="fa fa-trash mr-2 cursor-pointer"></i>
                     {{ booleanTask.question }}
                     -
                     <span v-if="booleanTask.answer == 1"> True</span>
@@ -77,12 +77,67 @@
             </ol>
         </div>
 
+
+        <modal name="editGeneralModal" class="editLessonModal showModal" id="showModal">
+            <div class="backgroundImg position-absolute"></div>
+            <div class="col-12 p-5">
+                <div class="form-group">
+                    <h4 class="ml-3 mb-2 orangeText">Edit question</h4>
+                    <div class="col-12">
+                        <input autocomplete="off" v-model="editGeneral" placeholder="Question" class="form-control" id="editGeneral"
+                               type="text" required>
+                    </div>
+                    <input autocomplete="off" type="text" hidden v-model="editGeneralId">
+                    <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="updateGeneralTask">Update
+                    </button>
+                </div>
+            </div>
+        </modal>
+
         <modal name="deleteGeneral" class="deleteMain showModal" id="showModal">
             <div class="backgroundImg position-absolute"></div>
             <div class="col-12 p-5">
                 <div class="form-group">
                     <h4 class="ml-3 mb-2 orangeText text-center">Do you want delete task ?</h4>
-                    <input type="text" hidden v-model="deleteId">
+                    <input autocomplete="off" type="text" hidden v-model="deleteId">
+                    <div class="w-50 ml-auto  mr-auto">
+                        <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="deleteGeneralTask">
+                            Confirm
+                        </button>
+                        <button class="ml-3 btn btn-primary mt-3" type="button"
+                                @click.prevent="cancelModal('deleteGeneral')">Cancel
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </modal>
+
+
+
+
+        <modal name="editBooleanModal" class="editLessonModal showModal" id="showModal">
+            <div class="backgroundImg position-absolute"></div>
+            <div class="col-12 p-5">
+                <div class="form-group">
+                    <h4 class="ml-3 mb-2 orangeText">Edit question</h4>
+                    <div class="col-12">
+                        <input autocomplete="off" v-model="editBoolean" placeholder="Question" class="form-control" id="editBoolean"
+                               type="text" required>
+                    </div>
+                    <input autocomplete="off" type="text" hidden v-model="editBooleanId">
+                    <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="updateBooleanTask">Update
+                    </button>
+                </div>
+            </div>
+        </modal>
+
+        <modal name="deleteGeneral" class="deleteMain showModal" id="showModal">
+            <div class="backgroundImg position-absolute"></div>
+            <div class="col-12 p-5">
+                <div class="form-group">
+                    <h4 class="ml-3 mb-2 orangeText text-center">Do you want delete task ?</h4>
+                    <input autocomplete="off" type="text" hidden v-model="deleteId">
                     <div class="w-50 ml-auto  mr-auto">
                         <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="deleteGeneralTask">
                             Confirm
@@ -120,6 +175,10 @@ export default {
             url: null,
             booleanTasks: null,
             readingGeneral: null,
+            editGeneral: null,
+            editGeneralId: null,
+            editBooleanId: null,
+            editBoolean: null,
         }
     },
     methods: {
@@ -190,7 +249,7 @@ export default {
                     this.deleteId = null
                     this.questionGeneral = ""
                     this.showSuccessMsg()
-                    this.generalTasks = res.data.generalTasks
+                    this.generalTasks = res.data.questions
                 }).catch(err => {
                 console.log(err)
             })
@@ -199,9 +258,29 @@ export default {
         editGeneralTask(id) {
             API.post('/api/dashboard/edit-general-task', {id: id})
                 .then(res => {
-                    this.questionGeneral = res.data.quest
-                    this.editId = res.data.id
+                    this.editGeneral = res.data.question
+                    this.editGeneralId = res.data.id
+                    this.showModal("editGeneralModal")
                     this.showInfoMsg()
+                }).catch(err => {
+                console.log(err)
+            })
+        },
+        updateGeneralTask(id) {
+            API.post('/api/dashboard/update-general-task', {
+                id: this.editGeneralId,
+                readingGeneral: this.readingGeneral,
+                questionGeneral: this.editGeneral,
+                lessonSlideId: this.lessonSlideId,
+            })
+                .then(res => {
+                    this.editGeneralId = null
+                    this.editGeneral = null
+                    this.questionGeneral = res.data.question
+                    this.generalTasks = res.data.questions
+                    this.readingGeneral = res.data.reading
+                    this.cancelModal("editGeneralModal")
+                    this.showSuccessMsg()
                 }).catch(err => {
                 console.log(err)
             })
@@ -210,12 +289,12 @@ export default {
             if (this.deleteId) {
                 API.post('/api/dashboard/delete-general-task', {id: this.deleteId, lessonSlideId: this.lessonSlideId})
                     .then(res => {
-                        this.editId = null
+                        this.editGeneralId = null
                         this.deleteId = null
                         this.questionGeneral = ""
                         this.cancelModal("deleteGeneral")
                         this.showSuccessMsg()
-                        this.generalTasks = res.data.generalTasks
+                        this.generalTasks = res.data.questions
                     }).catch(err => {
                     console.log(err)
                 })
@@ -249,7 +328,56 @@ export default {
                 }).catch(err => {
                 console.log(err)
             })
-        }
+        },
+
+        editBooleanTask(id) {
+            API.post('/api/dashboard/edit-general-task', {id: id})
+                .then(res => {
+                    this.editGeneral = res.data.question
+                    this.editGeneralId = res.data.id
+                    this.showModal("editGeneralModal")
+                    this.showInfoMsg()
+                }).catch(err => {
+                console.log(err)
+            })
+        },
+        updateBooleanTask(id) {
+            API.post('/api/dashboard/update-general-task', {
+                id: this.editGeneralId,
+                readingGeneral: this.readingGeneral,
+                questionGeneral: this.editGeneral,
+                lessonSlideId: this.lessonSlideId,
+            })
+                .then(res => {
+                    this.editGeneralId = null
+                    this.editGeneral = null
+                    this.questionGeneral = res.data.question
+                    this.generalTasks = res.data.questions
+                    this.readingGeneral = res.data.reading
+                    this.cancelModal("editGeneralModal")
+                    this.showSuccessMsg()
+                }).catch(err => {
+                console.log(err)
+            })
+        },
+        deleteBooleanTask(id) {
+            if (this.deleteId) {
+                API.post('/api/dashboard/delete-general-task', {id: this.deleteId, lessonSlideId: this.lessonSlideId})
+                    .then(res => {
+                        this.editGeneralId = null
+                        this.deleteId = null
+                        this.questionGeneral = ""
+                        this.cancelModal("deleteGeneral")
+                        this.showSuccessMsg()
+                        this.generalTasks = res.data.questions
+                    }).catch(err => {
+                    console.log(err)
+                })
+            } else {
+                this.deleteModal(id, "deleteGeneral")
+            }
+
+        },
     },
     mounted() {
         this.getLessonHomework()

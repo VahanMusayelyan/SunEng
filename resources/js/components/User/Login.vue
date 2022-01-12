@@ -5,12 +5,12 @@
 
             <div class="form-group">
                 <label>Email address</label>
-                <input v-model="email" ref="email" type="email" class="form-control form-control-lg" required />
+                <input autocomplete="off" v-model="email" ref="email" type="email" class="form-control form-control-lg" required />
             </div>
 
             <div class="form-group">
                 <label>Password</label>
-                <input  v-model="password" ref="password" type="password" class="form-control form-control-lg" required />
+                <input autocomplete="off"  v-model="password" ref="password" type="password" class="form-control form-control-lg" required />
             </div>
 
             <button type="button" @click.prevent="login" class="btn btn-primary btn-lg btn-block">Sign In</button>

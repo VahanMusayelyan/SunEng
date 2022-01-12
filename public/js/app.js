@@ -6163,6 +6163,61 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "LessonSlideContent",
@@ -6181,7 +6236,11 @@ __webpack_require__.r(__webpack_exports__);
       deleteId: null,
       url: null,
       booleanTasks: null,
-      readingGeneral: null
+      readingGeneral: null,
+      editGeneral: null,
+      editGeneralId: null,
+      editBooleanId: null,
+      editBoolean: null
     };
   },
   methods: {
@@ -6245,7 +6304,7 @@ __webpack_require__.r(__webpack_exports__);
         this.url = "/api/dashboard/update-general-task";
       }
 
-      if (!this.questionGeneral) {
+      if (!this.questionGeneral && !this.readingGeneral) {
         this.showErrorMsg();
         return false;
       }
@@ -6262,7 +6321,7 @@ __webpack_require__.r(__webpack_exports__);
 
         _this4.showSuccessMsg();
 
-        _this4.generalTasks = res.data.generalTasks;
+        _this4.generalTasks = res.data.questions;
       })["catch"](function (err) {
         console.log(err);
       });
@@ -6273,31 +6332,55 @@ __webpack_require__.r(__webpack_exports__);
       _api__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/dashboard/edit-general-task', {
         id: id
       }).then(function (res) {
-        _this5.questionGeneral = res.data.quest;
-        _this5.editId = res.data.id;
+        _this5.editGeneral = res.data.question;
+        _this5.editGeneralId = res.data.id;
+
+        _this5.showModal("editGeneralModal");
 
         _this5.showInfoMsg();
       })["catch"](function (err) {
         console.log(err);
       });
     },
-    deleteGeneralTask: function deleteGeneralTask(id) {
+    updateGeneralTask: function updateGeneralTask(id) {
       var _this6 = this;
+
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/dashboard/update-general-task', {
+        id: this.editGeneralId,
+        readingGeneral: this.readingGeneral,
+        questionGeneral: this.editGeneral,
+        lessonSlideId: this.lessonSlideId
+      }).then(function (res) {
+        _this6.editGeneralId = null;
+        _this6.editGeneral = null;
+        _this6.questionGeneral = res.data.question;
+        _this6.generalTasks = res.data.questions;
+        _this6.readingGeneral = res.data.reading;
+
+        _this6.cancelModal("editGeneralModal");
+
+        _this6.showSuccessMsg();
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    },
+    deleteGeneralTask: function deleteGeneralTask(id) {
+      var _this7 = this;
 
       if (this.deleteId) {
         _api__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/dashboard/delete-general-task', {
           id: this.deleteId,
           lessonSlideId: this.lessonSlideId
         }).then(function (res) {
-          _this6.editId = null;
-          _this6.deleteId = null;
-          _this6.questionGeneral = "";
+          _this7.editGeneralId = null;
+          _this7.deleteId = null;
+          _this7.questionGeneral = "";
 
-          _this6.cancelModal("deleteGeneral");
+          _this7.cancelModal("deleteGeneral");
 
-          _this6.showSuccessMsg();
+          _this7.showSuccessMsg();
 
-          _this6.generalTasks = res.data.generalTasks;
+          _this7.generalTasks = res.data.questions;
         })["catch"](function (err) {
           console.log(err);
         });
@@ -6306,22 +6389,95 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     addBooleanTask: function addBooleanTask() {
-      var _this7 = this;
+      var _this8 = this;
 
-      _api__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/dashboard/add-boolean-task', {
+      if (!this.editId) {
+        this.url = "/api/dashboard/add-boolean-task";
+      } else {
+        this.url = "/api/dashboard/update-boolean-task";
+      }
+
+      if (!this.questionBoolean && !this.readingBoolean) {
+        this.showErrorMsg();
+        return false;
+      }
+
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].post(this.url, {
         readingBoolean: this.readingBoolean,
         questionBoolean: this.questionBoolean,
         answerBoolean: this.answerBoolean,
         lessonSlideId: this.lessonSlideId
       }).then(function (res) {
-        _this7.showSuccessMsg();
+        _this8.showSuccessMsg();
 
-        _this7.booleanTasks = res.data.question;
-        _this7.questionBoolean = "";
-        _this7.answerBoolean = null;
+        _this8.booleanTasks = res.data.question;
+        _this8.questionBoolean = "";
+        _this8.answerBoolean = null;
       })["catch"](function (err) {
         console.log(err);
       });
+    },
+    editBooleanTask: function editBooleanTask(id) {
+      var _this9 = this;
+
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/dashboard/edit-general-task', {
+        id: id
+      }).then(function (res) {
+        _this9.editGeneral = res.data.question;
+        _this9.editGeneralId = res.data.id;
+
+        _this9.showModal("editGeneralModal");
+
+        _this9.showInfoMsg();
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    },
+    updateBooleanTask: function updateBooleanTask(id) {
+      var _this10 = this;
+
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/dashboard/update-general-task', {
+        id: this.editGeneralId,
+        readingGeneral: this.readingGeneral,
+        questionGeneral: this.editGeneral,
+        lessonSlideId: this.lessonSlideId
+      }).then(function (res) {
+        _this10.editGeneralId = null;
+        _this10.editGeneral = null;
+        _this10.questionGeneral = res.data.question;
+        _this10.generalTasks = res.data.questions;
+        _this10.readingGeneral = res.data.reading;
+
+        _this10.cancelModal("editGeneralModal");
+
+        _this10.showSuccessMsg();
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    },
+    deleteBooleanTask: function deleteBooleanTask(id) {
+      var _this11 = this;
+
+      if (this.deleteId) {
+        _api__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/dashboard/delete-general-task', {
+          id: this.deleteId,
+          lessonSlideId: this.lessonSlideId
+        }).then(function (res) {
+          _this11.editGeneralId = null;
+          _this11.deleteId = null;
+          _this11.questionGeneral = "";
+
+          _this11.cancelModal("deleteGeneral");
+
+          _this11.showSuccessMsg();
+
+          _this11.generalTasks = res.data.questions;
+        })["catch"](function (err) {
+          console.log(err);
+        });
+      } else {
+        this.deleteModal(id, "deleteGeneral");
+      }
     }
   },
   mounted: function mounted() {
@@ -14228,7 +14384,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#blockFirst[data-v-4b4e249f], #blockSecond[data-v-4b4e249f] {\n    display: none;\n}\nol[data-v-4b4e249f] {\n    list-style-type: unset;\n}\nol li[data-v-4b4e249f] {\n    display: block;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#blockFirst[data-v-4b4e249f], #blockSecond[data-v-4b4e249f] {\r\n    display: none;\n}\nol[data-v-4b4e249f] {\r\n    list-style-type: unset;\n}\nol li[data-v-4b4e249f] {\r\n    display: block;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -62247,6 +62403,7 @@ var render = function () {
                 ref: "maincourse",
                 staticClass: "form-control",
                 attrs: {
+                  autocomplete: "off",
                   placeholder: "Course Name",
                   id: "maincourse",
                   type: "text",
@@ -62300,6 +62457,7 @@ var render = function () {
                 ref: "course",
                 staticClass: "form-control",
                 attrs: {
+                  autocomplete: "off",
                   placeholder: "Sub Course Name",
                   id: "course",
                   type: "text",
@@ -62520,6 +62678,7 @@ var render = function () {
                   ref: "editcourse",
                   staticClass: "form-control",
                   attrs: {
+                    autocomplete: "off",
                     placeholder: "Sub Course Name",
                     id: "editcourse",
                     type: "text",
@@ -62597,7 +62756,7 @@ var render = function () {
                     expression: "editId",
                   },
                 ],
-                attrs: { type: "text", hidden: "" },
+                attrs: { autocomplete: "off", type: "text", hidden: "" },
                 domProps: { value: _vm.editId },
                 on: {
                   input: function ($event) {
@@ -62655,6 +62814,7 @@ var render = function () {
                   ],
                   staticClass: "form-control",
                   attrs: {
+                    autocomplete: "off",
                     placeholder: "Course Name",
                     id: "maineditcourse",
                     type: "text",
@@ -62681,7 +62841,7 @@ var render = function () {
                     expression: "mainEditId",
                   },
                 ],
-                attrs: { type: "text", hidden: "" },
+                attrs: { autocomplete: "off", type: "text", hidden: "" },
                 domProps: { value: _vm.mainEditId },
                 on: {
                   input: function ($event) {
@@ -62736,7 +62896,7 @@ var render = function () {
                     expression: "mainDelete",
                   },
                 ],
-                attrs: { type: "text", hidden: "" },
+                attrs: { autocomplete: "off", type: "text", hidden: "" },
                 domProps: { value: _vm.mainDelete },
                 on: {
                   input: function ($event) {
@@ -62869,6 +63029,7 @@ var render = function () {
               ref: "lesson",
               staticClass: "form-control",
               attrs: {
+                autocomplete: "off",
                 placeholder: "Lesson Name",
                 id: "lesson",
                 type: "text",
@@ -63063,6 +63224,7 @@ var render = function () {
                   ],
                   staticClass: "form-control",
                   attrs: {
+                    autocomplete: "off",
                     placeholder: "Lesson Name",
                     id: "editLess",
                     type: "text",
@@ -63149,7 +63311,7 @@ var render = function () {
                     expression: "lessonId",
                   },
                 ],
-                attrs: { type: "text", hidden: "" },
+                attrs: { autocomplete: "off", type: "text", hidden: "" },
                 domProps: { value: _vm.lessonId },
                 on: {
                   input: function ($event) {
@@ -63204,7 +63366,7 @@ var render = function () {
                     expression: "deleteId",
                   },
                 ],
-                attrs: { type: "text", hidden: "" },
+                attrs: { autocomplete: "off", type: "text", hidden: "" },
                 domProps: { value: _vm.deleteId },
                 on: {
                   input: function ($event) {
@@ -63400,7 +63562,11 @@ var render = function () {
                   },
                 ],
                 staticClass: "form-control",
-                attrs: { name: "question", id: "question" },
+                attrs: {
+                  autocomplete: "off",
+                  name: "question",
+                  id: "question",
+                },
                 domProps: { value: _vm.questionBoolean },
                 on: {
                   input: function ($event) {
@@ -63523,7 +63689,11 @@ var render = function () {
                   },
                 ],
                 staticClass: "form-control",
-                attrs: { name: "question", id: "questionGeneral" },
+                attrs: {
+                  autocomplete: "off",
+                  name: "question",
+                  id: "questionGeneral",
+                },
                 domProps: { value: _vm.questionGeneral },
                 on: {
                   input: function ($event) {
@@ -63602,7 +63772,7 @@ var render = function () {
                       staticClass: "fa fa-edit mr-2 cursor-pointer",
                       on: {
                         click: function ($event) {
-                          return _vm.editGeneralTask(booleanTask.id)
+                          return _vm.editBooleanTask(booleanTask.id)
                         },
                       },
                     }),
@@ -63611,7 +63781,7 @@ var render = function () {
                       staticClass: "fa fa-trash mr-2 cursor-pointer",
                       on: {
                         click: function ($event) {
-                          return _vm.deleteGeneralTask(booleanTask.id)
+                          return _vm.deleteBooleanTask(booleanTask.id)
                         },
                       },
                     }),
@@ -63638,6 +63808,91 @@ var render = function () {
       _c(
         "modal",
         {
+          staticClass: "editLessonModal showModal",
+          attrs: { name: "editGeneralModal", id: "showModal" },
+        },
+        [
+          _c("div", { staticClass: "backgroundImg position-absolute" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12 p-5" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("h4", { staticClass: "ml-3 mb-2 orangeText" }, [
+                _vm._v("Edit question"),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-12" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.editGeneral,
+                      expression: "editGeneral",
+                    },
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    autocomplete: "off",
+                    placeholder: "Question",
+                    id: "editGeneral",
+                    type: "text",
+                    required: "",
+                  },
+                  domProps: { value: _vm.editGeneral },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.editGeneral = $event.target.value
+                    },
+                  },
+                }),
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.editGeneralId,
+                    expression: "editGeneralId",
+                  },
+                ],
+                attrs: { autocomplete: "off", type: "text", hidden: "" },
+                domProps: { value: _vm.editGeneralId },
+                on: {
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.editGeneralId = $event.target.value
+                  },
+                },
+              }),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "ml-3 btn btn-primary mt-3",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function ($event) {
+                      $event.preventDefault()
+                      return _vm.updateGeneralTask.apply(null, arguments)
+                    },
+                  },
+                },
+                [_vm._v("Update\n                ")]
+              ),
+            ]),
+          ]),
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "modal",
+        {
           staticClass: "deleteMain showModal",
           attrs: { name: "deleteGeneral", id: "showModal" },
         },
@@ -63659,7 +63914,168 @@ var render = function () {
                     expression: "deleteId",
                   },
                 ],
-                attrs: { type: "text", hidden: "" },
+                attrs: { autocomplete: "off", type: "text", hidden: "" },
+                domProps: { value: _vm.deleteId },
+                on: {
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.deleteId = $event.target.value
+                  },
+                },
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "w-50 ml-auto  mr-auto" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "ml-3 btn btn-primary mt-3",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function ($event) {
+                        $event.preventDefault()
+                        return _vm.deleteGeneralTask.apply(null, arguments)
+                      },
+                    },
+                  },
+                  [
+                    _vm._v(
+                      "\n                        Confirm\n                    "
+                    ),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "ml-3 btn btn-primary mt-3",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function ($event) {
+                        $event.preventDefault()
+                        return _vm.cancelModal("deleteGeneral")
+                      },
+                    },
+                  },
+                  [_vm._v("Cancel\n                    ")]
+                ),
+              ]),
+            ]),
+          ]),
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "modal",
+        {
+          staticClass: "editLessonModal showModal",
+          attrs: { name: "editBooleanModal", id: "showModal" },
+        },
+        [
+          _c("div", { staticClass: "backgroundImg position-absolute" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12 p-5" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("h4", { staticClass: "ml-3 mb-2 orangeText" }, [
+                _vm._v("Edit question"),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-12" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.editBoolean,
+                      expression: "editBoolean",
+                    },
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    autocomplete: "off",
+                    placeholder: "Question",
+                    id: "editBoolean",
+                    type: "text",
+                    required: "",
+                  },
+                  domProps: { value: _vm.editBoolean },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.editBoolean = $event.target.value
+                    },
+                  },
+                }),
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.editBooleanId,
+                    expression: "editBooleanId",
+                  },
+                ],
+                attrs: { autocomplete: "off", type: "text", hidden: "" },
+                domProps: { value: _vm.editBooleanId },
+                on: {
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.editBooleanId = $event.target.value
+                  },
+                },
+              }),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "ml-3 btn btn-primary mt-3",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function ($event) {
+                      $event.preventDefault()
+                      return _vm.updateBooleanTask.apply(null, arguments)
+                    },
+                  },
+                },
+                [_vm._v("Update\n                ")]
+              ),
+            ]),
+          ]),
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "modal",
+        {
+          staticClass: "deleteMain showModal",
+          attrs: { name: "deleteGeneral", id: "showModal" },
+        },
+        [
+          _c("div", { staticClass: "backgroundImg position-absolute" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12 p-5" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c("h4", { staticClass: "ml-3 mb-2 orangeText text-center" }, [
+                _vm._v("Do you want delete task ?"),
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.deleteId,
+                    expression: "deleteId",
+                  },
+                ],
+                attrs: { autocomplete: "off", type: "text", hidden: "" },
                 domProps: { value: _vm.deleteId },
                 on: {
                   input: function ($event) {
@@ -63786,6 +64202,7 @@ var render = function () {
                 ref: "lessonTitle",
                 staticClass: "form-control w-75",
                 attrs: {
+                  autocomplete: "off",
                   placeholder: "Lesson title",
                   id: "lessonTitle",
                   type: "text",
@@ -63861,6 +64278,7 @@ var render = function () {
                 ref: "slide",
                 staticClass: "form-control w-75 d-inline-block",
                 attrs: {
+                  autocomplete: "off",
                   placeholder: "Lesson slide",
                   id: "slide",
                   type: "text",
@@ -63977,6 +64395,7 @@ var render = function () {
                 ref: "lessonHomework",
                 staticClass: "form-control w-75 d-inline-block",
                 attrs: {
+                  autocomplete: "off",
                   placeholder: "Lesson homework",
                   id: "lessonHomework",
                   type: "text",
@@ -64205,7 +64624,7 @@ var render = function () {
                     expression: "deleteId",
                   },
                 ],
-                attrs: { type: "text", hidden: "" },
+                attrs: { autocomplete: "off", type: "text", hidden: "" },
                 domProps: { value: _vm.deleteId },
                 on: {
                   input: function ($event) {
@@ -64277,7 +64696,7 @@ var render = function () {
                     expression: "deleteId",
                   },
                 ],
-                attrs: { type: "text", hidden: "" },
+                attrs: { autocomplete: "off", type: "text", hidden: "" },
                 domProps: { value: _vm.deleteId },
                 on: {
                   input: function ($event) {
@@ -64374,6 +64793,7 @@ var render = function () {
               ref: "homework",
               staticClass: "form-control w-100 d-inline-block",
               attrs: {
+                autocomplete: "off",
                 placeholder: "Homework name",
                 id: "homework",
                 type: "text",
@@ -64475,6 +64895,7 @@ var render = function () {
                 ref: "homeworkEdit",
                 staticClass: "form-control w-75 d-inline-block",
                 attrs: {
+                  autocomplete: "off",
                   placeholder: "Homework",
                   id: "homeworkEdit",
                   type: "text",
@@ -64500,7 +64921,7 @@ var render = function () {
                     expression: "editId",
                   },
                 ],
-                attrs: { type: "text", hidden: "" },
+                attrs: { autocomplete: "off", type: "text", hidden: "" },
                 domProps: { value: _vm.editId },
                 on: {
                   input: function ($event) {
@@ -64576,7 +64997,7 @@ var render = function () {
                     expression: "deleteId",
                   },
                 ],
-                attrs: { type: "text", hidden: "" },
+                attrs: { autocomplete: "off", type: "text", hidden: "" },
                 domProps: { value: _vm.deleteId },
                 on: {
                   input: function ($event) {
@@ -64713,6 +65134,7 @@ var render = function () {
               ref: "slide",
               staticClass: "form-control w-100 d-inline-block",
               attrs: {
+                autocomplete: "off",
                 placeholder: "Slide name",
                 id: "slide",
                 type: "text",
@@ -64829,6 +65251,7 @@ var render = function () {
                 ref: "slideEdit",
                 staticClass: "form-control w-75 d-inline-block",
                 attrs: {
+                  autocomplete: "off",
                   placeholder: "Slide",
                   id: "slideEdit",
                   type: "text",
@@ -64854,7 +65277,7 @@ var render = function () {
                     expression: "editId",
                   },
                 ],
-                attrs: { type: "text", hidden: "" },
+                attrs: { autocomplete: "off", type: "text", hidden: "" },
                 domProps: { value: _vm.editId },
                 on: {
                   input: function ($event) {
@@ -64930,7 +65353,7 @@ var render = function () {
                     expression: "deleteId",
                   },
                 ],
-                attrs: { type: "text", hidden: "" },
+                attrs: { autocomplete: "off", type: "text", hidden: "" },
                 domProps: { value: _vm.deleteId },
                 on: {
                   input: function ($event) {
@@ -65175,7 +65598,7 @@ var render = function () {
                     expression: "editId",
                   },
                 ],
-                attrs: { type: "text", hidden: "" },
+                attrs: { autocomplete: "off", type: "text", hidden: "" },
                 domProps: { value: _vm.editId },
                 on: {
                   input: function ($event) {
@@ -65251,7 +65674,7 @@ var render = function () {
                     expression: "deleteId",
                   },
                 ],
-                attrs: { type: "text", hidden: "" },
+                attrs: { autocomplete: "off", type: "text", hidden: "" },
                 domProps: { value: _vm.deleteId },
                 on: {
                   input: function ($event) {
@@ -65521,6 +65944,7 @@ var staticRenderFns = [
                     _c("input", {
                       staticClass: "form-input",
                       attrs: {
+                        autocomplete: "off",
                         id: "contact-name",
                         type: "text",
                         name: "name",
@@ -65549,6 +65973,7 @@ var staticRenderFns = [
                     _c("input", {
                       staticClass: "form-input",
                       attrs: {
+                        autocomplete: "off",
                         id: "contact-phone",
                         type: "text",
                         name: "phone",
@@ -65576,6 +66001,7 @@ var staticRenderFns = [
                     _c("input", {
                       staticClass: "form-input",
                       attrs: {
+                        autocomplete: "off",
                         id: "contact-email",
                         type: "email",
                         name: "email",
@@ -65944,6 +66370,7 @@ var staticRenderFns = [
               _c("input", {
                 staticClass: "form-input",
                 attrs: {
+                  autocomplete: "off",
                   id: "contact-1-name",
                   type: "text",
                   name: "name",
@@ -65976,6 +66403,7 @@ var staticRenderFns = [
               _c("input", {
                 staticClass: "form-input",
                 attrs: {
+                  autocomplete: "off",
                   id: "contact-1-phone",
                   type: "text",
                   name: "phone",
@@ -66006,6 +66434,7 @@ var staticRenderFns = [
               _c("input", {
                 staticClass: "form-input",
                 attrs: {
+                  autocomplete: "off",
                   id: "contact-1-email",
                   type: "email",
                   name: "email",
@@ -66700,6 +67129,7 @@ var staticRenderFns = [
                     _c("input", {
                       staticClass: "form-input",
                       attrs: {
+                        autocomplete: "off",
                         id: "subscribe-form-email",
                         type: "email",
                         name: "email",
@@ -67866,7 +68296,7 @@ var render = function () {
           ],
           ref: "email",
           staticClass: "form-control form-control-lg",
-          attrs: { type: "email", required: "" },
+          attrs: { autocomplete: "off", type: "email", required: "" },
           domProps: { value: _vm.email },
           on: {
             input: function ($event) {
@@ -67893,7 +68323,7 @@ var render = function () {
           ],
           ref: "password",
           staticClass: "form-control form-control-lg",
-          attrs: { type: "password", required: "" },
+          attrs: { autocomplete: "off", type: "password", required: "" },
           domProps: { value: _vm.password },
           on: {
             input: function ($event) {
@@ -68060,7 +68490,7 @@ var render = function () {
         ],
         ref: "name",
         staticClass: "form-control",
-        attrs: { id: "name", placeholder: "Fill name" },
+        attrs: { autocomplete: "off", id: "name", placeholder: "Fill name" },
         domProps: { value: _vm.name },
         on: {
           input: function ($event) {
@@ -68087,7 +68517,11 @@ var render = function () {
         ],
         ref: "surname",
         staticClass: "form-control",
-        attrs: { id: "surname", placeholder: "Fill surname" },
+        attrs: {
+          autocomplete: "off",
+          id: "surname",
+          placeholder: "Fill surname",
+        },
         domProps: { value: _vm.surname },
         on: {
           input: function ($event) {
@@ -68116,7 +68550,12 @@ var render = function () {
         ],
         ref: "email",
         staticClass: "form-control",
-        attrs: { type: "email", id: "email", placeholder: "Fill email" },
+        attrs: {
+          autocomplete: "off",
+          type: "email",
+          id: "email",
+          placeholder: "Fill email",
+        },
         domProps: { value: _vm.email },
         on: {
           blur: function ($event) {
@@ -68148,7 +68587,12 @@ var render = function () {
         ],
         ref: "phone",
         staticClass: "form-control",
-        attrs: { id: "phone", placeholder: "Fill phone +374", required: "" },
+        attrs: {
+          autocomplete: "off",
+          id: "phone",
+          placeholder: "Fill phone +374",
+          required: "",
+        },
         domProps: { value: _vm.phone },
         on: {
           blur: function ($event) {
@@ -68179,6 +68623,7 @@ var render = function () {
         ref: "password",
         staticClass: "form-control",
         attrs: {
+          autocomplete: "off",
           type: "password",
           id: "password",
           placeholder: "Fill password",
@@ -68215,6 +68660,7 @@ var render = function () {
         ref: "password_confirmation",
         staticClass: "form-control",
         attrs: {
+          autocomplete: "off",
           type: "password",
           id: "password_confirmation",
           placeholder: "Fill password again",

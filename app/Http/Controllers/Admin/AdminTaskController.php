@@ -29,7 +29,7 @@ class AdminTaskController extends Controller
             $reading->reading = $request->readingGeneral;
             $reading->slide_lesson_id  = $request->lessonSlideId;
             $reading->save();
-        }else{
+        }elseif(!isset($request->id)){
             $reading = new GeneralTaskReading;
             $reading->reading = $request->readingGeneral;
             $reading->slide_lesson_id  = $request->lessonSlideId;

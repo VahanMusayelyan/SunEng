@@ -4,7 +4,7 @@
             <div class="form-group mr-5">
                 <h6 class="ml-3 mb-2 orangeText">New Slide</h6>
                 <div class="col-12">
-                    <input v-model="slide" placeholder="Slide name" class="form-control w-100 d-inline-block"
+                    <input autocomplete="off" v-model="slide" placeholder="Slide name" class="form-control w-100 d-inline-block"
                            id="slide"
                            ref="slide" type="text" required>
 
@@ -31,10 +31,10 @@
             <div class="col-12 p-5">
                 <div class="form-group">
                     <h4 class="mb-2 orangeText">Edit slide</h4>
-                    <input v-model="editSlide" placeholder="Slide" class="form-control w-75 d-inline-block"
+                    <input autocomplete="off" v-model="editSlide" placeholder="Slide" class="form-control w-75 d-inline-block"
                            id="slideEdit"
                            ref="slideEdit" type="text" required>
-                    <input type="text" hidden v-model="editId">
+                    <input autocomplete="off" type="text" hidden v-model="editId">
                     <div class="w-50 ml-auto  mr-auto">
                         <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="updateSlide()">
                             Update
@@ -53,7 +53,7 @@
             <div class="col-12 p-5">
                 <div class="form-group">
                     <h4 class="ml-3 mb-2 orangeText text-center">Do you want delete slide ?</h4>
-                    <input type="text" hidden v-model="deleteId">
+                    <input autocomplete="off" type="text" hidden v-model="deleteId">
                     <div class="w-50 ml-auto  mr-auto">
                         <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="deleteSlide()">
                             Confirm

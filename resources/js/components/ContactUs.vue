@@ -40,21 +40,21 @@
                       <div class="row row-30">
                           <div class="col-lg-4">
                               <div class="form-wrap form-wrap-icon">
-                                  <input class="form-input" id="contact-name" type="text" name="name" data-constraints="@Required">
+                                  <input autocomplete="off" class="form-input" id="contact-name" type="text" name="name" data-constraints="@Required">
                                   <label class="form-label" for="contact-name">Name</label>
                                   <div class="icon form-icon mdi mdi-account-outline text-primary"></div>
                               </div>
                           </div>
                           <div class="col-lg-4">
                               <div class="form-wrap form-wrap-icon">
-                                  <input class="form-input" id="contact-phone" type="text" name="phone" data-constraints="@PhoneNumber">
+                                  <input autocomplete="off" class="form-input" id="contact-phone" type="text" name="phone" data-constraints="@PhoneNumber">
                                   <label class="form-label" for="contact-phone">Phone</label>
                                   <div class="icon form-icon mdi mdi-phone text-primary"></div>
                               </div>
                           </div>
                           <div class="col-lg-4">
                               <div class="form-wrap form-wrap-icon">
-                                  <input class="form-input" id="contact-email" type="email" name="email" data-constraints="@Email @Required">
+                                  <input autocomplete="off" class="form-input" id="contact-email" type="email" name="email" data-constraints="@Email @Required">
                                   <label class="form-label" for="contact-email">E-mail</label>
                                   <div class="icon form-icon mdi mdi-email-outline text-primary"></div>
                               </div>
