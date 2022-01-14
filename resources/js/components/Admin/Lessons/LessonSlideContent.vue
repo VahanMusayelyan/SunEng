@@ -31,7 +31,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <button @click="addBooleanTask" class="btn btn-primary">Submit</button>
+                    <button @click="addBooleanTask('newOne')" class="btn btn-primary">Submit</button>
                 </div>
             </div>
             <!-- General tasks -->
@@ -50,7 +50,7 @@
                     <input autocomplete="off" class="form-control" name="question" v-model="questionGeneral" id="questionGeneral">
                 </div>
                 <div class="form-group">
-                    <button @click="addGeneralTask" class="btn btn-primary">Submit</button>
+                    <button @click="addGeneralTask('newOne')" class="btn btn-primary">Submit</button>
                 </div>
             </div>
         </div>
@@ -87,7 +87,7 @@
                         <input autocomplete="off" v-model="editGeneral" placeholder="Question" class="form-control" id="editGeneral"
                                type="text" required>
                     </div>
-                    <input autocomplete="off" type="text" hidden v-model="editGeneralId">
+                    <input autocomplete="off" type="text" hidden v-model="editId">
                     <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="updateGeneralTask">Update
                     </button>
                 </div>
@@ -125,6 +125,12 @@
                         <input autocomplete="off" v-model="editBoolean" placeholder="Question" class="form-control" id="editBoolean"
                                type="text" required>
                     </div>
+                    <div class="col-12">
+                    <select id="editAnswerBoolean" class="custom-select mt-3" v-model="editAnswerBoolean">
+                        <option value="1">True</option>
+                        <option value="0">False</option>
+                    </select>
+                        </div>
                     <input autocomplete="off" type="text" hidden v-model="editBooleanId">
                     <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="updateBooleanTask">Update
                     </button>
@@ -132,7 +138,7 @@
             </div>
         </modal>
 
-        <modal name="deleteGeneral" class="deleteMain showModal" id="showModal">
+        <modal name="deleteBoolean" class="deleteMain showModal" id="showModal">
             <div class="backgroundImg position-absolute"></div>
             <div class="col-12 p-5">
                 <div class="form-group">
@@ -170,15 +176,15 @@ export default {
             answerBoolean: null,
             questionGeneral: null,
             generalTasks: null,
-            editId: null,
             deleteId: null,
             url: null,
             booleanTasks: null,
             readingGeneral: null,
             editGeneral: null,
-            editGeneralId: null,
+            editId: null,
             editBooleanId: null,
             editBoolean: null,
+            editAnswerBoolean: null,
         }
     },
     methods: {
@@ -228,17 +234,12 @@ export default {
 
         },
         addGeneralTask() {
-            if (!this.editId) {
-                this.url = "/api/dashboard/add-general-task";
-            } else {
-                this.url = "/api/dashboard/update-general-task";
-            }
 
             if(!this.questionGeneral && !this.readingGeneral){
                 this.showErrorMsg()
                 return false
             }
-            API.post(this.url, {
+            API.post('/api/dashboard/add-general-task', {
                 questionGeneral: this.questionGeneral,
                 lessonSlideId: this.lessonSlideId,
                 readingGeneral: this.readingGeneral,
@@ -259,7 +260,7 @@ export default {
             API.post('/api/dashboard/edit-general-task', {id: id})
                 .then(res => {
                     this.editGeneral = res.data.question
-                    this.editGeneralId = res.data.id
+                    this.editId = res.data.id
                     this.showModal("editGeneralModal")
                     this.showInfoMsg()
                 }).catch(err => {
@@ -268,13 +269,13 @@ export default {
         },
         updateGeneralTask(id) {
             API.post('/api/dashboard/update-general-task', {
-                id: this.editGeneralId,
+                id: this.editId,
                 readingGeneral: this.readingGeneral,
                 questionGeneral: this.editGeneral,
                 lessonSlideId: this.lessonSlideId,
             })
                 .then(res => {
-                    this.editGeneralId = null
+                    this.editId = null
                     this.editGeneral = null
                     this.questionGeneral = res.data.question
                     this.generalTasks = res.data.questions
@@ -289,12 +290,13 @@ export default {
             if (this.deleteId) {
                 API.post('/api/dashboard/delete-general-task', {id: this.deleteId, lessonSlideId: this.lessonSlideId})
                     .then(res => {
-                        this.editGeneralId = null
+                        this.editId = null
                         this.deleteId = null
                         this.questionGeneral = ""
                         this.cancelModal("deleteGeneral")
                         this.showSuccessMsg()
                         this.generalTasks = res.data.questions
+                        this.booleanTasks = null
                     }).catch(err => {
                     console.log(err)
                 })
@@ -304,17 +306,11 @@ export default {
 
         },
         addBooleanTask(){
-            if (!this.editId) {
-                this.url = "/api/dashboard/add-boolean-task";
-            } else {
-                this.url = "/api/dashboard/update-boolean-task";
-            }
-
             if(!this.questionBoolean && !this.readingBoolean){
                 this.showErrorMsg()
                 return false
             }
-            API.post(this.url, {
+            API.post("/api/dashboard/add-boolean-task", {
                 readingBoolean: this.readingBoolean,
                 questionBoolean: this.questionBoolean,
                 answerBoolean: this.answerBoolean,
@@ -322,7 +318,7 @@ export default {
             })
                 .then(res => {
                     this.showSuccessMsg()
-                    this.booleanTasks = res.data.question
+                    this.booleanTasks = res.data.questions
                     this.questionBoolean = ""
                     this.answerBoolean = null
                 }).catch(err => {
@@ -331,30 +327,31 @@ export default {
         },
 
         editBooleanTask(id) {
-            API.post('/api/dashboard/edit-general-task', {id: id})
+            API.post('/api/dashboard/edit-boolean-task', {id: id})
                 .then(res => {
-                    this.editGeneral = res.data.question
-                    this.editGeneralId = res.data.id
-                    this.showModal("editGeneralModal")
+                    this.editBoolean = res.data.question
+                    this.editBooleanId = res.data.id
+                    this.editAnswerBoolean = res.data.answer
+                    this.editId = res.data.id
+                    this.showModal("editBooleanModal")
                     this.showInfoMsg()
                 }).catch(err => {
                 console.log(err)
             })
         },
-        updateBooleanTask(id) {
-            API.post('/api/dashboard/update-general-task', {
-                id: this.editGeneralId,
-                readingGeneral: this.readingGeneral,
-                questionGeneral: this.editGeneral,
+        updateBooleanTask() {
+            API.post('/api/dashboard/update-boolean-task', {
+                id: this.editId,
+                readingBoolean: this.readingBoolean,
+                questionBoolean: this.editBoolean,
                 lessonSlideId: this.lessonSlideId,
+                answerBoolean: this.editAnswerBoolean,
             })
                 .then(res => {
-                    this.editGeneralId = null
-                    this.editGeneral = null
-                    this.questionGeneral = res.data.question
-                    this.generalTasks = res.data.questions
-                    this.readingGeneral = res.data.reading
-                    this.cancelModal("editGeneralModal")
+                    this.editId = null
+                    this.booleanTasks = res.data.questions
+                    this.readingBoolean = res.data.reading
+                    this.cancelModal("editBooleanModal")
                     this.showSuccessMsg()
                 }).catch(err => {
                 console.log(err)
@@ -362,14 +359,16 @@ export default {
         },
         deleteBooleanTask(id) {
             if (this.deleteId) {
-                API.post('/api/dashboard/delete-general-task', {id: this.deleteId, lessonSlideId: this.lessonSlideId})
+                API.post('/api/dashboard/delete-boolean-task', {id: this.deleteId, lessonSlideId: this.lessonSlideId})
                     .then(res => {
-                        this.editGeneralId = null
+                        this.editId = null
                         this.deleteId = null
+                        this.generalTasks = null
                         this.questionGeneral = ""
-                        this.cancelModal("deleteGeneral")
+                        this.cancelModal("deleteBoolean")
                         this.showSuccessMsg()
-                        this.generalTasks = res.data.questions
+                        this.booleanTasks = res.data.questions
+                        this.generalTasks = null
                     }).catch(err => {
                     console.log(err)
                 })

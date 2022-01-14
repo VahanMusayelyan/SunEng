@@ -55,6 +55,7 @@ export default {
         },
         cancelModal(name){
             this.deleteId = null
+            this.editId = null
             this.$modal.hide(name)
         },
         showModal(name){

@@ -86,6 +86,7 @@ class AdminTaskController extends Controller
 
     public function addBooleanTask (Request $request)
     {
+
         $reading = BooleanTaskReading::where("slide_lesson_id", $request->lessonSlideId)->first();
 
         if(isset($reading->reading) && $reading->reading != ""){
@@ -104,7 +105,8 @@ class AdminTaskController extends Controller
 
             $addTask = BooleanTask::where("id", $request->id)
                 ->update([
-                    'question' => $request->questionBoolean
+                    'question' => $request->questionBoolean,
+                    'answer' => $request->answerBoolean,
                 ]);
         }else{
             if($request->questionBoolean != ""){
@@ -122,6 +124,20 @@ class AdminTaskController extends Controller
         }
 
         return response()->json(0);
+    }
+
+    public function editBooleanTask(Request $request)
+    {
+        return response()->json(BooleanTask::where('id', $request->id)->first());
+
+    }
+
+    public function deleteBooleanTask(Request $request)
+    {
+        BooleanTask::where("id", $request->id)->delete();
+
+        return $this->getBooleanTasks($request->lessonSlideId);
+
     }
 
 }
