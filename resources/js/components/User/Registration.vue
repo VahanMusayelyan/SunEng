@@ -3,7 +3,7 @@
         <div class="form-group mb-4">
             <h3>Registration</h3>
             <label for="name">Name</label>
-            <input
+            <input autocomplete="off"
                 v-model="name"
                 class="form-control"
                 ref="name"
@@ -12,7 +12,7 @@
         </div>
         <div class="form-group mb-4">
             <label for="name">Surname</label>
-            <input
+            <input autocomplete="off"
                 v-model="surname"
                 class="form-control"
                 ref="surname"
@@ -22,7 +22,7 @@
         <div class="form-group mb-4">
             <label for="email">Email</label>
             <span class="checkUser"></span>
-            <input
+            <input autocomplete="off"
                 v-model="email"
                 v-on:blur="handleEmailBlur()"
                 ref="email"
@@ -33,7 +33,7 @@
         <div class="form-group mb-4">
             <label for="phone">Phone</label>
             <span class="checkPhone"></span>
-            <input
+            <input autocomplete="off"
                 v-model="phone"
                 v-on:blur="handlePhoneBlur()"
                 ref="phone"
@@ -43,7 +43,7 @@
         </div>
         <div class="form-group mb-4">
             <label for="password">Password</label>
-            <input
+            <input autocomplete="off"
                 v-model="password"
                 class="form-control"
                    type="password"
@@ -54,7 +54,7 @@
         <div class="form-group mb-4">
             <label for="password_confirmation">Password confirmation</label>
             <span class="checkPassword"></span>
-            <input
+            <input autocomplete="off"
                 v-model="password_confirmation"
                 v-on:blur="handlePasswordBlur()"
                    class="form-control"

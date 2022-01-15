@@ -68,7 +68,7 @@
                             <li v-if="!token" class="rd-nav-item active">
                                 <router-link class="rd-nav-link" to="/registration">Registration</router-link>
                             </li>
-                            <li v-if="token" class="rd-nav-item active">
+                            <li v-if="token" class="rd-nav-item active cursor-pointer">
                                 <a class="rd-nav-link" @click="logout()">Logout</a>
                             </li>
 

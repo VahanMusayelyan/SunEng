@@ -67,7 +67,7 @@
                             <li v-if="!accessToken" class="rd-nav-item active">
                                 <router-link class="rd-nav-link" v-if="!accessToken" :to="{name : 'users.registration'}">Registration</router-link>
                             </li>
-                            <li v-if="accessToken" class="rd-nav-item active">
+                            <li v-if="accessToken" class="rd-nav-item active  cursor-pointer">
                                 <a class="rd-nav-link" v-if="accessToken" @click.prevent="logout">Logout</a>
                             </li>
 

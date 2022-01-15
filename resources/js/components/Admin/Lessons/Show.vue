@@ -6,7 +6,7 @@
                 <div class="form-group">
                     <h6 class="ml-3 mb-2 orangeText">Title</h6>
                     <div class="col-12">
-                        <input v-model="lessonTitle" placeholder="Lesson title" class="form-control w-75"
+                        <input autocomplete="off" v-model="lessonTitle" placeholder="Lesson title" class="form-control w-75"
                                id="lessonTitle"
                                ref="lessonTitle" type="text" required>
                     </div>
@@ -21,7 +21,7 @@
                 <div class="form-group">
                     <h6 class="ml-3 mb-2 orangeText">Lesson slides</h6>
                     <div class="col-12">
-                        <input v-model="slide" placeholder="Lesson slide" class="form-control w-75 d-inline-block"
+                        <input autocomplete="off" v-model="slide" placeholder="Lesson slide" class="form-control w-75 d-inline-block"
                                id="slide"
                                ref="slide" type="text" required>
                         <i class="fa fa-check addConfirm" @click.prevent="addSlide"></i>
@@ -42,7 +42,7 @@
                 <div class="form-group">
                     <h6 class="ml-3 mb-2 orangeText">Lesson homework</h6>
                     <div class="col-12">
-                        <input v-model="homework" placeholder="Lesson homework" class="form-control w-75 d-inline-block"
+                        <input autocomplete="off" v-model="homework" placeholder="Lesson homework" class="form-control w-75 d-inline-block"
                                id="lessonHomework"
                                ref="lessonHomework" type="text" required>
                         <i class="fa fa-check addConfirm" @click.prevent="addHomework"></i>
@@ -85,7 +85,7 @@
             <div class="col-12 p-5">
                 <div class="form-group">
                     <h4 class="ml-3 mb-2 orangeText text-center">Do you want delete lesson's slide ?</h4>
-                    <input type="text" hidden v-model="deleteId">
+                    <input autocomplete="off" type="text" hidden v-model="deleteId">
                     <div class="w-50 ml-auto  mr-auto">
                         <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="deleteLessonSlide()">Confirm</button>
                         <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="cancelModal('deleteLessonModal')">Cancel</button>
@@ -99,7 +99,7 @@
             <div class="col-12 p-5">
                 <div class="form-group">
                     <h4 class="ml-3 mb-2 orangeText text-center">Do you want delete lesson's homework ?</h4>
-                    <input type="text" hidden v-model="deleteId">
+                    <input autocomplete="off" type="text" hidden v-model="deleteId">
                     <div class="w-50 ml-auto  mr-auto">
                         <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="deleteLessonWork()">Confirm</button>
                         <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="cancelModal('deleteLessonModalWork')">Cancel</button>

@@ -38,7 +38,7 @@
                     <textarea v-model="editSlideTask" placeholder="Slide" class="form-control w-75 d-inline-block"
                            id="slideTaskEdit"
                               ref="slideTaskEdit" type="text" required></textarea>
-                    <input type="text" hidden v-model="editId">
+                    <input autocomplete="off" type="text" hidden v-model="editId">
                     <div class="w-50 ml-auto  mr-auto">
                         <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="updateSlideTask()">
                             Update
@@ -57,7 +57,7 @@
             <div class="col-12 p-5">
                 <div class="form-group">
                     <h4 class="ml-3 mb-2 orangeText text-center">Do you want delete slide task ?</h4>
-                    <input type="text" hidden v-model="deleteId">
+                    <input autocomplete="off" type="text" hidden v-model="deleteId">
                     <div class="w-50 ml-auto  mr-auto">
                         <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="deleteSlideTask()">
                             Confirm
