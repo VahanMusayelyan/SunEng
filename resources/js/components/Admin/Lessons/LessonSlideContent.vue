@@ -21,7 +21,7 @@
                 </div>
                 <div class="form-group">
                     <label for="question">Please write question</label>
-                    <input autocomplete="off" class="form-control" name="question" v-model="questionBoolean" id="question">
+                    <input autocomplete="off" class="form-control" v-model="questionBoolean" id="question">
                 </div>
                 <div class="form-group">
                     <label for="answerBoolean">Correct Answer</label>
@@ -31,9 +31,10 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <button @click="addBooleanTask('newOne')" class="btn btn-primary">Submit</button>
+                    <button @click="addBooleanTask()" class="btn btn-primary">Submit</button>
                 </div>
             </div>
+            <!-- End Boolean tasks -->
             <!-- General tasks -->
             <div id="blockSecond" class="w-75 mt-3 ml-5  border p-3 blocksTasks">
                 <div class="form-group">
@@ -47,12 +48,35 @@
                 </div>
                 <div class="form-group">
                     <label for="question">Please write question</label>
-                    <input autocomplete="off" class="form-control" name="question" v-model="questionGeneral" id="questionGeneral">
+                    <input autocomplete="off" class="form-control" v-model="questionGeneral" id="questionGeneral">
                 </div>
                 <div class="form-group">
-                    <button @click="addGeneralTask('newOne')" class="btn btn-primary">Submit</button>
+                    <button @click="addGeneralTask()" class="btn btn-primary">Submit</button>
                 </div>
             </div>
+            <!-- End General tasks -->
+
+            <!-- Radio tasks -->
+            <div id="blockThird" class="w-75 mt-3 ml-5  border p-3 blocksTasks">
+                <div class="form-group">
+                    <label for="questionRadio">Please write question</label>
+                    <input autocomplete="off" class="form-control" v-model="questionRadio" id="questionRadio">
+                </div>
+                <div class="form-group">
+                    <label for="answerRadio">Please write answer</label>
+                    <input autocomplete="off" class="form-control" v-model="answerRadio" id="answerRadio">
+                </div>
+                <div class="form-group">
+                    <label class="form-check-label d-block" for="answerTrue">
+                        Check correct answer
+                    </label>
+                    <input class="form-check-input" type="checkbox" v-model="answerTrue" id="answerTrue">
+                </div>
+                <div class="form-group">
+                    <button @click="addRadioTask()" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+            <!-- End Radio tasks -->
         </div>
 
 
@@ -71,13 +95,23 @@
                     <i @click="deleteBooleanTask(booleanTask.id)" class="fa fa-trash mr-2 cursor-pointer"></i>
                     {{ booleanTask.question }}
                     -
-                    <span v-if="booleanTask.answer == 1"> True</span>
-                    <span v-if="booleanTask.answer != 1"> False</span>
+                    <span v-if="booleanTask.answer === 1"> True</span>
+                    <span v-if="booleanTask.answer !== 1"> False</span>
+                </li>
+            </ol>
+            <ol v-if="(radioTasks && radioTasks.length > 0)">
+                <li class="mt-2" v-for="(radioTask , ind) in radioTasks" :value="radioTask.id">
+                    <i @click="editBooleanTask(radioTask.id)" class="fa fa-edit mr-2 cursor-pointer"></i>
+                    <i @click="deleteBooleanTask(radioTask.id)" class="fa fa-trash mr-2 cursor-pointer"></i>
+                    {{ radioTask.question }}
+                    -
+                    <span v-if="radioTask.answer === 1"> True</span>
+                    <span v-if="radioTask.answer !== 1"> False</span>
                 </li>
             </ol>
         </div>
 
-
+        <!-- General tasks modal -->
         <modal name="editGeneralModal" class="editLessonModal showModal" id="showModal">
             <div class="backgroundImg position-absolute"></div>
             <div class="col-12 p-5">
@@ -112,10 +146,9 @@
                 </div>
             </div>
         </modal>
+        <!-- End General tasks modal -->
 
-
-
-
+        <!-- Boolean tasks modal -->
         <modal name="editBooleanModal" class="editLessonModal showModal" id="showModal">
             <div class="backgroundImg position-absolute"></div>
             <div class="col-12 p-5">
@@ -156,6 +189,7 @@
                 </div>
             </div>
         </modal>
+        <!-- End General tasks modal -->
 
     </div>
 </template>
@@ -185,6 +219,10 @@ export default {
             editBooleanId: null,
             editBoolean: null,
             editAnswerBoolean: null,
+            radioTasks: null,
+            questionRadio: null,
+            answerRadio: null,
+            answerTrue: null,
         }
     },
     methods: {
@@ -209,8 +247,11 @@ export default {
         chooseType() {
             document.querySelector("#blockFirst").style.display = "none";
             document.querySelector("#blockSecond").style.display = "none";
+            document.querySelector("#blockThird").style.display = "none";
+            this.booleanTasks = null
+            this.generalTasks = null
+            this.radioTasks = null
             if (this.typeId == 2) {
-                this.booleanTasks = null
                 document.querySelector("#blockSecond").style.display = "block";
                 API.post('/api/dashboard/general-task', {lessonSlideId: this.lessonSlideId})
                     .then(res => {
@@ -220,8 +261,6 @@ export default {
                     console.log(err)
                 })
             } else if (this.typeId == 1) {
-
-                this.generalTasks = null
                 document.querySelector("#blockFirst").style.display = "block";
                 API.post('/api/dashboard/boolean-task', {lessonSlideId: this.lessonSlideId})
                     .then(res => {
@@ -230,6 +269,8 @@ export default {
                     }).catch(err => {
                     console.log(err)
                 })
+            }else if (this.typeId == 3) {
+                document.querySelector("#blockThird").style.display = "block";
             }
 
         },
@@ -377,6 +418,11 @@ export default {
             }
 
         },
+        addRadioTask(){
+            console.log(this.answerRadio)
+            console.log(this.questionRadio)
+            console.log(this.answerTrue)
+        }
     },
     mounted() {
         this.getLessonHomework()
@@ -386,7 +432,7 @@ export default {
 </script>
 
 <style scoped>
-#blockFirst, #blockSecond {
+#blockFirst, #blockSecond,#blockThird {
     display: none;
 }
 
@@ -397,4 +443,19 @@ ol {
 ol li {
     display: block;
 }
+
+input[type=checkbox]:focus{
+    border:none;
+    outline:none;
+    box-shadow:none;
+}
+.form-check-input{
+    position: relative;
+    margin-top: 0.3rem;
+    margin-left: 0;
+    padding: 42px!important;
+    width: 22px;
+    height: 22px;
+}
+
 </style>

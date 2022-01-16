@@ -15367,3 +15367,7 @@ html[class*="ie"] .dtp-hand, html[class*="ie"] .dtp-hour-hand {
 .btn-primary:active{
     background-color: #fa9046;
 }
+
+.cursor-pointer{
+    cursor: pointer;
+}
