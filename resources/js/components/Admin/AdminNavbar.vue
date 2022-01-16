@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import API from "../../api";
+
 export default {
     name: "AdminNavbar",
     data() {
@@ -26,10 +28,11 @@ export default {
     },
     methods: {
         logout() {
-            axios.post("/logout").then(res => {
-                localStorage.removeItem("access_token");
-                this.$router.push({name: "login"})
-            })
+            API.post("/api/auth/logout")
+                .then(res => {
+                    localStorage.removeItem("access_token")
+                    this.$router.push({name: "users.login"})
+                })
         },
     }
 }

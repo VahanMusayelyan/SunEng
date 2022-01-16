@@ -45,10 +45,12 @@ export default {
         login() {
             axios.post("/api/auth/login", {email: this.email, password: this.password})
                 .then(res => {
+                    console.log(1)
                     localStorage.setItem("access_token", res.data.access_token)
                     this.$router.push("/users/personal");
 
                 }).catch(error => {
+                console.log(2)
                 console.log(error.response)
                 this.error = error.response.data.error;
             })
