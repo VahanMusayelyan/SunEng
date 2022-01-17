@@ -6218,6 +6218,55 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "LessonSlideContent",
@@ -6232,15 +6281,20 @@ __webpack_require__.r(__webpack_exports__);
       answerBoolean: null,
       questionGeneral: null,
       generalTasks: null,
-      editId: null,
       deleteId: null,
       url: null,
       booleanTasks: null,
       readingGeneral: null,
       editGeneral: null,
-      editGeneralId: null,
+      editId: null,
       editBooleanId: null,
-      editBoolean: null
+      editBoolean: null,
+      editAnswerBoolean: null,
+      radioTasks: null,
+      questionRadio: null,
+      answerRadio: null,
+      answerTrue: null,
+      radioTasksQuestion: null
     };
   },
   methods: {
@@ -6270,9 +6324,13 @@ __webpack_require__.r(__webpack_exports__);
 
       document.querySelector("#blockFirst").style.display = "none";
       document.querySelector("#blockSecond").style.display = "none";
+      document.querySelector("#blockThird").style.display = "none";
+      this.booleanTasks = null;
+      this.generalTasks = null;
+      this.radioTasks = null;
+      this.radioTasksQuestion = null;
 
       if (this.typeId == 2) {
-        this.booleanTasks = null;
         document.querySelector("#blockSecond").style.display = "block";
         _api__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/dashboard/general-task', {
           lessonSlideId: this.lessonSlideId
@@ -6283,7 +6341,6 @@ __webpack_require__.r(__webpack_exports__);
           console.log(err);
         });
       } else if (this.typeId == 1) {
-        this.generalTasks = null;
         document.querySelector("#blockFirst").style.display = "block";
         _api__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/dashboard/boolean-task', {
           lessonSlideId: this.lessonSlideId
@@ -6293,23 +6350,26 @@ __webpack_require__.r(__webpack_exports__);
         })["catch"](function (err) {
           console.log(err);
         });
+      } else if (this.typeId == 3) {
+        document.querySelector("#blockThird").style.display = "block";
+        _api__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/dashboard/radio-task', {
+          lessonSlideId: this.lessonSlideId
+        }).then(function (res) {
+          _this3.radioTasksQuestion = res.data.questions;
+        })["catch"](function (err) {
+          console.log(err);
+        });
       }
     },
     addGeneralTask: function addGeneralTask() {
       var _this4 = this;
-
-      if (!this.editId) {
-        this.url = "/api/dashboard/add-general-task";
-      } else {
-        this.url = "/api/dashboard/update-general-task";
-      }
 
       if (!this.questionGeneral && !this.readingGeneral) {
         this.showErrorMsg();
         return false;
       }
 
-      _api__WEBPACK_IMPORTED_MODULE_0__["default"].post(this.url, {
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/dashboard/add-general-task', {
         questionGeneral: this.questionGeneral,
         lessonSlideId: this.lessonSlideId,
         readingGeneral: this.readingGeneral,
@@ -6333,7 +6393,7 @@ __webpack_require__.r(__webpack_exports__);
         id: id
       }).then(function (res) {
         _this5.editGeneral = res.data.question;
-        _this5.editGeneralId = res.data.id;
+        _this5.editId = res.data.id;
 
         _this5.showModal("editGeneralModal");
 
@@ -6346,12 +6406,12 @@ __webpack_require__.r(__webpack_exports__);
       var _this6 = this;
 
       _api__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/dashboard/update-general-task', {
-        id: this.editGeneralId,
+        id: this.editId,
         readingGeneral: this.readingGeneral,
         questionGeneral: this.editGeneral,
         lessonSlideId: this.lessonSlideId
       }).then(function (res) {
-        _this6.editGeneralId = null;
+        _this6.editId = null;
         _this6.editGeneral = null;
         _this6.questionGeneral = res.data.question;
         _this6.generalTasks = res.data.questions;
@@ -6372,7 +6432,7 @@ __webpack_require__.r(__webpack_exports__);
           id: this.deleteId,
           lessonSlideId: this.lessonSlideId
         }).then(function (res) {
-          _this7.editGeneralId = null;
+          _this7.editId = null;
           _this7.deleteId = null;
           _this7.questionGeneral = "";
 
@@ -6381,6 +6441,7 @@ __webpack_require__.r(__webpack_exports__);
           _this7.showSuccessMsg();
 
           _this7.generalTasks = res.data.questions;
+          _this7.booleanTasks = null;
         })["catch"](function (err) {
           console.log(err);
         });
@@ -6391,18 +6452,12 @@ __webpack_require__.r(__webpack_exports__);
     addBooleanTask: function addBooleanTask() {
       var _this8 = this;
 
-      if (!this.editId) {
-        this.url = "/api/dashboard/add-boolean-task";
-      } else {
-        this.url = "/api/dashboard/update-boolean-task";
-      }
-
       if (!this.questionBoolean && !this.readingBoolean) {
         this.showErrorMsg();
         return false;
       }
 
-      _api__WEBPACK_IMPORTED_MODULE_0__["default"].post(this.url, {
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].post("/api/dashboard/add-boolean-task", {
         readingBoolean: this.readingBoolean,
         questionBoolean: this.questionBoolean,
         answerBoolean: this.answerBoolean,
@@ -6410,7 +6465,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (res) {
         _this8.showSuccessMsg();
 
-        _this8.booleanTasks = res.data.question;
+        _this8.booleanTasks = res.data.questions;
         _this8.questionBoolean = "";
         _this8.answerBoolean = null;
       })["catch"](function (err) {
@@ -6420,35 +6475,36 @@ __webpack_require__.r(__webpack_exports__);
     editBooleanTask: function editBooleanTask(id) {
       var _this9 = this;
 
-      _api__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/dashboard/edit-general-task', {
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/dashboard/edit-boolean-task', {
         id: id
       }).then(function (res) {
-        _this9.editGeneral = res.data.question;
-        _this9.editGeneralId = res.data.id;
+        _this9.editBoolean = res.data.question;
+        _this9.editBooleanId = res.data.id;
+        _this9.editAnswerBoolean = res.data.answer;
+        _this9.editId = res.data.id;
 
-        _this9.showModal("editGeneralModal");
+        _this9.showModal("editBooleanModal");
 
         _this9.showInfoMsg();
       })["catch"](function (err) {
         console.log(err);
       });
     },
-    updateBooleanTask: function updateBooleanTask(id) {
+    updateBooleanTask: function updateBooleanTask() {
       var _this10 = this;
 
-      _api__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/dashboard/update-general-task', {
-        id: this.editGeneralId,
-        readingGeneral: this.readingGeneral,
-        questionGeneral: this.editGeneral,
-        lessonSlideId: this.lessonSlideId
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/dashboard/update-boolean-task', {
+        id: this.editId,
+        readingBoolean: this.readingBoolean,
+        questionBoolean: this.editBoolean,
+        lessonSlideId: this.lessonSlideId,
+        answerBoolean: this.editAnswerBoolean
       }).then(function (res) {
-        _this10.editGeneralId = null;
-        _this10.editGeneral = null;
-        _this10.questionGeneral = res.data.question;
-        _this10.generalTasks = res.data.questions;
-        _this10.readingGeneral = res.data.reading;
+        _this10.editId = null;
+        _this10.booleanTasks = res.data.questions;
+        _this10.readingBoolean = res.data.reading;
 
-        _this10.cancelModal("editGeneralModal");
+        _this10.cancelModal("editBooleanModal");
 
         _this10.showSuccessMsg();
       })["catch"](function (err) {
@@ -6459,26 +6515,62 @@ __webpack_require__.r(__webpack_exports__);
       var _this11 = this;
 
       if (this.deleteId) {
-        _api__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/dashboard/delete-general-task', {
+        _api__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/dashboard/delete-boolean-task', {
           id: this.deleteId,
           lessonSlideId: this.lessonSlideId
         }).then(function (res) {
-          _this11.editGeneralId = null;
+          _this11.editId = null;
           _this11.deleteId = null;
+          _this11.generalTasks = null;
           _this11.questionGeneral = "";
 
-          _this11.cancelModal("deleteGeneral");
+          _this11.cancelModal("deleteBoolean");
 
           _this11.showSuccessMsg();
 
-          _this11.generalTasks = res.data.questions;
+          _this11.booleanTasks = res.data.questions;
+          _this11.generalTasks = null;
         })["catch"](function (err) {
           console.log(err);
         });
       } else {
         this.deleteModal(id, "deleteGeneral");
       }
-    }
+    },
+    addRadioTask: function addRadioTask() {
+      var _this12 = this;
+
+      console.log(this.answerRadio);
+      console.log(this.questionRadio);
+      console.log(this.answerTrue);
+
+      if (!this.answerRadio && !this.answerRadio) {
+        this.showErrorMsg();
+        return false;
+      }
+
+      if (!this.questionRadio && !this.questionRadio) {
+        this.showErrorMsg();
+        return false;
+      }
+
+      _api__WEBPACK_IMPORTED_MODULE_0__["default"].post("/api/dashboard/add-radio-task", {
+        question: this.questionRadio,
+        answer: this.answerRadio,
+        correct: this.answerTrue,
+        lessonSlideId: this.lessonSlideId
+      }).then(function (res) {
+        _this12.showSuccessMsg();
+
+        _this12.booleanTasks = res.data.questions;
+        _this12.questionBoolean = "";
+        _this12.answerBoolean = null;
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    },
+    editRadioTask: function editRadioTask(id) {},
+    deleteRadioTask: function deleteRadioTask() {}
   },
   mounted: function mounted() {
     this.getLessonHomework();
@@ -8517,10 +8609,12 @@ __webpack_require__.r(__webpack_exports__);
         email: this.email,
         password: this.password
       }).then(function (res) {
+        console.log(1);
         localStorage.setItem("access_token", res.data.access_token);
 
         _this.$router.push("/users/personal");
       })["catch"](function (error) {
+        console.log(2);
         console.log(error.response);
         _this.error = error.response.data.error;
       });
@@ -9022,6 +9116,7 @@ vue__WEBPACK_IMPORTED_MODULE_7__["default"].use(vue_notifications__WEBPACK_IMPOR
     },
     cancelModal: function cancelModal(name) {
       this.deleteId = null;
+      this.editId = null;
       this.$modal.hide(name);
     },
     showModal: function showModal(name) {
@@ -14384,7 +14479,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#blockFirst[data-v-4b4e249f], #blockSecond[data-v-4b4e249f] {\r\n    display: none;\n}\nol[data-v-4b4e249f] {\r\n    list-style-type: unset;\n}\nol li[data-v-4b4e249f] {\r\n    display: block;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#blockFirst[data-v-4b4e249f], #blockSecond[data-v-4b4e249f],#blockThird[data-v-4b4e249f] {\n    display: none;\n}\nol[data-v-4b4e249f] {\n    list-style-type: unset;\n}\nol li[data-v-4b4e249f] {\n    display: block;\n}\ninput[type=checkbox][data-v-4b4e249f]:focus{\n    border:none;\n    outline:none;\n    box-shadow:none;\n}\n.form-check-input[data-v-4b4e249f]{\n    position: relative;\n    margin-top: 0.3rem;\n    margin-left: 0;\n    padding: 42px!important;\n    width: 22px;\n    height: 22px;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -63562,11 +63657,7 @@ var render = function () {
                   },
                 ],
                 staticClass: "form-control",
-                attrs: {
-                  autocomplete: "off",
-                  name: "question",
-                  id: "question",
-                },
+                attrs: { autocomplete: "off", id: "question" },
                 domProps: { value: _vm.questionBoolean },
                 on: {
                   input: function ($event) {
@@ -63626,7 +63717,11 @@ var render = function () {
                 "button",
                 {
                   staticClass: "btn btn-primary",
-                  on: { click: _vm.addBooleanTask },
+                  on: {
+                    click: function ($event) {
+                      return _vm.addBooleanTask()
+                    },
+                  },
                 },
                 [_vm._v("Submit")]
               ),
@@ -63689,11 +63784,7 @@ var render = function () {
                   },
                 ],
                 staticClass: "form-control",
-                attrs: {
-                  autocomplete: "off",
-                  name: "question",
-                  id: "questionGeneral",
-                },
+                attrs: { autocomplete: "off", id: "questionGeneral" },
                 domProps: { value: _vm.questionGeneral },
                 on: {
                   input: function ($event) {
@@ -63711,7 +63802,145 @@ var render = function () {
                 "button",
                 {
                   staticClass: "btn btn-primary",
-                  on: { click: _vm.addGeneralTask },
+                  on: {
+                    click: function ($event) {
+                      return _vm.addGeneralTask()
+                    },
+                  },
+                },
+                [_vm._v("Submit")]
+              ),
+            ]),
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "w-75 mt-3 ml-5  border p-3 blocksTasks",
+            attrs: { id: "blockThird" },
+          },
+          [
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "questionRadio" } }, [
+                _vm._v("Please write question"),
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.questionRadio,
+                    expression: "questionRadio",
+                  },
+                ],
+                staticClass: "form-control",
+                attrs: { autocomplete: "off", id: "questionRadio" },
+                domProps: { value: _vm.questionRadio },
+                on: {
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.questionRadio = $event.target.value
+                  },
+                },
+              }),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "answerRadio" } }, [
+                _vm._v("Please write answer"),
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.answerRadio,
+                    expression: "answerRadio",
+                  },
+                ],
+                staticClass: "form-control",
+                attrs: { autocomplete: "off", id: "answerRadio" },
+                domProps: { value: _vm.answerRadio },
+                on: {
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.answerRadio = $event.target.value
+                  },
+                },
+              }),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "form-check-label d-block",
+                  attrs: { for: "answerTrue" },
+                },
+                [
+                  _vm._v(
+                    "\n                        Check correct answer\n                    "
+                  ),
+                ]
+              ),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.answerTrue,
+                    expression: "answerTrue",
+                  },
+                ],
+                staticClass: "form-check-input",
+                attrs: { type: "checkbox", id: "answerTrue" },
+                domProps: {
+                  checked: Array.isArray(_vm.answerTrue)
+                    ? _vm._i(_vm.answerTrue, null) > -1
+                    : _vm.answerTrue,
+                },
+                on: {
+                  change: function ($event) {
+                    var $$a = _vm.answerTrue,
+                      $$el = $event.target,
+                      $$c = $$el.checked ? true : false
+                    if (Array.isArray($$a)) {
+                      var $$v = null,
+                        $$i = _vm._i($$a, $$v)
+                      if ($$el.checked) {
+                        $$i < 0 && (_vm.answerTrue = $$a.concat([$$v]))
+                      } else {
+                        $$i > -1 &&
+                          (_vm.answerTrue = $$a
+                            .slice(0, $$i)
+                            .concat($$a.slice($$i + 1)))
+                      }
+                    } else {
+                      _vm.answerTrue = $$c
+                    }
+                  },
+                },
+              }),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  on: {
+                    click: function ($event) {
+                      return _vm.addRadioTask()
+                    },
+                  },
                 },
                 [_vm._v("Submit")]
               ),
@@ -63749,9 +63978,9 @@ var render = function () {
                       },
                     }),
                     _vm._v(
-                      "\n                " +
+                      "\n                    " +
                         _vm._s(generalTask.question) +
-                        "\n            "
+                        "\n                "
                     ),
                   ]
                 )
@@ -63786,15 +64015,92 @@ var render = function () {
                       },
                     }),
                     _vm._v(
-                      "\n                " +
+                      "\n                    " +
                         _vm._s(booleanTask.question) +
-                        "\n                -\n                "
+                        "\n                    -\n                    "
                     ),
-                    booleanTask.answer == 1
+                    booleanTask.answer === 1
                       ? _c("span", [_vm._v(" True")])
                       : _vm._e(),
                     _vm._v(" "),
-                    booleanTask.answer != 1
+                    booleanTask.answer !== 1
+                      ? _c("span", [_vm._v(" False")])
+                      : _vm._e(),
+                  ]
+                )
+              }),
+              0
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.radioTasksQuestion && _vm.radioTasksQuestion.length > 0
+          ? _c(
+              "ol",
+              _vm._l(_vm.radioTasksQuestion, function (radioTask, ind) {
+                return _c(
+                  "li",
+                  { staticClass: "mt-2", attrs: { value: radioTask.id } },
+                  [
+                    _c("i", {
+                      staticClass: "fa fa-edit mr-2 cursor-pointer",
+                      on: {
+                        click: function ($event) {
+                          return _vm.editRadioTask(radioTask.id)
+                        },
+                      },
+                    }),
+                    _vm._v(" "),
+                    _c("i", {
+                      staticClass: "fa fa-trash mr-2 cursor-pointer",
+                      on: {
+                        click: function ($event) {
+                          return _vm.deleteRadioTask(radioTask.id)
+                        },
+                      },
+                    }),
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(radioTask.question) +
+                        "\n                        "
+                    ),
+                    radioTask.question && radioTask.question.length > 0
+                      ? _c(
+                          "ol",
+                          _vm._l(
+                            radioTask.question,
+                            function (question, index) {
+                              return _c(
+                                "li",
+                                {
+                                  staticClass: "mt-2",
+                                  attrs: { value: question.id },
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                " +
+                                      _vm._s(question.answer) +
+                                      "\n                                -\n                                "
+                                  ),
+                                  question.correct === 1
+                                    ? _c("span", [_vm._v(" True")])
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  question.correct !== 1
+                                    ? _c("span", [_vm._v(" False")])
+                                    : _vm._e(),
+                                ]
+                              )
+                            }
+                          ),
+                          0
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    radioTask.answer === 1
+                      ? _c("span", [_vm._v(" True")])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    radioTask.answer !== 1
                       ? _c("span", [_vm._v(" False")])
                       : _vm._e(),
                   ]
@@ -63855,18 +64161,18 @@ var render = function () {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.editGeneralId,
-                    expression: "editGeneralId",
+                    value: _vm.editId,
+                    expression: "editId",
                   },
                 ],
                 attrs: { autocomplete: "off", type: "text", hidden: "" },
-                domProps: { value: _vm.editGeneralId },
+                domProps: { value: _vm.editId },
                 on: {
                   input: function ($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.editGeneralId = $event.target.value
+                    _vm.editId = $event.target.value
                   },
                 },
               }),
@@ -63883,7 +64189,7 @@ var render = function () {
                     },
                   },
                 },
-                [_vm._v("Update\n                ")]
+                [_vm._v("Update\n                    ")]
               ),
             ]),
           ]),
@@ -63941,7 +64247,7 @@ var render = function () {
                   },
                   [
                     _vm._v(
-                      "\n                        Confirm\n                    "
+                      "\n                            Confirm\n                        "
                     ),
                   ]
                 ),
@@ -63958,7 +64264,7 @@ var render = function () {
                       },
                     },
                   },
-                  [_vm._v("Cancel\n                    ")]
+                  [_vm._v("Cancel\n                        ")]
                 ),
               ]),
             ]),
@@ -64011,6 +64317,44 @@ var render = function () {
                 }),
               ]),
               _vm._v(" "),
+              _c("div", { staticClass: "col-12" }, [
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.editAnswerBoolean,
+                        expression: "editAnswerBoolean",
+                      },
+                    ],
+                    staticClass: "custom-select mt-3",
+                    attrs: { id: "editAnswerBoolean" },
+                    on: {
+                      change: function ($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function (o) {
+                            return o.selected
+                          })
+                          .map(function (o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.editAnswerBoolean = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      },
+                    },
+                  },
+                  [
+                    _c("option", { attrs: { value: "1" } }, [_vm._v("True")]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "0" } }, [_vm._v("False")]),
+                  ]
+                ),
+              ]),
+              _vm._v(" "),
               _c("input", {
                 directives: [
                   {
@@ -64044,7 +64388,7 @@ var render = function () {
                     },
                   },
                 },
-                [_vm._v("Update\n                ")]
+                [_vm._v("Update\n                    ")]
               ),
             ]),
           ]),
@@ -64055,7 +64399,7 @@ var render = function () {
         "modal",
         {
           staticClass: "deleteMain showModal",
-          attrs: { name: "deleteGeneral", id: "showModal" },
+          attrs: { name: "deleteBoolean", id: "showModal" },
         },
         [
           _c("div", { staticClass: "backgroundImg position-absolute" }),
@@ -64102,7 +64446,7 @@ var render = function () {
                   },
                   [
                     _vm._v(
-                      "\n                        Confirm\n                    "
+                      "\n                            Confirm\n                        "
                     ),
                   ]
                 ),
@@ -64119,7 +64463,7 @@ var render = function () {
                       },
                     },
                   },
-                  [_vm._v("Cancel\n                    ")]
+                  [_vm._v("Cancel\n                        ")]
                 ),
               ]),
             ]),
@@ -67357,23 +67701,27 @@ var render = function () {
                 : _vm._e(),
               _vm._v(" "),
               _vm.accessToken
-                ? _c("li", { staticClass: "rd-nav-item active" }, [
-                    _vm.accessToken
-                      ? _c(
-                          "a",
-                          {
-                            staticClass: "rd-nav-link",
-                            on: {
-                              click: function ($event) {
-                                $event.preventDefault()
-                                return _vm.logout.apply(null, arguments)
+                ? _c(
+                    "li",
+                    { staticClass: "rd-nav-item active  cursor-pointer" },
+                    [
+                      _vm.accessToken
+                        ? _c(
+                            "a",
+                            {
+                              staticClass: "rd-nav-link",
+                              on: {
+                                click: function ($event) {
+                                  $event.preventDefault()
+                                  return _vm.logout.apply(null, arguments)
+                                },
                               },
                             },
-                          },
-                          [_vm._v("Logout")]
-                        )
-                      : _vm._e(),
-                  ])
+                            [_vm._v("Logout")]
+                          )
+                        : _vm._e(),
+                    ]
+                  )
                 : _vm._e(),
             ]),
           ]),

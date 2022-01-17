@@ -99,12 +99,21 @@
                     <span v-if="booleanTask.answer !== 1"> False</span>
                 </li>
             </ol>
-            <ol v-if="(radioTasks && radioTasks.length > 0)">
-                <li class="mt-2" v-for="(radioTask , ind) in radioTasks" :value="radioTask.id">
-                    <i @click="editBooleanTask(radioTask.id)" class="fa fa-edit mr-2 cursor-pointer"></i>
-                    <i @click="deleteBooleanTask(radioTask.id)" class="fa fa-trash mr-2 cursor-pointer"></i>
+            <ol v-if="(radioTasksQuestion && radioTasksQuestion.length > 0)">
+                <li class="mt-2" v-for="(radioTask , ind) in radioTasksQuestion" :value="radioTask.id">
+                    <i @click="editRadioTask(radioTask.id)" class="fa fa-edit mr-2 cursor-pointer"></i>
+                    <i @click="deleteRadioTask(radioTask.id)" class="fa fa-trash mr-2 cursor-pointer"></i>
                     {{ radioTask.question }}
-                    -
+                        <ol v-if="(radioTask.question && radioTask.question.length > 0)">
+                            <li class="mt-2" v-for="(question , index) in radioTask.question" :value="question.id">
+<!--                                <i @click="editRadioTask(radioTask.id)" class="fa fa-edit mr-2 cursor-pointer"></i>-->
+<!--                                <i @click="deleteRadioTask(radioTask.id)" class="fa fa-trash mr-2 cursor-pointer"></i>-->
+                                {{ question.answer }}
+                                -
+                                <span v-if="question.correct === 1"> True</span>
+                                <span v-if="question.correct !== 1"> False</span>
+                            </li>
+                        </ol>
                     <span v-if="radioTask.answer === 1"> True</span>
                     <span v-if="radioTask.answer !== 1"> False</span>
                 </li>
@@ -223,6 +232,7 @@ export default {
             questionRadio: null,
             answerRadio: null,
             answerTrue: null,
+            radioTasksQuestion: null,
         }
     },
     methods: {
@@ -251,6 +261,7 @@ export default {
             this.booleanTasks = null
             this.generalTasks = null
             this.radioTasks = null
+            this.radioTasksQuestion = null
             if (this.typeId == 2) {
                 document.querySelector("#blockSecond").style.display = "block";
                 API.post('/api/dashboard/general-task', {lessonSlideId: this.lessonSlideId})
@@ -271,6 +282,12 @@ export default {
                 })
             }else if (this.typeId == 3) {
                 document.querySelector("#blockThird").style.display = "block";
+                API.post('/api/dashboard/radio-task', {lessonSlideId: this.lessonSlideId})
+                    .then(res => {
+                        this.radioTasksQuestion = res.data.questions
+                    }).catch(err => {
+                    console.log(err)
+                })
             }
 
         },
@@ -366,7 +383,6 @@ export default {
                 console.log(err)
             })
         },
-
         editBooleanTask(id) {
             API.post('/api/dashboard/edit-boolean-task', {id: id})
                 .then(res => {
@@ -422,6 +438,34 @@ export default {
             console.log(this.answerRadio)
             console.log(this.questionRadio)
             console.log(this.answerTrue)
+            if(!this.answerRadio && !this.answerRadio){
+                this.showErrorMsg()
+                return false
+            }
+            if(!this.questionRadio && !this.questionRadio){
+                this.showErrorMsg()
+                return false
+            }
+            API.post("/api/dashboard/add-radio-task", {
+                question: this.questionRadio,
+                answer: this.answerRadio,
+                correct: this.answerTrue,
+                lessonSlideId: this.lessonSlideId,
+            })
+                .then(res => {
+                    this.showSuccessMsg()
+                    this.booleanTasks = res.data.questions
+                    this.questionBoolean = ""
+                    this.answerBoolean = null
+                }).catch(err => {
+                console.log(err)
+            })
+        },
+        editRadioTask(id){
+
+        },
+        deleteRadioTask(){
+
         }
     },
     mounted() {

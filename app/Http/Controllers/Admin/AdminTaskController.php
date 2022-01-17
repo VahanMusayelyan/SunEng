@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BooleanTask;
 use App\Models\BooleanTaskReading;
 use App\Models\GeneralTask;
+use App\Models\RadioTask;
 use Illuminate\Http\Request;
 use App\Models\GeneralTaskReading;
 
@@ -14,7 +15,7 @@ class AdminTaskController extends Controller
 
     public function getGeneralTasks($lessonSlideId = null)
     {
-        if(!$lessonSlideId){
+        if (!$lessonSlideId) {
             $lessonSlideId = request()->lessonSlideId;
         }
         return response()->json(GeneralTaskReading::where('slide_lesson_id', $lessonSlideId)->with("questions")->first());
@@ -25,29 +26,29 @@ class AdminTaskController extends Controller
 
         $reading = GeneralTaskReading::where("slide_lesson_id", $request->lessonSlideId)->first();
 
-        if(isset($reading->reading) && $reading->reading != ""){
+        if (isset($reading->reading) && $reading->reading != "") {
             $reading->reading = $request->readingGeneral;
-            $reading->slide_lesson_id  = $request->lessonSlideId;
+            $reading->slide_lesson_id = $request->lessonSlideId;
             $reading->save();
-        }elseif(!isset($request->id)){
+        } elseif (!isset($request->id)) {
             $reading = new GeneralTaskReading;
             $reading->reading = $request->readingGeneral;
-            $reading->slide_lesson_id  = $request->lessonSlideId;
+            $reading->slide_lesson_id = $request->lessonSlideId;
             $reading->save();
         }
 
 
-        if($request->id && $request->id > 0){
+        if ($request->id && $request->id > 0) {
 
             $addTask = GeneralTask::where("id", $request->id)
                 ->update([
-                'question' => $request->questionGeneral
-            ]);
-        }else{
-            if($request->questionGeneral != ""){
+                    'question' => $request->questionGeneral
+                ]);
+        } else {
+            if ($request->questionGeneral != "") {
                 $addTask = GeneralTask::insert([
-                    'reading_id'      => $reading->id,
-                    'question'        => $request->questionGeneral
+                    'reading_id' => $reading->id,
+                    'question' => $request->questionGeneral
                 ]);
             }
         }
@@ -78,42 +79,42 @@ class AdminTaskController extends Controller
 
     public function getBooleanTasks($lessonSlideId = null)
     {
-        if(!$lessonSlideId){
+        if (!$lessonSlideId) {
             $lessonSlideId = request()->lessonSlideId;
         }
         return response()->json(BooleanTaskReading::where('slide_lesson_id', $lessonSlideId)->with("questions")->first());
     }
 
-    public function addBooleanTask (Request $request)
+    public function addBooleanTask(Request $request)
     {
 
         $reading = BooleanTaskReading::where("slide_lesson_id", $request->lessonSlideId)->first();
 
-        if(isset($reading->reading) && $reading->reading != ""){
+        if (isset($reading->reading) && $reading->reading != "") {
             $reading->reading = $request->readingBoolean;
-            $reading->slide_lesson_id  = $request->lessonSlideId;
+            $reading->slide_lesson_id = $request->lessonSlideId;
             $reading->save();
-        }else{
+        } else {
             $reading = new BooleanTaskReading;
             $reading->reading = $request->readingBoolean;
-            $reading->slide_lesson_id  = $request->lessonSlideId;
+            $reading->slide_lesson_id = $request->lessonSlideId;
             $reading->save();
         }
 
 
-        if($request->id && $request->id > 0){
+        if ($request->id && $request->id > 0) {
 
             $addTask = BooleanTask::where("id", $request->id)
                 ->update([
                     'question' => $request->questionBoolean,
                     'answer' => $request->answerBoolean,
                 ]);
-        }else{
-            if($request->questionBoolean != ""){
+        } else {
+            if ($request->questionBoolean != "") {
                 $addTask = BooleanTask::insert([
                     'reading_id' => $reading->id,
-                    'question'   => $request->questionBoolean,
-                    'answer'     => $request->answerBoolean
+                    'question' => $request->questionBoolean,
+                    'answer' => $request->answerBoolean
                 ]);
             }
         }
@@ -138,6 +139,36 @@ class AdminTaskController extends Controller
 
         return $this->getBooleanTasks($request->lessonSlideId);
 
+    }
+
+
+    public function getRadioTasks($lessonSlideId = null)
+    {
+        if (!$lessonSlideId) {
+            $lessonSlideId = request()->lessonSlideId;
+        }
+        return response()->json(RadioTask::where('slide_lesson_id', $lessonSlideId)->with("answers")->get()->toArray());
+    }
+
+    public function addRadioTask(Request $request)
+    {
+
+        if ($request->answer == true) {
+            $correct = 1;
+        } else {
+            $correct = null;
+        }
+        $addTask = RadioTask::insert([
+            'slide_lesson_id' => $request->lessonSlideId,
+            'question'        => $request->question,
+        ]);
+        dd($request->all());
+
+        if ($addTask) {
+            return $this->getRadioTasks($request->lessonSlideId);
+        }
+
+        return response()->json(0);
     }
 
 }
