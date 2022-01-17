@@ -11,7 +11,7 @@ class RadioTask extends Model
 
     protected $table = "radio_tasks";
 
-    protected $fillable = ["question"];
+    protected $fillable = ["question","slide_lesson_id"];
 
 
     public function answers(){
