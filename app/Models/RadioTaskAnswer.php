@@ -9,7 +9,7 @@ class RadioTaskAnswer extends Model
 {
     use HasFactory;
 
-    protected $table = "radio_tasks_answer";
+    protected $table = "radio_tasks_answers";
 
     protected $fillable = ["radio_task_id", "answer", "correct"];
 }
