@@ -7,6 +7,13 @@
                     <option :value="null"> Choose task type</option>
                     <option v-for="(type , ind) in taskTypes" :value="type.id">{{ type.id }} {{ type.type }}</option>
                 </select>
+                <div class="mt-5" v-if="radioTasksQuestion">
+                    <select class="custom-select" v-model="choosenQuestion" @change="chooseQuestion" name="questionAll" id="questionAll">
+                        <option :value="null"> Choose question </option>
+                        <option v-for="(questionItem , ind) in radioTasksQuestion" :value="questionItem.id">{{ questionItem.question }}</option>
+                    </select>
+                </div>
+
             </div>
             <!-- Boolean tasks -->
             <div id="blockFirst" class="w-75 mt-3 ml-5  border p-3 blocksTasks">
@@ -104,18 +111,16 @@
                     <i @click="editRadioTask(radioTask.id)" class="fa fa-edit mr-2 cursor-pointer"></i>
                     <i @click="deleteRadioTask(radioTask.id)" class="fa fa-trash mr-2 cursor-pointer"></i>
                     {{ radioTask.question }}
-                        <ol v-if="(radioTask.question && radioTask.question.length > 0)">
-                            <li class="mt-2" v-for="(question , index) in radioTask.question" :value="question.id">
+                        <ol v-if="(radioTask.answers && radioTask.answers.length > 0)">
+                            <li class="mt-2" v-for="(answer , index) in radioTask.answers" :value="answer.id">
 <!--                                <i @click="editRadioTask(radioTask.id)" class="fa fa-edit mr-2 cursor-pointer"></i>-->
 <!--                                <i @click="deleteRadioTask(radioTask.id)" class="fa fa-trash mr-2 cursor-pointer"></i>-->
-                                {{ question.answer }}
+                                {{ answer.answer }}
                                 -
-                                <span v-if="question.correct === 1"> True</span>
-                                <span v-if="question.correct !== 1"> False</span>
+                                <span v-if="answer.correct === 1"> True</span>
+                                <span v-if="answer.correct !== 1"> False</span>
                             </li>
                         </ol>
-                    <span v-if="radioTask.answer === 1"> True</span>
-                    <span v-if="radioTask.answer !== 1"> False</span>
                 </li>
             </ol>
         </div>
@@ -233,6 +238,7 @@ export default {
             answerRadio: null,
             answerTrue: null,
             radioTasksQuestion: null,
+            choosenQuestion: null,
         }
     },
     methods: {
@@ -284,7 +290,8 @@ export default {
                 document.querySelector("#blockThird").style.display = "block";
                 API.post('/api/dashboard/radio-task', {lessonSlideId: this.lessonSlideId})
                     .then(res => {
-                        this.radioTasksQuestion = res.data.questions
+                        let radioTask = 0
+                        this.radioTasksQuestion = res.data
                     }).catch(err => {
                     console.log(err)
                 })
@@ -435,9 +442,6 @@ export default {
 
         },
         addRadioTask(){
-            console.log(this.answerRadio)
-            console.log(this.questionRadio)
-            console.log(this.answerTrue)
             if(!this.answerRadio && !this.answerRadio){
                 this.showErrorMsg()
                 return false
@@ -466,6 +470,9 @@ export default {
         },
         deleteRadioTask(){
 
+        },
+        chooseQuestion(){
+            console.log(123456)
         }
     },
     mounted() {

@@ -7,6 +7,7 @@ use App\Models\BooleanTask;
 use App\Models\BooleanTaskReading;
 use App\Models\GeneralTask;
 use App\Models\RadioTask;
+use App\Models\RadioTaskAnswer;
 use Illuminate\Http\Request;
 use App\Models\GeneralTaskReading;
 
@@ -158,11 +159,17 @@ class AdminTaskController extends Controller
         } else {
             $correct = null;
         }
-        $addTask = RadioTask::insert([
-            'slide_lesson_id' => $request->lessonSlideId,
-            'question'        => $request->question,
-        ]);
-        dd($request->all());
+
+        $addTask = new RadioTask();
+        $addTask->slide_lesson_id = $request->lessonSlideId;
+        $addTask->question = $request->question;
+        $addTask->save();
+
+        $addTaskRadio = new RadioTaskAnswer();
+        $addTaskRadio->radio_task_id = $addTask->id;
+        $addTaskRadio->answer = $request->answer;
+        $addTaskRadio->correct = $request->correct;
+        $addTaskRadio->save();
 
         if ($addTask) {
             return $this->getRadioTasks($request->lessonSlideId);
