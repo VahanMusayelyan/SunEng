@@ -159,19 +159,23 @@ class AdminTaskController extends Controller
         } else {
             $correct = null;
         }
-
-        $addTask = new RadioTask();
-        $addTask->slide_lesson_id = $request->lessonSlideId;
-        $addTask->question = $request->question;
-        $addTask->save();
+        if($request->choosenQuestion){
+            $taskId = $request->choosenQuestion;
+        }else{
+            $addTask = new RadioTask();
+            $addTask->slide_lesson_id = $request->lessonSlideId;
+            $addTask->question = $request->question;
+            $addTask->save();
+            $taskId = $addTask->id;
+        }
 
         $addTaskRadio = new RadioTaskAnswer();
-        $addTaskRadio->radio_task_id = $addTask->id;
+        $addTaskRadio->radio_task_id = $taskId;
         $addTaskRadio->answer = $request->answer;
         $addTaskRadio->correct = $request->correct;
         $addTaskRadio->save();
 
-        if ($addTask) {
+        if ($addTaskRadio) {
             return $this->getRadioTasks($request->lessonSlideId);
         }
 

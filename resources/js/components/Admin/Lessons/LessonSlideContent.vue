@@ -8,7 +8,7 @@
                     <option v-for="(type , ind) in taskTypes" :value="type.id">{{ type.id }} {{ type.type }}</option>
                 </select>
                 <div class="mt-5" v-if="radioTasksQuestion">
-                    <select class="custom-select" v-model="choosenQuestion" @change="chooseQuestion" name="questionAll" id="questionAll">
+                    <select ref="choosenQuestion" class="custom-select" v-model="choosenQuestion" @change="chooseQuestion" name="questionAll" id="questionAll">
                         <option :value="null"> Choose question </option>
                         <option v-for="(questionItem , ind) in radioTasksQuestion" :value="questionItem.id">{{ questionItem.question }}</option>
                     </select>
@@ -67,7 +67,7 @@
             <div id="blockThird" class="w-75 mt-3 ml-5  border p-3 blocksTasks">
                 <div class="form-group">
                     <label for="questionRadio">Please write question</label>
-                    <input autocomplete="off" class="form-control" v-model="questionRadio" id="questionRadio">
+                    <input v-on:keyup="clearSelect" autocomplete="off" class="form-control" v-model="questionRadio" id="questionRadio">
                 </div>
                 <div class="form-group">
                     <label for="answerRadio">Please write answer</label>
@@ -111,8 +111,8 @@
                     <i @click="editRadioTask(radioTask.id)" class="fa fa-edit mr-2 cursor-pointer"></i>
                     <i @click="deleteRadioTask(radioTask.id)" class="fa fa-trash mr-2 cursor-pointer"></i>
                     {{ radioTask.question }}
-                        <ol v-if="(radioTask.answers && radioTask.answers.length > 0)">
-                            <li class="mt-2" v-for="(answer , index) in radioTask.answers" :value="answer.id">
+                        <ol v-if="(radioTask.answers && radioTask.answers.length > 0)" class="answers">
+                            <li class="mt-2 ml-5" v-for="(answer , index) in radioTask.answers" :value="answer.id">
 <!--                                <i @click="editRadioTask(radioTask.id)" class="fa fa-edit mr-2 cursor-pointer"></i>-->
 <!--                                <i @click="deleteRadioTask(radioTask.id)" class="fa fa-trash mr-2 cursor-pointer"></i>-->
                                 {{ answer.answer }}
@@ -446,15 +446,12 @@ export default {
                 this.showErrorMsg()
                 return false
             }
-            if(!this.questionRadio && !this.questionRadio){
-                this.showErrorMsg()
-                return false
-            }
             API.post("/api/dashboard/add-radio-task", {
                 question: this.questionRadio,
                 answer: this.answerRadio,
                 correct: this.answerTrue,
                 lessonSlideId: this.lessonSlideId,
+                choosenQuestion: this.choosenQuestion,
             })
                 .then(res => {
                     this.showSuccessMsg()
@@ -472,7 +469,12 @@ export default {
 
         },
         chooseQuestion(){
-            console.log(123456)
+            this.questionRadio = ""
+        },
+        clearSelect(){
+            if(this.choosenQuestion > 0){
+                this.choosenQuestion = null
+            }
         }
     },
     mounted() {
@@ -507,6 +509,10 @@ input[type=checkbox]:focus{
     padding: 42px!important;
     width: 22px;
     height: 22px;
+}
+
+.answers{
+    list-style-type: lower-alpha;
 }
 
 </style>
