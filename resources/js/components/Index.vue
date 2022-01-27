@@ -87,8 +87,8 @@ export default {
     name: "Index",
     data() {
         return {
-            accessToken: null,
             duration: 1000,
+            accessToken: null,
         }
     },
     mounted() {
@@ -103,7 +103,7 @@ export default {
             API.post("/api/auth/logout")
                 .then(res => {
                     localStorage.removeItem("access_token")
-                    this.$router.push({name: "users.login"})
+                    this.$router.go("/")
                 })
         },
         preloader() {
