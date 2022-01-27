@@ -113,8 +113,8 @@
                     {{ radioTask.question }}
                         <ol v-if="(radioTask.answers && radioTask.answers.length > 0)" class="answers">
                             <li class="mt-2 ml-5" v-for="(answer , index) in radioTask.answers" :value="answer.id">
-<!--                                <i @click="editRadioTask(radioTask.id)" class="fa fa-edit mr-2 cursor-pointer"></i>-->
-<!--                                <i @click="deleteRadioTask(radioTask.id)" class="fa fa-trash mr-2 cursor-pointer"></i>-->
+                                <i @click="editRadioTaskAnswer(answer.id)" class="fa fa-edit mr-2 cursor-pointer"></i>
+                                <i @click="deleteRadioTaskAnswer(answer.id)" class="fa fa-trash mr-2 cursor-pointer"></i>
                                 {{ answer.answer }}
                                 -
                                 <span v-if="answer.correct === 1"> True</span>
@@ -552,6 +552,61 @@ export default {
             }
 
         },
+        editRadioTaskAnswer(id){
+            API.post('/api/dashboard/edit-radio-task-answer', {id: id})
+                .then(res => {
+                    console.log(res.data)
+                    this.editRadioQuestion = res.data.question
+                    this.editRadioId = res.data.id
+                    this.editId = res.data.id
+                    this.showModal("editRadioModal")
+                    this.showInfoMsg()
+                }).catch(err => {
+                console.log(err)
+            })
+        },
+        updateRadioTaskAnswer() {
+            API.post('/api/dashboard/update-radio-task-answer', {
+                id: this.editId,
+                lessonSlideId: this.lessonSlideId,
+                question: this.editRadioQuestion,
+            })
+                .then(res => {
+                    this.editId = null
+                    this.radioTasksQuestion = res.data
+                    this.cancelModal("editRadioModal")
+                    this.showSuccessMsg()
+                }).catch(err => {
+                console.log(err)
+            })
+        },
+        deleteRadioTaskAnswer(id){
+            if(this.deleteId){
+                API.post("/api/dashboard/delete-radio-task-answer", {
+                    id: this.deleteId,
+                    lessonSlideId: this.lessonSlideId
+                })
+                    .then(res => {
+                        this.generalTasks = null
+                        this.editId = null
+                        this.deleteId = null
+                        this.generalTasks = null
+                        this.booleanTasks = null
+                        this.answerTrue = null
+                        this.answerRadio = ""
+                        this.cancelModal("deleteRadio")
+                        this.showSuccessMsg()
+                        this.radioTasksQuestion = res.data
+                    }).catch(err => {
+                    console.log(err)
+                })
+            }else{
+                this.deleteModal(id, "deleteRadio")
+            }
+
+        },
+
+
         chooseQuestion(){
             this.questionRadio = ""
         },
