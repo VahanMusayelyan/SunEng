@@ -129,7 +129,7 @@
         <modal name="editGeneralModal" class="editLessonModal showModal" id="showModal">
             <div class="backgroundImg position-absolute"></div>
             <div class="col-12 p-5">
-                <div class="form-group">
+                <div class="form-group pt-5">
                     <h4 class="ml-3 mb-2 orangeText">Edit question</h4>
                     <div class="col-12">
                         <input autocomplete="off" v-model="editGeneral" placeholder="Question" class="form-control" id="editGeneral"
@@ -145,7 +145,7 @@
         <modal name="deleteGeneral" class="deleteMain showModal" id="showModal">
             <div class="backgroundImg position-absolute"></div>
             <div class="col-12 p-5">
-                <div class="form-group">
+                <div class="form-group pt-5">
                     <h4 class="ml-3 mb-2 orangeText text-center">Do you want delete task ?</h4>
                     <input autocomplete="off" type="text" hidden v-model="deleteId">
                     <div class="w-50 ml-auto  mr-auto">
@@ -166,7 +166,7 @@
         <modal name="editBooleanModal" class="editLessonModal showModal" id="showModal">
             <div class="backgroundImg position-absolute"></div>
             <div class="col-12 p-5">
-                <div class="form-group">
+                <div class="form-group pt-5">
                     <h4 class="ml-3 mb-2 orangeText">Edit question</h4>
                     <div class="col-12">
                         <input autocomplete="off" v-model="editBoolean" placeholder="Question" class="form-control" id="editBoolean"
@@ -188,7 +188,7 @@
         <modal name="deleteBoolean" class="deleteMain showModal" id="showModal">
             <div class="backgroundImg position-absolute"></div>
             <div class="col-12 p-5">
-                <div class="form-group">
+                <div class="form-group pt-5">
                     <h4 class="ml-3 mb-2 orangeText text-center">Do you want delete task ?</h4>
                     <input autocomplete="off" type="text" hidden v-model="deleteId">
                     <div class="w-50 ml-auto  mr-auto">
@@ -196,7 +196,7 @@
                             Confirm
                         </button>
                         <button class="ml-3 btn btn-primary mt-3" type="button"
-                                @click.prevent="cancelModal('deleteGeneral')">Cancel
+                                @click.prevent="cancelModal('deleteBoolean')">Cancel
                         </button>
                     </div>
 
@@ -204,6 +204,43 @@
             </div>
         </modal>
         <!-- End General tasks modal -->
+
+        <!-- Radio tasks modal -->
+        <modal name="editRadioModal" class="editLessonModal showModal" id="showModal">
+            <div class="backgroundImg position-absolute"></div>
+            <div class="col-12 p-5">
+                <div class="form-group pt-5">
+                    <h4 class="ml-3 mb-2 orangeText">Edit question</h4>
+                    <div class="col-12">
+                        <input autocomplete="off" v-model="editRadioQuestion" placeholder="Question" class="form-control" id="editRadioQuestion"
+                               type="text" required>
+                    </div>
+                    <input autocomplete="off" type="text" hidden v-model="editRadioId">
+                    <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="updateRadioTask">Update
+                    </button>
+                </div>
+            </div>
+        </modal>
+
+        <modal name="deleteRadio" class="deleteMain showModal" id="showModal">
+            <div class="backgroundImg position-absolute"></div>
+            <div class="col-12 p-5">
+                <div class="form-group pt-5">
+                    <h4 class="ml-3 mb-2 orangeText text-center">Do you want delete task ?</h4>
+                    <input autocomplete="off" type="text" hidden v-model="deleteId">
+                    <div class="w-50 ml-auto  mr-auto">
+                        <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="deleteRadioTask">
+                            Confirm
+                        </button>
+                        <button class="ml-3 btn btn-primary mt-3" type="button"
+                                @click.prevent="cancelModal('deleteRadio')">Cancel
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </modal>
+        <!-- End Radio tasks modal -->
 
     </div>
 </template>
@@ -233,12 +270,13 @@ export default {
             editBooleanId: null,
             editBoolean: null,
             editAnswerBoolean: null,
-            radioTasks: null,
             questionRadio: null,
             answerRadio: null,
             answerTrue: null,
             radioTasksQuestion: null,
             choosenQuestion: null,
+            editRadioQuestion: null,
+            editRadioId: null,
         }
     },
     methods: {
@@ -266,7 +304,6 @@ export default {
             document.querySelector("#blockThird").style.display = "none";
             this.booleanTasks = null
             this.generalTasks = null
-            this.radioTasks = null
             this.radioTasksQuestion = null
             if (this.typeId == 2) {
                 document.querySelector("#blockSecond").style.display = "block";
@@ -290,7 +327,6 @@ export default {
                 document.querySelector("#blockThird").style.display = "block";
                 API.post('/api/dashboard/radio-task', {lessonSlideId: this.lessonSlideId})
                     .then(res => {
-                        let radioTask = 0
                         this.radioTasksQuestion = res.data
                     }).catch(err => {
                     console.log(err)
@@ -454,8 +490,9 @@ export default {
                 choosenQuestion: this.choosenQuestion,
             })
                 .then(res => {
+                    console.log(res.data)
                     this.showSuccessMsg()
-                    this.booleanTasks = res.data.questions
+                    this.radioTasksQuestion = res.data
                     this.questionBoolean = ""
                     this.answerBoolean = null
                 }).catch(err => {
@@ -463,9 +500,56 @@ export default {
             })
         },
         editRadioTask(id){
-
+            API.post('/api/dashboard/edit-radio-task', {id: id})
+                .then(res => {
+                    console.log(res.data)
+                    this.editRadioQuestion = res.data.question
+                    this.editRadioId = res.data.id
+                    this.editId = res.data.id
+                    this.showModal("editRadioModal")
+                    this.showInfoMsg()
+                }).catch(err => {
+                console.log(err)
+            })
         },
-        deleteRadioTask(){
+        updateRadioTask() {
+            API.post('/api/dashboard/update-radio-task', {
+                id: this.editId,
+                lessonSlideId: this.lessonSlideId,
+                question: this.editRadioQuestion,
+            })
+                .then(res => {
+                    this.editId = null
+                    this.radioTasksQuestion = res.data
+                    this.cancelModal("editRadioModal")
+                    this.showSuccessMsg()
+                }).catch(err => {
+                console.log(err)
+            })
+        },
+        deleteRadioTask(id){
+            if(this.deleteId){
+                API.post("/api/dashboard/delete-radio-task", {
+                    id: this.deleteId,
+                    lessonSlideId: this.lessonSlideId
+                })
+                    .then(res => {
+                        this.generalTasks = null
+                        this.editId = null
+                        this.deleteId = null
+                        this.generalTasks = null
+                        this.booleanTasks = null
+                        this.answerTrue = null
+                        this.answerRadio = ""
+                        this.cancelModal("deleteRadio")
+                        this.showSuccessMsg()
+                        this.radioTasksQuestion = res.data
+                    }).catch(err => {
+                    console.log(err)
+                })
+            }else{
+                this.deleteModal(id, "deleteRadio")
+            }
 
         },
         chooseQuestion(){

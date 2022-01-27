@@ -52,7 +52,7 @@
         <modal name="edit" class="showModal"  id="showModal">
             <div class="backgroundImg position-absolute"></div>
             <div class="col-12 p-5">
-                <div class="form-group">
+                <div class="form-group pt-5">
                     <h4 class="ml-3 mb-2 orangeText">Edit Sub Course</h4>
                     <div class="col-12">
                         <input autocomplete="off" v-model="editCourseName" placeholder="Sub Course Name" class="form-control" id="editcourse" ref="editcourse" type="text" required>
@@ -72,7 +72,7 @@
         <modal name="editMain" class="editMain showModal"  id="showModal">
             <div class="backgroundImg position-absolute"></div>
             <div class="col-12 p-5">
-                <div class="form-group">
+                <div class="form-group pt-5">
                         <h4 class="ml-3 mb-2 orangeText">Edit Course</h4>
                         <div class="col-12">
                             <input autocomplete="off" v-model="mainEditCourse" placeholder="Course Name" class="form-control" id="maineditcourse" type="text" required>
@@ -87,7 +87,7 @@
         <modal name="deleteMain" class="deleteMain showModal"  id="showModal">
             <div class="backgroundImg position-absolute"></div>
             <div class="col-12 p-5">
-                <div class="form-group">
+                <div class="form-group pt-5">
                     <h4 class="ml-3 mb-2 orangeText text-center">Do you want delete course ?</h4>
                     <input autocomplete="off" type="text" hidden v-model="mainDelete">
                     <div class="w-50 ml-auto  mr-auto">

@@ -29,7 +29,7 @@
         <modal name="editSlideModal" class="editSlideModal showModal" id="editSlideModal">
             <div class="backgroundImg position-absolute"></div>
             <div class="col-12 p-5">
-                <div class="form-group">
+                <div class="form-group pt-5">
                     <h4 class="mb-2 orangeText">Edit slide</h4>
                     <input autocomplete="off" v-model="editSlide" placeholder="Slide" class="form-control w-75 d-inline-block"
                            id="slideEdit"
@@ -51,7 +51,7 @@
         <modal name="deleteSlide" class="deleteSlide showModal" id="deleteSlide">
             <div class="backgroundImg position-absolute"></div>
             <div class="col-12 p-5">
-                <div class="form-group">
+                <div class="form-group pt-5">
                     <h4 class="ml-3 mb-2 orangeText text-center">Do you want delete slide ?</h4>
                     <input autocomplete="off" type="text" hidden v-model="deleteId">
                     <div class="w-50 ml-auto  mr-auto">
