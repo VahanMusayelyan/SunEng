@@ -110,9 +110,13 @@ Route::group(['middleware' => 'isAdmin','prefix' => 'dashboard'], function ($rou
 
     Route::post("/radio-task", 'App\Http\Controllers\Admin\AdminTaskController@getRadioTasks');
     Route::post("/add-radio-task", 'App\Http\Controllers\Admin\AdminTaskController@addRadioTask');
-//    Route::post("/edit-boolean-task", 'App\Http\Controllers\Admin\AdminTaskController@editBooleanTask');
-//    Route::post("/update-boolean-task", 'App\Http\Controllers\Admin\AdminTaskController@addBooleanTask');
-//    Route::post("/delete-boolean-task", 'App\Http\Controllers\Admin\AdminTaskController@deleteBooleanTask');
+    Route::post("/edit-radio-task", 'App\Http\Controllers\Admin\AdminTaskController@editRadioTask');
+    Route::post("/update-radio-task", 'App\Http\Controllers\Admin\AdminTaskController@addRadioTask');
+    Route::post("/delete-radio-task", 'App\Http\Controllers\Admin\AdminTaskController@deleteRadioTask');
+
+    Route::post("/edit-radio-task-answer", 'App\Http\Controllers\Admin\AdminTaskController@editRadioTaskAnswer');
+    Route::post("/update-radio-task-answer", 'App\Http\Controllers\Admin\AdminTaskController@addRadioTaskAnswer');
+    Route::post("/delete-radio-task-answer", 'App\Http\Controllers\Admin\AdminTaskController@deleteRadioTaskAnswer');
 
 
 

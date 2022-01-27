@@ -83,7 +83,7 @@
         <modal name="deleteLessonModal" class="deleteLesson showModal"  id="showModal">
             <div class="backgroundImg position-absolute"></div>
             <div class="col-12 p-5">
-                <div class="form-group">
+                <div class="form-group pt-5">
                     <h4 class="ml-3 mb-2 orangeText text-center">Do you want delete lesson's slide ?</h4>
                     <input autocomplete="off" type="text" hidden v-model="deleteId">
                     <div class="w-50 ml-auto  mr-auto">
@@ -97,7 +97,7 @@
         <modal name="deleteLessonModalWork" class="deleteLesson showModal"  id="deleteLessonModalWork">
             <div class="backgroundImg position-absolute"></div>
             <div class="col-12 p-5">
-                <div class="form-group">
+                <div class="form-group pt-5">
                     <h4 class="ml-3 mb-2 orangeText text-center">Do you want delete lesson's homework ?</h4>
                     <input autocomplete="off" type="text" hidden v-model="deleteId">
                     <div class="w-50 ml-auto  mr-auto">

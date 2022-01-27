@@ -33,7 +33,7 @@
         <modal name="editSlidTaskeModal" class="editSlideModal showModal" id="editSlideModal">
             <div class="backgroundImg position-absolute"></div>
             <div class="col-12 p-5">
-                <div class="form-group">
+                <div class="form-group pt-5">
                     <h4 class="mb-2 orangeText">Edit slide</h4>
                     <textarea v-model="editSlideTask" placeholder="Slide" class="form-control w-75 d-inline-block"
                            id="slideTaskEdit"
@@ -55,7 +55,7 @@
         <modal name="deleteSlideTask" class="deleteSlideTask showModal" id="deleteSlideTask">
             <div class="backgroundImg position-absolute"></div>
             <div class="col-12 p-5">
-                <div class="form-group">
+                <div class="form-group pt-5">
                     <h4 class="ml-3 mb-2 orangeText text-center">Do you want delete slide task ?</h4>
                     <input autocomplete="off" type="text" hidden v-model="deleteId">
                     <div class="w-50 ml-auto  mr-auto">

@@ -47,7 +47,7 @@
         <modal name="editLessonModal" class="editLessonModal showModal" id="showModal">
             <div class="backgroundImg position-absolute"></div>
             <div class="col-12 p-5">
-                <div class="form-group">
+                <div class="form-group pt-5">
                     <h4 class="ml-3 mb-2 orangeText">Edit Lesson</h4>
                     <div class="col-12">
                         <input autocomplete="off" v-model="editLess" placeholder="Lesson Name" class="form-control" id="editLess"

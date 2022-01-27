@@ -27,7 +27,7 @@
         <modal name="editHomeworkModal" class="editHomeworkModal showModal" id="editHomeworkModal">
             <div class="backgroundImg position-absolute"></div>
             <div class="col-12 p-5">
-                <div class="form-group">
+                <div class="form-group pt-5">
                     <h4 class="mb-2 orangeText">Edit homework</h4>
                     <input autocomplete="off" v-model="editHomework" placeholder="Homework" class="form-control w-75 d-inline-block"
                            id="homeworkEdit"
@@ -49,7 +49,7 @@
         <modal name="deleteHomework" class="deleteHomework showModal" id="deleteHomework">
             <div class="backgroundImg position-absolute"></div>
             <div class="col-12 p-5">
-                <div class="form-group">
+                <div class="form-group pt-5">
                     <h4 class="ml-3 mb-2 orangeText text-center">Do you want delete homework ?</h4>
                     <input autocomplete="off" type="text" hidden v-model="deleteId">
                     <div class="w-50 ml-auto  mr-auto">
