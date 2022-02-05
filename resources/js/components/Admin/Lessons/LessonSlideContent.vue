@@ -242,6 +242,49 @@
         </modal>
         <!-- End Radio tasks modal -->
 
+        <!-- Radio tasks Answer modal -->
+        <modal name="editRadioModalAnswer" class="editLessonModal showModal" id="showModal">
+            <div class="backgroundImg position-absolute"></div>
+            <div class="col-12 p-5">
+                <div class="form-group pt-5">
+                    <h4 class="ml-3 mb-2 orangeText">Edit question answer</h4>
+                    <div class="col-12">
+                        <input autocomplete="off" v-model="editRadioAnswer" placeholder="Question" class="form-control" id="editRadioAnswer"
+                               type="text" required>
+                    </div>
+                    <div class="col-12">
+                        <select id="editRadioAnswerCorrect" class="custom-select mt-3" v-model="editRadioAnswerCorrect">
+                            <option value="1">True</option>
+                            <option value="null">False</option>
+                        </select>
+                    </div>
+                    <input autocomplete="off" type="text" hidden v-model="editRadioAnswerId">
+                    <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="updateRadioTaskAnswer">Update
+                    </button>
+                </div>
+            </div>
+        </modal>
+
+        <modal name="deleteRadioTaskAnswer" class="deleteMain showModal" id="showModal">
+            <div class="backgroundImg position-absolute"></div>
+            <div class="col-12 p-5">
+                <div class="form-group pt-5">
+                    <h4 class="ml-3 mb-2 orangeText text-center">Do you want delete this answer ?</h4>
+                    <input autocomplete="off" type="text" hidden v-model="deleteId">
+                    <div class="w-50 ml-auto  mr-auto">
+                        <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="deleteRadioTaskAnswer(deleteId)">
+                            Confirm
+                        </button>
+                        <button class="ml-3 btn btn-primary mt-3" type="button"
+                                @click.prevent="cancelModal('deleteRadioTaskAnswer')">Cancel
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </modal>
+        <!-- End Radio tasks Answer modal -->
+
     </div>
 </template>
 
@@ -277,6 +320,10 @@ export default {
             choosenQuestion: null,
             editRadioQuestion: null,
             editRadioId: null,
+            editRadioAnswer: null,
+            editRadioAnswerId: null,
+            editRadioAnswerCorrect: null,
+            editRadioQuestionId: null,
         }
     },
     methods: {
@@ -490,11 +537,15 @@ export default {
                 choosenQuestion: this.choosenQuestion,
             })
                 .then(res => {
-                    console.log(res.data)
-                    this.showSuccessMsg()
-                    this.radioTasksQuestion = res.data
-                    this.questionBoolean = ""
-                    this.answerBoolean = null
+                    if(res.data == 0){
+                        this.showErrorMsg()
+                    }else{
+                        this.showSuccessMsg()
+                        this.radioTasksQuestion = res.data
+                        this.questionBoolean = ""
+                        this.answerBoolean = null
+                    }
+
                 }).catch(err => {
                 console.log(err)
             })
@@ -556,10 +607,12 @@ export default {
             API.post('/api/dashboard/edit-radio-task-answer', {id: id})
                 .then(res => {
                     console.log(res.data)
-                    this.editRadioQuestion = res.data.question
-                    this.editRadioId = res.data.id
+                    this.editRadioAnswer = res.data.answer
+                    this.editRadioQuestionId = res.data.radio_task_id
+                    this.editRadioAnswerCorrect = res.data.correct
+                    this.editRadioAnswerId = res.data.id
                     this.editId = res.data.id
-                    this.showModal("editRadioModal")
+                    this.showModal("editRadioModalAnswer")
                     this.showInfoMsg()
                 }).catch(err => {
                 console.log(err)
@@ -569,13 +622,22 @@ export default {
             API.post('/api/dashboard/update-radio-task-answer', {
                 id: this.editId,
                 lessonSlideId: this.lessonSlideId,
-                question: this.editRadioQuestion,
+                answer: this.editRadioAnswer,
+                correct: this.editRadioAnswerCorrect,
+                radioTaskId: this.editRadioQuestionId,
             })
                 .then(res => {
-                    this.editId = null
-                    this.radioTasksQuestion = res.data
-                    this.cancelModal("editRadioModal")
-                    this.showSuccessMsg()
+                    if(res.data == 0){
+                        this.showErrorMsg()
+                    }else{
+                        this.editId = null
+                        this.editRadioAnswer = null
+                        this.editRadioAnswerCorrect = null
+                        this.editRadioQuestionId = null
+                        this.radioTasksQuestion = res.data
+                        this.cancelModal("editRadioModalAnswer")
+                        this.showSuccessMsg()
+                    }
                 }).catch(err => {
                 console.log(err)
             })
@@ -587,21 +649,25 @@ export default {
                     lessonSlideId: this.lessonSlideId
                 })
                     .then(res => {
-                        this.generalTasks = null
-                        this.editId = null
-                        this.deleteId = null
-                        this.generalTasks = null
-                        this.booleanTasks = null
-                        this.answerTrue = null
-                        this.answerRadio = ""
-                        this.cancelModal("deleteRadio")
-                        this.showSuccessMsg()
-                        this.radioTasksQuestion = res.data
+                        if(res.data == 0){
+                            this.showErrorMsg()
+                        }else{
+                            this.editId = null
+                            this.deleteId = null
+                            this.generalTasks = null
+                            this.booleanTasks = null
+                            this.answerTrue = null
+                            this.answerRadio = null
+                            this.cancelModal("deleteRadioTaskAnswer")
+                            this.showSuccessMsg()
+                            this.radioTasksQuestion = res.data
+                        }
+
                     }).catch(err => {
                     console.log(err)
                 })
             }else{
-                this.deleteModal(id, "deleteRadio")
+                this.deleteModal(id, "deleteRadioTaskAnswer")
             }
 
         },

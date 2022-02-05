@@ -156,7 +156,7 @@ class AdminTaskController extends Controller
         $addTaskRadio = false;
         $updateTask = false;
 
-        if ($request->answer == true) {
+        if ($request->correct == true) {
             $correct = 1;
             if ($request->choosenQuestion) {
                 $checkExistTrueAnswer = RadioTaskAnswer::where("radio_task_id", $request->choosenQuestion)->where("correct", 1)->first();
@@ -211,6 +211,44 @@ class AdminTaskController extends Controller
     public function editRadioTask(Request $request)
     {
         return response()->json(RadioTask::where("id", $request->id)->first());
+    }
+
+    public function editRadioTaskAnswer(Request $request)
+    {
+        return response()->json(RadioTaskAnswer::where("id", $request->id)->first());
+    }
+
+    public function updateRadioTaskAnswer(Request $request){
+
+        if ($request->correct == true) {
+            $correct = 1;
+                $checkExistTrueAnswer = RadioTaskAnswer::where("radio_task_id", $request->radioTaskId)
+                                                        ->where("id", "!=" ,$request->id)
+                                                        ->where("correct", 1)->first();
+                if (isset($checkExistTrueAnswer) && $checkExistTrueAnswer->id) {
+                    return response()->json(0);
+                }
+        } else {
+            $correct = null;
+        }
+
+        RadioTaskAnswer::where("id", $request->id)->update([
+            "answer" => $request->answer,
+            "correct" => $request->correct,
+        ]);
+
+        return $this->getRadioTasks($request->lessonSlideId);
+    }
+
+    public function deleteRadioTaskAnswer(Request $request){
+
+        $del = RadioTaskAnswer::where("id", $request->id)->delete();
+
+        if($del){
+            return $this->getRadioTasks($request->lessonSlideId);
+        }
+        return response()->json(0);
+
     }
 
 }

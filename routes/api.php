@@ -115,7 +115,7 @@ Route::group(['middleware' => 'isAdmin','prefix' => 'dashboard'], function ($rou
     Route::post("/delete-radio-task", 'App\Http\Controllers\Admin\AdminTaskController@deleteRadioTask');
 
     Route::post("/edit-radio-task-answer", 'App\Http\Controllers\Admin\AdminTaskController@editRadioTaskAnswer');
-    Route::post("/update-radio-task-answer", 'App\Http\Controllers\Admin\AdminTaskController@addRadioTaskAnswer');
+    Route::post("/update-radio-task-answer", 'App\Http\Controllers\Admin\AdminTaskController@updateRadioTaskAnswer');
     Route::post("/delete-radio-task-answer", 'App\Http\Controllers\Admin\AdminTaskController@deleteRadioTaskAnswer');
 
 
