@@ -67,6 +67,37 @@
             <div id="blockThird" class="w-75 mt-3 ml-5  border p-3 blocksTasks">
                 <div class="form-group">
                     <label for="questionRadio">Please write question</label>
+                    <input v-on:keyup="clearSelect" autocomplete="off" class="form-control" v-model="questionTextRadio" id="questionTextRadio">
+                </div>
+                <div class="form-group">
+                    <label for="answerRadio">Please write answer</label>
+                    <input autocomplete="off" class="form-control" v-model="answerTextRadio" id="answerTextRadio">
+                </div>
+                <div class="form-group">
+                    <label class="form-check-label d-block" for="answerTrue">
+                        Check correct answer
+                    </label>
+                    <input class="form-check-input" type="checkbox" v-model="answerTextTrue" id="answerTextTrue">
+                </div>
+                <div class="form-group">
+                    <button @click="addRadioTextTask()" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+            <!-- End Radio tasks -->
+
+            <!-- Radio tasks With text-->
+            <div id="blockFourth" class="w-75 mt-3 ml-5  border p-3 blocksTasks">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Write reading text</span>
+                        </div>
+                        <textarea class="form-control" name="text" v-model="readingRadioText" id="readingRadioText" cols="10"
+                                  rows="6"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="questionRadio">Please write question</label>
                     <input v-on:keyup="clearSelect" autocomplete="off" class="form-control" v-model="questionRadio" id="questionRadio">
                 </div>
                 <div class="form-group">
@@ -108,6 +139,23 @@
             </ol>
             <ol v-if="(radioTasksQuestion && radioTasksQuestion.length > 0)">
                 <li class="mt-2" v-for="(radioTask , ind) in radioTasksQuestion" :value="radioTask.id">
+                    <i @click="editRadioTask(radioTask.id)" class="fa fa-edit mr-2 cursor-pointer"></i>
+                    <i @click="deleteRadioTask(radioTask.id)" class="fa fa-trash mr-2 cursor-pointer"></i>
+                    {{ radioTask.question }}
+                        <ol v-if="(radioTask.answers && radioTask.answers.length > 0)" class="answers">
+                            <li class="mt-2 ml-5" v-for="(answer , index) in radioTask.answers" :value="answer.id">
+                                <i @click="editRadioTaskAnswer(answer.id)" class="fa fa-edit mr-2 cursor-pointer"></i>
+                                <i @click="deleteRadioTaskAnswer(answer.id)" class="fa fa-trash mr-2 cursor-pointer"></i>
+                                {{ answer.answer }}
+                                -
+                                <span v-if="answer.correct === 1"> True</span>
+                                <span v-if="answer.correct !== 1"> False</span>
+                            </li>
+                        </ol>
+                </li>
+            </ol>
+            <ol v-if="(radioTasksTextQuestion && radioTasksTextQuestion.length > 0)">
+                <li class="mt-2" v-for="(radioTask , ind) in radioTasksTextQuestion" :value="radioTask.id">
                     <i @click="editRadioTask(radioTask.id)" class="fa fa-edit mr-2 cursor-pointer"></i>
                     <i @click="deleteRadioTask(radioTask.id)" class="fa fa-trash mr-2 cursor-pointer"></i>
                     {{ radioTask.question }}
@@ -324,6 +372,10 @@ export default {
             editRadioAnswerId: null,
             editRadioAnswerCorrect: null,
             editRadioQuestionId: null,
+            questionTextRadio: null,
+            answerTextRadio: null,
+            answerTextTrue: null,
+            radioTasksTextQuestion: null,
         }
     },
     methods: {
@@ -349,9 +401,11 @@ export default {
             document.querySelector("#blockFirst").style.display = "none";
             document.querySelector("#blockSecond").style.display = "none";
             document.querySelector("#blockThird").style.display = "none";
+            document.querySelector("#blockFourth").style.display = "none";
             this.booleanTasks = null
             this.generalTasks = null
             this.radioTasksQuestion = null
+            this.radioTasksTextQuestion = null
             if (this.typeId == 2) {
                 document.querySelector("#blockSecond").style.display = "block";
                 API.post('/api/dashboard/general-task', {lessonSlideId: this.lessonSlideId})
@@ -375,6 +429,14 @@ export default {
                 API.post('/api/dashboard/radio-task', {lessonSlideId: this.lessonSlideId})
                     .then(res => {
                         this.radioTasksQuestion = res.data
+                    }).catch(err => {
+                    console.log(err)
+                })
+            }else if (this.typeId == 4) {
+                document.querySelector("#blockFourth").style.display = "block";
+                API.post('/api/dashboard/radio-text-task', {lessonSlideId: this.lessonSlideId})
+                    .then(res => {
+                        this.radioTasksTextQuestion = res.data
                     }).catch(err => {
                     console.log(err)
                 })
@@ -672,6 +734,29 @@ export default {
 
         },
 
+        addRadioTextTask(){
+            API.post("/api/dashboard/add-radio-text-task", {
+                question: this.questionTextRadio,
+                answer: this.answerTextRadio,
+                correct: this.answerTextTrue,
+                lessonSlideId: this.lessonSlideId,
+                choosenQuestion: this.choosenQuestion,
+            })
+                .then(res => {
+                    if(res.data == 0){
+                        this.showErrorMsg()
+                    }else{
+                        this.showSuccessMsg()
+                        this.radioTasksTextQuestion = res.data
+                        this.questionBoolean = null
+                        this.answerBoolean = null
+                    }
+
+                }).catch(err => {
+                console.log(err)
+            })
+        },
+
 
         chooseQuestion(){
             this.questionRadio = ""
@@ -690,7 +775,7 @@ export default {
 </script>
 
 <style scoped>
-#blockFirst, #blockSecond,#blockThird {
+#blockFirst, #blockSecond,#blockThird, #blockFourth {
     display: none;
 }
 

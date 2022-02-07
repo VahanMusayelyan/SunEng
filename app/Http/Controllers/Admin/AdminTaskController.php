@@ -8,6 +8,8 @@ use App\Models\BooleanTaskReading;
 use App\Models\GeneralTask;
 use App\Models\RadioTask;
 use App\Models\RadioTaskAnswer;
+use App\Models\RadioText;
+use App\Models\RadioTextTask;
 use Illuminate\Http\Request;
 use App\Models\GeneralTaskReading;
 
@@ -218,16 +220,17 @@ class AdminTaskController extends Controller
         return response()->json(RadioTaskAnswer::where("id", $request->id)->first());
     }
 
-    public function updateRadioTaskAnswer(Request $request){
+    public function updateRadioTaskAnswer(Request $request)
+    {
 
         if ($request->correct == true) {
             $correct = 1;
-                $checkExistTrueAnswer = RadioTaskAnswer::where("radio_task_id", $request->radioTaskId)
-                                                        ->where("id", "!=" ,$request->id)
-                                                        ->where("correct", 1)->first();
-                if (isset($checkExistTrueAnswer) && $checkExistTrueAnswer->id) {
-                    return response()->json(0);
-                }
+            $checkExistTrueAnswer = RadioTaskAnswer::where("radio_task_id", $request->radioTaskId)
+                ->where("id", "!=", $request->id)
+                ->where("correct", 1)->first();
+            if (isset($checkExistTrueAnswer) && $checkExistTrueAnswer->id) {
+                return response()->json(0);
+            }
         } else {
             $correct = null;
         }
@@ -240,15 +243,24 @@ class AdminTaskController extends Controller
         return $this->getRadioTasks($request->lessonSlideId);
     }
 
-    public function deleteRadioTaskAnswer(Request $request){
+    public function deleteRadioTaskAnswer(Request $request)
+    {
 
         $del = RadioTaskAnswer::where("id", $request->id)->delete();
 
-        if($del){
+        if ($del) {
             return $this->getRadioTasks($request->lessonSlideId);
         }
         return response()->json(0);
 
+    }
+
+    public function getRadioTextTasks($lessonSlideId = null)
+    {
+        if (!$lessonSlideId) {
+            $lessonSlideId = request()->lessonSlideId;
+        }
+        return response()->json(RadioText::where('slide_lesson_id', $lessonSlideId)->with("answers")->get()->toArray());
     }
 
 }
