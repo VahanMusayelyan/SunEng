@@ -14,7 +14,7 @@ class RadioText extends Model
     protected $fillable = ["radio_text"];
 
 
-    public function answers()
+    public function questions()
     {
         return $this->hasMany(RadioTextTask::class, "radio_text_id");
     }

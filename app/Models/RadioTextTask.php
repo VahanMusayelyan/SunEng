@@ -16,6 +16,11 @@ class RadioTextTask extends Model
 
     public function answers()
     {
-        return $this->hasMany(RadioTextTaskAnswer::class, "radio_task_id");
+        return $this->hasMany(RadioTextTaskAnswer::class, "radio_text_task_id");
+    }
+
+    public function text()
+    {
+        return $this->belongsTo(RadioText::class, "radio_text_id");
     }
 }

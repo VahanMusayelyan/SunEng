@@ -154,8 +154,8 @@
                         </ol>
                 </li>
             </ol>
-            <ol v-if="(radioTasksTextQuestion && radioTasksTextQuestion.length > 0)">
-                <li class="mt-2" v-for="(radioTask , ind) in radioTasksTextQuestion" :value="radioTask.id">
+            <ol v-if="(radioTasksTextQuestion && radioTasksTextQuestion.questions && radioTasksTextQuestion.questions.length > 0)">
+                <li class="mt-2" v-for="(radioTask , ind) in radioTasksTextQuestion.questions" :value="radioTask.id">
                     <i @click="editRadioTask(radioTask.id)" class="fa fa-edit mr-2 cursor-pointer"></i>
                     <i @click="deleteRadioTask(radioTask.id)" class="fa fa-trash mr-2 cursor-pointer"></i>
                     {{ radioTask.question }}
@@ -376,6 +376,7 @@ export default {
             answerTextRadio: null,
             answerTextTrue: null,
             radioTasksTextQuestion: null,
+            readingRadioText: null,
         }
     },
     methods: {
@@ -437,6 +438,9 @@ export default {
                 API.post('/api/dashboard/radio-text-task', {lessonSlideId: this.lessonSlideId})
                     .then(res => {
                         this.radioTasksTextQuestion = res.data
+                        this.readingRadioText = res.data.radio_text
+                        console.log(res.data);
+                        console.log(this.radioTasksTextQuestion);
                     }).catch(err => {
                     console.log(err)
                 })

@@ -260,7 +260,7 @@ class AdminTaskController extends Controller
         if (!$lessonSlideId) {
             $lessonSlideId = request()->lessonSlideId;
         }
-        return response()->json(RadioText::where('slide_lesson_id', $lessonSlideId)->with("answers")->get()->toArray());
+        return response()->json(RadioText::where('slide_lesson_id', $lessonSlideId)->with("questions", "questions.answers")->first());
     }
 
 }
