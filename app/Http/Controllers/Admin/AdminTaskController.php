@@ -10,6 +10,7 @@ use App\Models\RadioTask;
 use App\Models\RadioTaskAnswer;
 use App\Models\RadioText;
 use App\Models\RadioTextTask;
+use App\Models\RadioTextTaskAnswer;
 use Illuminate\Http\Request;
 use App\Models\GeneralTaskReading;
 
@@ -261,6 +262,35 @@ class AdminTaskController extends Controller
             $lessonSlideId = request()->lessonSlideId;
         }
         return response()->json(RadioText::where('slide_lesson_id', $lessonSlideId)->with("questions", "questions.answers")->first());
+    }
+
+    public function addRadioTextTask(Request $request)
+    {
+        $radioText = RadioText::updateOrCreate([
+            'slide_lesson_id' => $request->lessonSlideId,
+        ], [
+            'slide_lesson_id' => $request->lessonSlideId,
+            "radio_text"      => $request->readingText,
+        ]);
+
+        $radioTextQuestion = new RadioTextTask();
+        $radioTextQuestion->radio_text_id = $radioText->id;
+        $radioTextQuestion->question      = $request->question;
+        $radioTextQuestion->save();
+
+        if ($request->correct === true) {
+            $correct = 1;
+        } else {
+            $correct = 0;
+        }
+
+          RadioTextTaskAnswer::insert([
+            "radio_text_task_id" => $radioTextQuestion->id,
+            "answer"             => $request->answer,
+            "correct"            => $correct,
+          ]);
+
+        return $this->getRadioTextTasks($request->lessonSlideId);
     }
 
 }
