@@ -293,4 +293,37 @@ class AdminTaskController extends Controller
         return $this->getRadioTextTasks($request->lessonSlideId);
     }
 
+    public function editRadioTextTask(Request $request)
+    {
+        return response()->json(RadioTextTask::where("id", $request->id)->first());
+    }
+
+    public function updateRadioTextTask(Request $request)
+    {
+        try {
+            RadioTextTask::where("id", $request->id)->update([
+                "question" => $request->question
+            ]);
+
+            return $this->getRadioTextTasks($request->lessonSlideId);
+
+        }catch(\Exception $e){
+            return response()->json(0);
+        }
+    }
+    public function deleteRadioTextTask(Request $request)
+    {
+        try {
+            RadioTextTask::where("id", $request->id)->delete();
+
+            return $this->getRadioTextTasks($request->lessonSlideId);
+
+        }catch(\Exception $e){
+            dd($e->getMessage());
+            return response()->json(0);
+        }
+    }
+
+
+
 }
