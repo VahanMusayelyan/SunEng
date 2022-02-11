@@ -11,7 +11,7 @@ class RadioText extends Model
 
     protected $table = "radio_texts";
 
-    protected $fillable = ["radio_text"];
+    protected $fillable = ["radio_text", "slide_lesson_id "];
 
 
     public function questions()
