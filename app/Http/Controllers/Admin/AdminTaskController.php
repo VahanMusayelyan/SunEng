@@ -266,12 +266,17 @@ class AdminTaskController extends Controller
 
     public function addRadioTextTask(Request $request)
     {
-        $radioText = RadioText::updateOrCreate([
-            'slide_lesson_id' => $request->lessonSlideId,
-        ], [
-            'slide_lesson_id' => $request->lessonSlideId,
-            "radio_text"      => $request->readingText,
-        ]);
+        $radioText = RadioText::where('slide_lesson_id', $request->lessonSlideId)->first();
+        if ($radioText) {
+            RadioText::where('slide_lesson_id', $request->lessonSlideId)->update([
+                "radio_text" => $request->readingText,
+            ]);
+        } else {
+            $radioText = new RadioText();
+            $radioText->radio_text = $request->readingText;
+            $radioText->slide_lesson_id = $request->lessonSlideId;
+            $radioText->save();
+        }
 
         $radioTextQuestion = new RadioTextTask();
         $radioTextQuestion->radio_text_id = $radioText->id;

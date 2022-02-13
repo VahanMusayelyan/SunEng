@@ -828,14 +828,14 @@ export default {
                 question: this.editRadioTextQuestion,
             }).then(res => {
                     if(res.data === 0){
+                        this.showErrorMsg()
+                    }else{
                         this.editId = null
                         this.editRadioTextId = null
                         this.editRadioTextQuestion = null
                         this.radioTasksTextQuestion = res.data
                         this.cancelModal("editRadioTextModal")
                         this.showSuccessMsg()
-                    }else{
-                        this.showErrorMsg()
                     }
             }).catch(err => {
                 console.log(err)
@@ -871,7 +871,7 @@ export default {
 
         },
         editRadioTextTaskAnswer(id){
-            API.post('/api/dashboard/edit-radio-task-answer', {id: id})
+            API.post('/api/dashboard/edit-radio-text-task-answer', {id: id})
                 .then(res => {
                     console.log(res.data)
                     this.editRadioAnswer = res.data.answer
