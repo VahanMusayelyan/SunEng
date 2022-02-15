@@ -13,6 +13,12 @@
                         <option v-for="(questionItem , ind) in radioTasksQuestion" :value="questionItem.id">{{ questionItem.question }}</option>
                     </select>
                 </div>
+                <div class="mt-5" v-if="radioTasksTextQuestion && radioTasksTextQuestion.questions && radioTasksTextQuestion.questions.length > 0">
+                    <select ref="choosenTextQuestion" class="custom-select" v-model="choosenTextQuestion" @change="chooseQuestionText" name="questionTextAll" id="chooseTextQuestion">
+                        <option :value="null"> Choose question </option>
+                        <option v-for="(questionItem , ind) in radioTasksTextQuestion.questions" :value="questionItem.id">{{ questionItem.question }}</option>
+                    </select>
+                </div>
 
             </div>
             <!-- Boolean tasks -->
@@ -98,7 +104,7 @@
                 </div>
                 <div class="form-group">
                     <label for="questionRadio">Please write question</label>
-                    <input v-on:keyup="clearSelect" autocomplete="off" class="form-control" v-model="questionRadioText" id="questionRadioText">
+                    <input v-on:keyup="clearSelectText" autocomplete="off" class="form-control" v-model="questionRadioText" id="questionRadioText">
                 </div>
                 <div class="form-group">
                     <label for="answerRadio">Please write answer</label>
@@ -371,6 +377,50 @@
         </modal>
         <!-- End Radio tasks modal -->
 
+
+        <!-- Radio Text tasks Answer modal -->
+        <modal name="editRadioTextModalAnswer" class="editLessonModal showModal" id="showModal">
+            <div class="backgroundImg position-absolute"></div>
+            <div class="col-12 p-5">
+                <div class="form-group pt-5">
+                    <h4 class="ml-3 mb-2 orangeText">Edit question answer</h4>
+                    <div class="col-12">
+                        <input autocomplete="off" v-model="editRadioTextAnswer" placeholder="Question" class="form-control" id="editRadioTextAnswer"
+                               type="text" required>
+                    </div>
+                    <div class="col-12">
+                        <select id="editRadioTextAnswerCorrect" class="custom-select mt-3" v-model="editRadioTextAnswerCorrect">
+                            <option value="1">True</option>
+                            <option value="null">False</option>
+                        </select>
+                    </div>
+                    <input autocomplete="off" type="text" hidden v-model="editRadioTextAnswerId">
+                    <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="updateRadioTextTaskAnswer">Update
+                    </button>
+                </div>
+            </div>
+        </modal>
+
+        <modal name="deleteRadioTextTaskAnswer" class="deleteMain showModal" id="showModal">
+            <div class="backgroundImg position-absolute"></div>
+            <div class="col-12 p-5">
+                <div class="form-group pt-5">
+                    <h4 class="ml-3 mb-2 orangeText text-center">Do you want delete this answer ?</h4>
+                    <input autocomplete="off" type="text" hidden v-model="deleteId">
+                    <div class="w-50 ml-auto  mr-auto">
+                        <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="deleteRadioTextTaskAnswer(deleteId)">
+                            Confirm
+                        </button>
+                        <button class="ml-3 btn btn-primary mt-3" type="button"
+                                @click.prevent="cancelModal('deleteRadioTaskAnswer')">Cancel
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </modal>
+        <!-- End Text Radio tasks Answer modal -->
+
     </div>
 </template>
 
@@ -407,6 +457,7 @@ export default {
             answerTrueText: null,
             radioTasksQuestion: null,
             choosenQuestion: null,
+            choosenTextQuestion: null,
             editRadioQuestion: null,
             editRadioTextQuestion: null,
             editRadioId: null,
@@ -420,6 +471,11 @@ export default {
             radioTasksTextQuestion: null,
             readingRadioText: null,
             editRadioTextId: null,
+            editRadioTextAnswer: null,
+            editRadioTextAnswerCorrect: null,
+            editRadioTextAnswerId: null,
+            editRadioTextQuestionId: null,
+            chooseTextQuestion: null,
         }
     },
     methods: {
@@ -482,8 +538,6 @@ export default {
                     .then(res => {
                         this.radioTasksTextQuestion = res.data
                         this.readingRadioText = res.data.radio_text
-                        console.log(res.data);
-                        console.log(this.radioTasksTextQuestion);
                     }).catch(err => {
                     console.log(err)
                 })
@@ -662,7 +716,6 @@ export default {
         editRadioTask(id){
             API.post('/api/dashboard/edit-radio-task', {id: id})
                 .then(res => {
-                    console.log(res.data)
                     this.editRadioQuestion = res.data.question
                     this.editRadioId = res.data.id
                     this.editId = res.data.id
@@ -715,7 +768,6 @@ export default {
         editRadioTaskAnswer(id){
             API.post('/api/dashboard/edit-radio-task-answer', {id: id})
                 .then(res => {
-                    console.log(res.data)
                     this.editRadioAnswer = res.data.answer
                     this.editRadioQuestionId = res.data.radio_task_id
                     this.editRadioAnswerCorrect = res.data.correct
@@ -788,7 +840,7 @@ export default {
                 answer: this.answerRadioText,
                 correct: this.answerTrueText,
                 lessonSlideId: this.lessonSlideId,
-                choosenQuestion: this.choosenQuestion,
+                choosenTextQuestion: this.choosenTextQuestion,
             })
                 .then(res => {
                     if(res.data == 0){
@@ -873,36 +925,30 @@ export default {
         editRadioTextTaskAnswer(id){
             API.post('/api/dashboard/edit-radio-text-task-answer', {id: id})
                 .then(res => {
-                    console.log(res.data)
-                    this.editRadioAnswer = res.data.answer
-                    this.editRadioQuestionId = res.data.radio_task_id
-                    this.editRadioAnswerCorrect = res.data.correct
-                    this.editRadioAnswerId = res.data.id
+                    this.editRadioTextAnswer = res.data.answer
+                    this.editRadioTextAnswerCorrect = res.data.correct
+                    this.editRadioTextAnswerId = res.data.id
                     this.editId = res.data.id
-                    this.showModal("editRadioModalAnswer")
+                    this.showModal("editRadioTextModalAnswer")
                     this.showInfoMsg()
                 }).catch(err => {
                 console.log(err)
             })
         },
         updateRadioTextTaskAnswer() {
-            API.post('/api/dashboard/update-radio-task-answer', {
+            API.post('/api/dashboard/update-radio-text-task-answer', {
                 id: this.editId,
                 lessonSlideId: this.lessonSlideId,
-                answer: this.editRadioAnswer,
-                correct: this.editRadioAnswerCorrect,
-                radioTaskId: this.editRadioQuestionId,
+                answer: this.editRadioTextAnswer,
+                correct: this.editRadioTextAnswerCorrect,
+                radioTaskId: this.editRadioTextQuestionId,
             })
                 .then(res => {
                     if(res.data == 0){
                         this.showErrorMsg()
                     }else{
-                        this.editId = null
-                        this.editRadioAnswer = null
-                        this.editRadioAnswerCorrect = null
-                        this.editRadioQuestionId = null
-                        this.radioTasksQuestion = res.data
-                        this.cancelModal("editRadioModalAnswer")
+                        this.radioTasksTextQuestion = res.data
+                        this.cancelModal("editRadioTextModalAnswer")
                         this.showSuccessMsg()
                     }
                 }).catch(err => {
@@ -911,7 +957,7 @@ export default {
         },
         deleteRadioTextTaskAnswer(id){
             if(this.deleteId){
-                API.post("/api/dashboard/delete-radio-task-answer", {
+                API.post("/api/dashboard/delete-radio-text-task-answer", {
                     id: this.deleteId,
                     lessonSlideId: this.lessonSlideId
                 })
@@ -919,22 +965,19 @@ export default {
                         if(res.data == 0){
                             this.showErrorMsg()
                         }else{
+                            console.log(res.data)
                             this.editId = null
                             this.deleteId = null
-                            this.generalTasks = null
-                            this.booleanTasks = null
-                            this.answerTrue = null
-                            this.answerRadio = null
-                            this.cancelModal("deleteRadioTaskAnswer")
+                            this.cancelModal("deleteRadioTextTaskAnswer")
                             this.showSuccessMsg()
-                            this.radioTasksQuestion = res.data
+                            this.radioTasksTextQuestion = res.data
                         }
 
                     }).catch(err => {
                     console.log(err)
                 })
             }else{
-                this.deleteModal(id, "deleteRadioTaskAnswer")
+                this.deleteModal(id, "deleteRadioTextTaskAnswer")
             }
 
         },
@@ -942,9 +985,17 @@ export default {
         chooseQuestion(){
             this.questionRadio = ""
         },
+        chooseQuestionText(){
+             this.questionRadioText = null
+        },
         clearSelect(){
             if(this.choosenQuestion > 0){
                 this.choosenQuestion = null
+            }
+        },
+        clearSelectText(){
+            if(this.choosenTextQuestion > 0){
+                this.choosenTextQuestion = null
             }
         }
     },
