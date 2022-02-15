@@ -280,7 +280,7 @@ class AdminTaskController extends Controller
 
         $radioTextQuestion = new RadioTextTask();
         $radioTextQuestion->radio_text_id = $radioText->id;
-        $radioTextQuestion->question      = $request->question;
+        $radioTextQuestion->question = $request->question;
         $radioTextQuestion->save();
 
         if ($request->correct === true) {
@@ -289,11 +289,11 @@ class AdminTaskController extends Controller
             $correct = 0;
         }
 
-          RadioTextTaskAnswer::insert([
+        RadioTextTaskAnswer::insert([
             "radio_text_task_id" => $radioTextQuestion->id,
-            "answer"             => $request->answer,
-            "correct"            => $correct,
-          ]);
+            "answer" => $request->answer,
+            "correct" => $correct,
+        ]);
 
         return $this->getRadioTextTasks($request->lessonSlideId);
     }
@@ -312,10 +312,11 @@ class AdminTaskController extends Controller
 
             return $this->getRadioTextTasks($request->lessonSlideId);
 
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return response()->json(0);
         }
     }
+
     public function deleteRadioTextTask(Request $request)
     {
         try {
@@ -323,12 +324,56 @@ class AdminTaskController extends Controller
 
             return $this->getRadioTextTasks($request->lessonSlideId);
 
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             dd($e->getMessage());
             return response()->json(0);
         }
     }
 
+    public function editRadioTextTaskAnswer(Request $request)
+    {
+        return response()->json(RadioTextTaskAnswer::where("id", $request->id)->first());
+    }
+
+    public function updateRadioTextTaskAnswer(Request $request)
+    {
+        try {
+
+            if ($request->correct == true) {
+                $correct = 1;
+                if ($request->choosenQuestion) {
+                    $checkExistTrueAnswer = RadioTextTaskAnswer::where("radio_text_task_id", $request->choosenQuestion)->where("correct", 1)->first();
+                    if (isset($checkExistTrueAnswer) && $checkExistTrueAnswer->id) {
+                        return response()->json(0);
+                    }
+                }
+            } else {
+                $correct = null;
+            }
+
+            RadioTextTaskAnswer::where("id", $request->id)->update([
+                "answer" => $request->answer,
+                "correct" => $correct,
+            ]);
+
+            return $this->getRadioTextTasks($request->lessonSlideId);
+
+        } catch (\Exception $e) {
+            return response()->json(0);
+        }
+    }
+
+    public function deleteRadioTextTaskAnswer(Request $request)
+    {
+        try {
+            RadioTextTaskAnswer::where("id", $request->id)->delete();
+
+            return $this->getRadioTextTasks($request->lessonSlideId);
+
+        }catch (\Exception $e){
+            return response()->json(0);
+        }
+    }
 
 
 }
