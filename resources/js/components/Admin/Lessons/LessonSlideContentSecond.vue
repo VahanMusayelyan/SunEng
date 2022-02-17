@@ -12,7 +12,7 @@
             <!-- Split tasks -->
             <div id="blockFifth" class="w-75 mt-3 ml-5  border p-3 blocksTasks">
                 <div class="form-group">
-                    <label for="questionSplit">Please write question</label>
+                    <label for="questionSplit">Please write sentence</label>
                     <input autocomplete="off" class="form-control" v-model="questionSplit" id="questionSplit">
                 </div>
                 <div class="form-group">
@@ -31,9 +31,9 @@
                     <i @click="deleteSplitTask(splitTask.id)" class="fa fa-trash mr-2 cursor-pointer"></i>
                     {{ splitTask.split_text }}
                     ->
-                    <span v-for="(code, ind) in (shuffle(splitTask.split_text.split(' ')))" :key="ind">
-                        <span v-if="ind === splitTask.split_text.split(' ').length - 1">{{code}}</span>
-                        <span v-if="ind !== splitTask.split_text.split(' ').length - 1">{{code}}, </span>
+                    <span v-for="(code, ind) in splitTask.words" :key="ind">
+                        <span v-if="ind === splitTask.words.length - 1">{{code.word}}</span>
+                        <span v-if="ind !== splitTask.words.length - 1">{{code.word}}, </span>
                     </span>
                 </li>
             </ol>
@@ -44,7 +44,7 @@
             <div class="backgroundImg position-absolute"></div>
             <div class="col-12 p-5">
                 <div class="form-group pt-5">
-                    <h4 class="ml-3 mb-2 orangeText">Edit question</h4>
+                    <h4 class="ml-3 mb-2 orangeText">Edit sentence</h4>
                     <div class="col-12">
                         <input autocomplete="off" v-model="editSplit" placeholder="Question" class="form-control" id="editSplit"
                                type="text" required>
@@ -132,6 +132,7 @@ export default {
                 API.post('/api/dashboard/split-tasks', {lessonSlideId: this.lessonSlideId})
                     .then(res => {
                         this.splitTasks = res.data
+                        console.log(res.data)
                     }).catch(err => {
                     console.log(err)
                 })
@@ -139,69 +140,77 @@ export default {
 
         },
         addSplitTask() {
-
-            if(!this.questionSplit && !this.readingSplit){
+            if(!this.questionSplit){
                 this.showErrorMsg()
                 return false
             }
-            API.post('/api/dashboard/add-Split-task', {
+            API.post('/api/dashboard/add-split-task', {
                 questionSplit: this.questionSplit,
                 lessonSlideId: this.lessonSlideId,
-                readingSplit: this.readingSplit,
-                id: this.editId
             })
                 .then(res => {
-                    this.editId = null
-                    this.deleteId = null
-                    this.questionSplit = ""
-                    this.showSuccessMsg()
-                    this.SplitTasks = res.data.questions
+                    if(res.data === 0){
+                        this.showErrorMsg()
+                    }else{
+                        this.editId = null
+                        this.deleteId = null
+                        this.questionSplit = null
+                        this.showSuccessMsg()
+                        this.splitTasks = res.data
+                    }
                 }).catch(err => {
                 console.log(err)
             })
 
         },
         editSplitTask(id) {
-            API.post('/api/dashboard/edit-Split-task', {id: id})
+            API.post('/api/dashboard/edit-split-task', {id: id})
                 .then(res => {
-                    this.editSplit = res.data.question
-                    this.editId = res.data.id
-                    this.showModal("editSplitModal")
-                    this.showInfoMsg()
+                    if(res.data === 0){
+                        this.showErrorMsg()
+                    }else{
+                        this.editSplit = res.data.split_text
+                        this.editId = res.data.id
+                        this.showModal("editSplitModal")
+                        this.showInfoMsg()
+                    }
                 }).catch(err => {
                 console.log(err)
             })
         },
         updateSplitTask(id) {
-            API.post('/api/dashboard/update-Split-task', {
+            API.post('/api/dashboard/update-split-task', {
                 id: this.editId,
-                readingSplit: this.readingSplit,
-                questionSplit: this.editSplit,
+                editSplit: this.editSplit,
                 lessonSlideId: this.lessonSlideId,
             })
                 .then(res => {
-                    this.editId = null
-                    this.editSplit = null
-                    this.questionSplit = res.data.question
-                    this.SplitTasks = res.data.questions
-                    this.readingSplit = res.data.reading
-                    this.cancelModal("editSplitModal")
-                    this.showSuccessMsg()
+                    if(res.data === 0){
+                        this.showErrorMsg()
+                    }else {
+                        this.editId = null
+                        this.editSplit = null
+                        this.splitTasks = res.data
+                        this.cancelModal("editSplitModal")
+                        this.showSuccessMsg()
+                    }
                 }).catch(err => {
                 console.log(err)
             })
         },
         deleteSplitTask(id) {
             if (this.deleteId) {
-                API.post('/api/dashboard/delete-Split-task', {id: this.deleteId, lessonSlideId: this.lessonSlideId})
+                API.post('/api/dashboard/delete-split-task', {id: this.deleteId, lessonSlideId: this.lessonSlideId})
                     .then(res => {
-                        this.editId = null
-                        this.deleteId = null
-                        this.questionSplit = ""
-                        this.cancelModal("deleteSplit")
-                        this.showSuccessMsg()
-                        this.SplitTasks = res.data.questions
-                        this.booleanTasks = null
+                        if(res.data === 0){
+                            this.showErrorMsg()
+                        }else {
+                            this.editId = null
+                            this.deleteId = null
+                            this.cancelModal("deleteSplit")
+                            this.showSuccessMsg()
+                            this.splitTasks = res.data
+                        }
                     }).catch(err => {
                     console.log(err)
                 })
@@ -210,16 +219,6 @@ export default {
             }
 
         },
-        shuffle(a) {
-            var j, x, i;
-            for (i = a.length - 1; i > 0; i--) {
-                j = Math.floor(Math.random() * (i + 1));
-                x = a[i];
-                a[i] = a[j];
-                a[j] = x;
-            }
-            return a;
-        }
     },
     mounted() {
         this.getLessonHomework()
