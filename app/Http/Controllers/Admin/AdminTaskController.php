@@ -11,6 +11,7 @@ use App\Models\RadioTaskAnswer;
 use App\Models\RadioText;
 use App\Models\RadioTextTask;
 use App\Models\RadioTextTaskAnswer;
+use App\Models\SplitTask;
 use Illuminate\Http\Request;
 use App\Models\GeneralTaskReading;
 
@@ -373,6 +374,14 @@ class AdminTaskController extends Controller
         }catch (\Exception $e){
             return response()->json(0);
         }
+    }
+
+    public function getSplitTasks($lessonSlideId = null)
+    {
+        if (!$lessonSlideId) {
+            $lessonSlideId = request()->lessonSlideId;
+        }
+        return response()->json(SplitTask::where('slide_lesson_id', $lessonSlideId)->get()->toArray());
     }
 
 
