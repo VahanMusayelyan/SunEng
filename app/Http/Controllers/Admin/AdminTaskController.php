@@ -12,6 +12,7 @@ use App\Models\RadioText;
 use App\Models\RadioTextTask;
 use App\Models\RadioTextTaskAnswer;
 use App\Models\SplitTask;
+use App\Models\SplitTaskWord;
 use Illuminate\Http\Request;
 use App\Models\GeneralTaskReading;
 
@@ -75,10 +76,13 @@ class AdminTaskController extends Controller
 
     public function deleteGeneralTask(Request $request)
     {
-        GeneralTask::where("id", $request->id)->delete();
+        try {
+            GeneralTask::where("id", $request->id)->delete();
 
-        return $this->getGeneralTasks($request->lessonSlideId);
-
+            return $this->getGeneralTasks($request->lessonSlideId);
+        }catch(\Exception $e){
+            return response()->json(0);
+        }
     }
 
 
@@ -140,10 +144,13 @@ class AdminTaskController extends Controller
 
     public function deleteBooleanTask(Request $request)
     {
-        BooleanTask::where("id", $request->id)->delete();
+        try {
+            BooleanTask::where("id", $request->id)->delete();
 
-        return $this->getBooleanTasks($request->lessonSlideId);
-
+            return $this->getBooleanTasks($request->lessonSlideId);
+        }catch(\Exception $e){
+            return response()->json(0);
+        }
     }
 
 
@@ -207,9 +214,13 @@ class AdminTaskController extends Controller
 
     public function deleteRadioTask(Request $request)
     {
-        RadioTask::where("id", $request->id)->delete();
+        try {
+            RadioTask::where("id", $request->id)->delete();
 
-        return $this->getRadioTasks($request->lessonSlideId);
+            return $this->getRadioTasks($request->lessonSlideId);
+        }catch(\Exception $e){
+            return response()->json(0);
+        }
     }
 
     public function editRadioTask(Request $request)
@@ -247,13 +258,13 @@ class AdminTaskController extends Controller
 
     public function deleteRadioTaskAnswer(Request $request)
     {
+        try {
+            RadioTaskAnswer::where("id", $request->id)->delete();
 
-        $del = RadioTaskAnswer::where("id", $request->id)->delete();
-
-        if ($del) {
             return $this->getRadioTasks($request->lessonSlideId);
+        }catch(\Exception $e){
+            return response()->json(0);
         }
-        return response()->json(0);
 
     }
 
@@ -312,7 +323,6 @@ class AdminTaskController extends Controller
             ]);
 
             return $this->getRadioTextTasks($request->lessonSlideId);
-
         } catch (\Exception $e) {
             return response()->json(0);
         }
@@ -324,7 +334,6 @@ class AdminTaskController extends Controller
             RadioTextTask::where("id", $request->id)->delete();
 
             return $this->getRadioTextTasks($request->lessonSlideId);
-
         } catch (\Exception $e) {
             dd($e->getMessage());
             return response()->json(0);
@@ -358,7 +367,6 @@ class AdminTaskController extends Controller
             ]);
 
             return $this->getRadioTextTasks($request->lessonSlideId);
-
         } catch (\Exception $e) {
             return response()->json(0);
         }
@@ -370,8 +378,7 @@ class AdminTaskController extends Controller
             RadioTextTaskAnswer::where("id", $request->id)->delete();
 
             return $this->getRadioTextTasks($request->lessonSlideId);
-
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return response()->json(0);
         }
     }
@@ -381,8 +388,74 @@ class AdminTaskController extends Controller
         if (!$lessonSlideId) {
             $lessonSlideId = request()->lessonSlideId;
         }
-        return response()->json(SplitTask::where('slide_lesson_id', $lessonSlideId)->get()->toArray());
+        return response()->json(SplitTask::with("words")->where('slide_lesson_id', $lessonSlideId)->get()->toArray());
     }
 
+    public function addSplitTask(Request $request)
+    {
+        try {
+            $questionSplit = $request->questionSplit;
+            $questionSplitArr = explode(" ", $questionSplit);
+            shuffle($questionSplitArr);
 
+            $splitTask = new SplitTask();
+            $splitTask->slide_lesson_id = $request->lessonSlideId;
+            $splitTask->split_text = $questionSplit;
+            $splitTask->save();
+
+            foreach ($questionSplitArr as $word) {
+                SplitTaskWord::insert([
+                    'word' => $word,
+                    'split_task_id' => $splitTask->id,
+                ]);
+            }
+
+            return $this->getSplitTasks($request->lessonSlideId);
+        } catch (\Exception $e) {
+            return response()->json(0);
+        }
+    }
+
+    public function editSplitTask(Request $request)
+    {
+        return response()->json(SplitTask::with("words")->where('id', $request->id)->first()->toArray());
+    }
+
+    public function updateSplitTask(Request $request)
+    {
+        try {
+            SplitTask::where("id", $request->id)->delete();
+
+            $questionSplit = $request->editSplit;
+            $questionSplitArr = explode(" ", $questionSplit);
+            shuffle($questionSplitArr);
+
+            $splitTask = new SplitTask();
+            $splitTask->slide_lesson_id = $request->lessonSlideId;
+            $splitTask->split_text = $questionSplit;
+            $splitTask->save();
+
+            foreach ($questionSplitArr as $word) {
+                SplitTaskWord::insert([
+                    'word' => $word,
+                    'split_task_id' => $splitTask->id,
+                ]);
+            }
+
+            return $this->getSplitTasks($request->lessonSlideId);
+        } catch (\Exception $e) {
+            return response()->json(0);
+        }
+    }
+
+    public function deleteSplitTask(Request $request)
+    {
+        try {
+            SplitTask::where("id", $request->id)->delete();
+
+            return $this->getSplitTasks($request->lessonSlideId);
+        } catch (\Exception $e) {
+            return response()->json(0);
+        }
+    }
 }
