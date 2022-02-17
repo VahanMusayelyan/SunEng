@@ -246,7 +246,7 @@
                     <h4 class="ml-3 mb-2 orangeText text-center">Do you want delete task ?</h4>
                     <input autocomplete="off" type="text" hidden v-model="deleteId">
                     <div class="w-50 ml-auto  mr-auto">
-                        <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="deleteGeneralTask">
+                        <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="deleteBooleanTask">
                             Confirm
                         </button>
                         <button class="ml-3 btn btn-primary mt-3" type="button"
