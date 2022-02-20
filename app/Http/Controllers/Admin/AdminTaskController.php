@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\BooleanTask;
 use App\Models\BooleanTaskReading;
+use App\Models\CatchTask;
 use App\Models\GeneralTask;
 use App\Models\RadioTask;
 use App\Models\RadioTaskAnswer;
@@ -458,4 +459,57 @@ class AdminTaskController extends Controller
             return response()->json(0);
         }
     }
+    public function getCatchTasks($lessonSlideId = null)
+    {
+        if (!$lessonSlideId) {
+            $lessonSlideId = request()->lessonSlideId;
+        }
+        return response()->json(CatchTask::where('slide_lesson_id', $lessonSlideId)->get()->toArray());
+    }
+
+    public function addCatchTask(Request $request)
+    {
+        try {
+            $catchTask = new CatchTask();
+            $catchTask->slide_lesson_id = $request->lessonSlideId;
+            $catchTask->catch_text = $request->questionCatch;
+            $catchTask->word = $request->word;
+            $catchTask->save();
+
+            return $this->getCatchTasks($request->lessonSlideId);
+        } catch (\Exception $e) {
+            return response()->json(0);
+        }
+    }
+
+    public function editCatchTask(Request $request)
+    {
+        return response()->json(CatchTask::where('id', $request->id)->first()->toArray());
+    }
+
+    public function updateCatchTask(Request $request)
+    {
+        try {
+            CatchTask::where("id", $request->id)->update([
+                "catch_text" => $request->editCatch,
+                "word" => $request->editWord
+            ]);
+
+            return $this->getCatchTasks($request->lessonSlideId);
+        } catch (\Exception $e) {
+            return response()->json(0);
+        }
+    }
+
+    public function deleteCatchTask(Request $request)
+    {
+        try {
+            CatchTask::where("id", $request->id)->delete();
+
+            return $this->getCatchTasks($request->lessonSlideId);
+        } catch (\Exception $e) {
+            return response()->json(0);
+        }
+    }
+
 }
