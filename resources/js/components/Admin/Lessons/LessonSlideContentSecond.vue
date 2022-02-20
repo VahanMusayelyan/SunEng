@@ -9,72 +9,96 @@
                 </select>
             </div>
 
-            <!-- Split tasks -->
-            <div id="blockFifth" class="w-75 mt-3 ml-5  border p-3 blocksTasks">
+            <!-- Phrase tasks -->
+            <div id="blockSeventh" class="w-75 mt-3 ml-5  border p-3 blocksTasks">
                 <div class="form-group">
-                    <label for="questionSplit">Please write sentence</label>
-                    <input autocomplete="off" class="form-control" v-model="questionSplit" id="questionSplit">
+                    <label for="questionPhrase">Please write sentence</label>
+                    <input autocomplete="off" class="form-control" v-model="questionPhrase" id="questionPhrase">
                 </div>
                 <div class="form-group">
-                    <button @click="addSplitTask()" class="btn btn-primary">Submit</button>
+                    <label for="questionPhrase">Please write correct word</label>
+                    <input autocomplete="off" class="form-control" v-model="phraseCorrect" id="phraseCorrect">
+                </div>
+                <div class="form-group">
+                    <label for="questionPhrase">Please write example word</label>
+                    <input autocomplete="off" class="form-control" v-model="phraseExample" id="phraseExample">
+                </div>
+                <div class="form-group">
+                    <button @click="addPhraseTask()" class="btn btn-primary">Submit</button>
                 </div>
             </div>
-            <!-- End Split tasks -->
+            <!-- End Phrase tasks -->
         </div>
 
 
         <div class="border mt-3 pt-3 pl-2">
             <h4>tasks</h4>
-            <ol v-if="(splitTasks && splitTasks.length > 0)">
-                <li class="mt-2" v-for="(splitTask , ind) in splitTasks" :value="splitTask.id">
-                    <i @click="editSplitTask(splitTask.id)" class="fa fa-edit mr-2 cursor-pointer"></i>
-                    <i @click="deleteSplitTask(splitTask.id)" class="fa fa-trash mr-2 cursor-pointer"></i>
-                    {{ splitTask.split_text }}
-                    ->
-                    <span v-for="(code, ind) in splitTask.words" :key="ind">
-                        <span v-if="ind === splitTask.words.length - 1">{{code.word}}</span>
-                        <span v-if="ind !== splitTask.words.length - 1">{{code.word}}, </span>
-                    </span>
+            <ol v-if="(phraseTasks && phraseTasks.length > 0)">
+                <li class="mt-2" v-for="(phraseTask , ind) in phraseTasks" :value="phraseTask.id">
+                    <i @click="editPhraseTask(phraseTask.id)" class="fa fa-edit mr-2 cursor-pointer"></i>
+                    <i @click="deletePhraseTask(phraseTask.id)" class="fa fa-trash mr-2 cursor-pointer"></i>
+                    {{ phraseTask.phrase_text }}
+                    <p class="mt-2 ml-4"><b>Correct :</b>
+                        <span>
+                           {{ phraseTask.correct }}
+                            </span>
+                    </p>
+                    <p class="mt-2 ml-4"><b>Hint :</b>
+                        <span>
+                           {{ phraseTask.example }}
+                            </span>
+                    </p>
                 </li>
             </ol>
         </div>
 
-        <!-- Split tasks modal -->
-        <modal name="editSplitModal" class="editLessonModal showModal" id="showModal">
+        <!-- Phrase tasks modal -->
+        <modal name="editPhraseModal" class="editLessonModal showModal" id="showModal">
             <div class="backgroundImg position-absolute"></div>
-            <div class="col-12 p-5">
-                <div class="form-group pt-5">
+            <div class="col-12 pl-5 pr-5">
+                <div class="form-group">
                     <h4 class="ml-3 mb-2 orangeText">Edit sentence</h4>
                     <div class="col-12">
-                        <input autocomplete="off" v-model="editSplit" placeholder="Question" class="form-control" id="editSplit"
+                        <label for="editPhrase">Phrase</label>
+                        <input autocomplete="off" v-model="editPhrase" placeholder="Question" class="form-control" id="editPhrase"
+                               type="text" required>
+                    </div>
+                    <div class="col-12 mt-2">
+                        <label for="editCorrect">Correct</label>
+                        <input autocomplete="off" v-model="editCorrect" placeholder="Correct" class="form-control" id="editCorrect"
+                               type="text" required>
+                    </div>
+                    <div class="col-12 mt-2">
+                        <label for="editExample">Example</label>
+                        <input autocomplete="off" v-model="editExample" placeholder="Example" class="form-control" id="editExample"
                                type="text" required>
                     </div>
                     <input autocomplete="off" type="text" hidden v-model="editId">
-                    <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="updateSplitTask">Update
+                    <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="updatePhraseTask">Update
                     </button>
                 </div>
             </div>
         </modal>
 
-        <modal name="deleteSplit" class="deleteMain showModal" id="showModal">
+        <modal name="deletePhrase" class="deleteMain showModal" id="showModal">
             <div class="backgroundImg position-absolute"></div>
             <div class="col-12 p-5">
                 <div class="form-group pt-5">
                     <h4 class="ml-3 mb-2 orangeText text-center">Do you want delete task ?</h4>
                     <input autocomplete="off" type="text" hidden v-model="deleteId">
                     <div class="w-50 ml-auto  mr-auto">
-                        <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="deleteSplitTask">
+                        <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="deletePhraseTask">
                             Confirm
                         </button>
                         <button class="ml-3 btn btn-primary mt-3" type="button"
-                                @click.prevent="cancelModal('deleteSplit')">Cancel
+                                @click.prevent="cancelModal('deletePhrase')">Cancel
                         </button>
                     </div>
 
                 </div>
             </div>
         </modal>
-        <!-- End Split tasks modal -->
+        <!-- End Phrase tasks modal -->
 
 
     </div>
@@ -91,12 +115,16 @@ export default {
             lessonSlide: null,
             taskTypes: null,
             typeId: null,
-            questionSplit: null,
             deleteId: null,
             url: null,
             editId: null,
-            splitTasks: null,
-            editSplit: null,
+            phraseTasks: null,
+            editPhrase: null,
+            editExample: null,
+            editCorrect: null,
+            questionPhrase: null,
+            phraseExample: null,
+            phraseCorrect: null,
             arr: null,
         }
     },
@@ -121,17 +149,17 @@ export default {
         },
         chooseType() {
 
-            document.querySelector("#blockFifth").style.display = "none";
+            document.querySelector("#blockSeventh").style.display = "none";
 
 
-            this.splitTasks = null
+            this.phraseTasks = null
 
-            if (this.typeId === 5) {
-                document.querySelector("#blockFifth").style.display = "block";
+            if (this.typeId === 7) {
+                document.querySelector("#blockSeventh").style.display = "block";
 
-                API.post('/api/dashboard/split-tasks', {lessonSlideId: this.lessonSlideId})
+                API.post('/api/dashboard/phrase-tasks', {lessonSlideId: this.lessonSlideId})
                     .then(res => {
-                        this.splitTasks = res.data
+                        this.phraseTasks = res.data
                         console.log(res.data)
                     }).catch(err => {
                     console.log(err)
@@ -139,13 +167,15 @@ export default {
             }
 
         },
-        addSplitTask() {
-            if(!this.questionSplit){
+        addPhraseTask() {
+            if(!this.questionPhrase){
                 this.showErrorMsg()
                 return false
             }
-            API.post('/api/dashboard/add-split-task', {
-                questionSplit: this.questionSplit,
+            API.post('/api/dashboard/add-phrase-task', {
+                questionPhrase: this.questionPhrase,
+                phraseCorrect: this.phraseCorrect,
+                phraseExample: this.phraseExample,
                 lessonSlideId: this.lessonSlideId,
             })
                 .then(res => {
@@ -154,34 +184,38 @@ export default {
                     }else{
                         this.editId = null
                         this.deleteId = null
-                        this.questionSplit = null
+                        this.questionPhrase = null
                         this.showSuccessMsg()
-                        this.splitTasks = res.data
+                        this.phraseTasks = res.data
                     }
                 }).catch(err => {
                 console.log(err)
             })
 
         },
-        editSplitTask(id) {
-            API.post('/api/dashboard/edit-split-task', {id: id})
+        editPhraseTask(id) {
+            API.post('/api/dashboard/edit-phrase-task', {id: id})
                 .then(res => {
                     if(res.data === 0){
                         this.showErrorMsg()
                     }else{
-                        this.editSplit = res.data.split_text
+                        this.editPhrase = res.data.phrase_text
+                        this.editCorrect = res.data.correct
+                        this.editExample = res.data.example
                         this.editId = res.data.id
-                        this.showModal("editSplitModal")
+                        this.showModal("editPhraseModal")
                         this.showInfoMsg()
                     }
                 }).catch(err => {
                 console.log(err)
             })
         },
-        updateSplitTask(id) {
-            API.post('/api/dashboard/update-split-task', {
+        updatePhraseTask(id) {
+            API.post('/api/dashboard/update-phrase-task', {
                 id: this.editId,
-                editSplit: this.editSplit,
+                editPhrase: this.editPhrase,
+                editCorrect: this.editCorrect,
+                editExample: this.editExample,
                 lessonSlideId: this.lessonSlideId,
             })
                 .then(res => {
@@ -189,33 +223,33 @@ export default {
                         this.showErrorMsg()
                     }else {
                         this.editId = null
-                        this.editSplit = null
-                        this.splitTasks = res.data
-                        this.cancelModal("editSplitModal")
+                        this.editPhrase = null
+                        this.phraseTasks = res.data
+                        this.cancelModal("editPhraseModal")
                         this.showSuccessMsg()
                     }
                 }).catch(err => {
                 console.log(err)
             })
         },
-        deleteSplitTask(id) {
+        deletePhraseTask(id) {
             if (this.deleteId) {
-                API.post('/api/dashboard/delete-split-task', {id: this.deleteId, lessonSlideId: this.lessonSlideId})
+                API.post('/api/dashboard/delete-phrase-task', {id: this.deleteId, lessonSlideId: this.lessonSlideId})
                     .then(res => {
                         if(res.data === 0){
                             this.showErrorMsg()
                         }else {
                             this.editId = null
                             this.deleteId = null
-                            this.cancelModal("deleteSplit")
+                            this.cancelModal("deletePhrase")
                             this.showSuccessMsg()
-                            this.splitTasks = res.data
+                            this.phraseTasks = res.data
                         }
                     }).catch(err => {
                     console.log(err)
                 })
             } else {
-                this.deleteModal(id, "deleteSplit")
+                this.deleteModal(id, "deletePhrase")
             }
 
         },
@@ -228,7 +262,7 @@ export default {
 </script>
 
 <style scoped>
-#blockFirst, #blockSecond,#blockThird, #blockFourth, #blockFifth {
+ #blockSeventh {
     display: none;
 }
 

@@ -7,6 +7,7 @@ use App\Models\BooleanTask;
 use App\Models\BooleanTaskReading;
 use App\Models\CatchTask;
 use App\Models\GeneralTask;
+use App\Models\ParaphraseTask;
 use App\Models\RadioTask;
 use App\Models\RadioTaskAnswer;
 use App\Models\RadioText;
@@ -507,6 +508,60 @@ class AdminTaskController extends Controller
             CatchTask::where("id", $request->id)->delete();
 
             return $this->getCatchTasks($request->lessonSlideId);
+        } catch (\Exception $e) {
+            return response()->json(0);
+        }
+    }
+    public function getPhraseTasks($lessonSlideId = null)
+    {
+        if (!$lessonSlideId) {
+            $lessonSlideId = request()->lessonSlideId;
+        }
+        return response()->json(ParaphraseTask::where('slide_lesson_id', $lessonSlideId)->get()->toArray());
+    }
+
+    public function addPhraseTask(Request $request)
+    {
+        try {
+            $catchTask = new ParaphraseTask();
+            $catchTask->slide_lesson_id = $request->lessonSlideId;
+            $catchTask->phrase_text = $request->questionPhrase;
+            $catchTask->correct = $request->phraseCorrect;
+            $catchTask->example = $request->phraseExample;
+            $catchTask->save();
+
+            return $this->getPhraseTasks($request->lessonSlideId);
+        } catch (\Exception $e) {
+            return response()->json(0);
+        }
+    }
+
+    public function editPhraseTask(Request $request)
+    {
+        return response()->json(ParaphraseTask::where('id', $request->id)->first()->toArray());
+    }
+
+    public function updatePhraseTask(Request $request)
+    {
+        try {
+            ParaphraseTask::where("id", $request->id)->update([
+                "phrase_text" => $request->editPhrase,
+                "correct" => $request->editCorrect,
+                "example" => $request->editExample,
+            ]);
+
+            return $this->getPhraseTasks($request->lessonSlideId);
+        } catch (\Exception $e) {
+            return response()->json(0);
+        }
+    }
+
+    public function deletePhraseTask(Request $request)
+    {
+        try {
+            ParaphraseTask::where("id", $request->id)->delete();
+
+            return $this->getPhraseTasks($request->lessonSlideId);
         } catch (\Exception $e) {
             return response()->json(0);
         }
