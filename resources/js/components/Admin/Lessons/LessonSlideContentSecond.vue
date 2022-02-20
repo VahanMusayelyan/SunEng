@@ -185,6 +185,8 @@ export default {
                         this.editId = null
                         this.deleteId = null
                         this.questionPhrase = null
+                        this.phraseCorrect = null
+                        this.phraseExample = null
                         this.showSuccessMsg()
                         this.phraseTasks = res.data
                     }
