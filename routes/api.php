@@ -147,6 +147,12 @@ Route::group(['middleware' => 'isAdmin','prefix' => 'dashboard'], function ($rou
     Route::post("/update-phrase-task", 'App\Http\Controllers\Admin\AdminTaskController@updatePhraseTask');
     Route::post("/delete-phrase-task", 'App\Http\Controllers\Admin\AdminTaskController@deletePhraseTask');
 
+    Route::post("/two-part-tasks", 'App\Http\Controllers\Admin\AdminTaskController@getTwoPartTasks');
+    Route::post("/add-two-part-task", 'App\Http\Controllers\Admin\AdminTaskController@addTwoPartTask');
+    Route::post("/edit-two-part-task", 'App\Http\Controllers\Admin\AdminTaskController@editTwoPartTask');
+    Route::post("/update-two-part-task", 'App\Http\Controllers\Admin\AdminTaskController@updateTwoPartTask');
+    Route::post("/delete-two-part-task", 'App\Http\Controllers\Admin\AdminTaskController@deleteTwoPartTask');
+
 
 
 });
