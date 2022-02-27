@@ -15,6 +15,8 @@ use App\Models\RadioTextTask;
 use App\Models\RadioTextTaskAnswer;
 use App\Models\SplitTask;
 use App\Models\SplitTaskWord;
+use App\Models\TwoPartTask;
+use App\Models\TwoPartTaskAnswer;
 use Illuminate\Http\Request;
 use App\Models\GeneralTaskReading;
 
@@ -562,6 +564,84 @@ class AdminTaskController extends Controller
             ParaphraseTask::where("id", $request->id)->delete();
 
             return $this->getPhraseTasks($request->lessonSlideId);
+        } catch (\Exception $e) {
+            return response()->json(0);
+        }
+    }
+
+    public function getTwoPartTasks($lessonSlideId = null)
+    {
+        if (!$lessonSlideId) {
+            $lessonSlideId = request()->lessonSlideId;
+        }
+        return response()->json(TwoPartTaskAnswer::with(["getFirstPart", "getSecondPart"])->where('slide_lesson_id', $lessonSlideId)->get()->toArray());
+    }
+
+    public function addTwoPartTask(Request $request)
+    {
+        try {
+            $part = new TwoPartTask();
+            $part->question = $request->questionFirst;
+            $part->save();
+
+            $firstId = $part->id;
+
+            $part = new TwoPartTask();
+            $part->question = $request->questionSecond;
+
+            $part->save();
+
+            $secondId = $part->id;
+
+            TwoPartTaskAnswer::insert([
+                "question_first"  => $firstId,
+                "question_second" => $secondId,
+                "slide_lesson_id" => $request->lessonSlideId,
+
+            ]);
+            return $this->getTwoPartTasks($request->lessonSlideId);
+
+        } catch (\Exception $e) {
+            return response()->json(0);
+        }
+    }
+
+    public function editTwoPartTask(Request $request)
+    {
+        return response()->json(TwoPartTaskAnswer::with(["getFirstPart", "getSecondPart"])->where('id', $request->id)->first()->toArray());
+    }
+
+    public function updateTwoPartTask(Request $request)
+    {
+        try {
+            $editTwoPart = TwoPartTaskAnswer::where("id", $request->id)->first();
+
+            TwoPartTask::where("id", $editTwoPart->question_first)->update([
+               "question" => $request->editQuestionFirst
+            ]);
+
+            TwoPartTask::where("id", $editTwoPart->question_second)->update([
+               "question" => $request->editQuestionSecond
+            ]);
+
+            return $this->getTwoPartTasks($request->lessonSlideId);
+
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return response()->json(0);
+        }
+    }
+
+    public function deleteTwoPartTask(Request $request)
+    {
+        try {
+            $editTwoPart = TwoPartTaskAnswer::where("id", $request->id)->first();
+
+            TwoPartTask::where("id", $editTwoPart->question_first)->delete();
+
+            TwoPartTask::where("id", $editTwoPart->question_second)->delete();
+
+            return $this->getTwoPartTasks($request->lessonSlideId);
         } catch (\Exception $e) {
             return response()->json(0);
         }

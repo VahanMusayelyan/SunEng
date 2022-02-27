@@ -10,21 +10,17 @@
             </div>
 
             <!-- Phrase tasks -->
-            <div id="blockSeventh" class="w-75 mt-3 ml-5  border p-3 blocksTasks">
+            <div id="blockEigth" class="w-75 mt-3 ml-5  border p-3 blocksTasks">
                 <div class="form-group">
-                    <label for="questionPhrase">Please write sentence</label>
-                    <input autocomplete="off" class="form-control" v-model="questionPhrase" id="questionPhrase">
+                    <label for="questionFirst">Please write first part</label>
+                    <input autocomplete="off" class="form-control" v-model="questionFirst" id="questionFirst">
                 </div>
                 <div class="form-group">
-                    <label for="questionPhrase">Please write correct word</label>
-                    <input autocomplete="off" class="form-control" v-model="phraseCorrect" id="phraseCorrect">
+                    <label for="questionFirst">Please write second part</label>
+                    <input autocomplete="off" class="form-control" v-model="questionSecond" id="questionSecond">
                 </div>
                 <div class="form-group">
-                    <label for="questionPhrase">Please write example word</label>
-                    <input autocomplete="off" class="form-control" v-model="phraseExample" id="phraseExample">
-                </div>
-                <div class="form-group">
-                    <button @click="addPhraseTask()" class="btn btn-primary">Submit</button>
+                    <button @click="addPartTask()" class="btn btn-primary">Submit</button>
                 </div>
             </div>
             <!-- End Phrase tasks -->
@@ -33,65 +29,50 @@
 
         <div class="border mt-3 pt-3 pl-2">
             <h4>tasks</h4>
-            <ol v-if="(phraseTasks && phraseTasks.length > 0)">
-                <li class="mt-2" v-for="(phraseTask , ind) in phraseTasks" :value="phraseTask.id">
-                    <i @click="editPhraseTask(phraseTask.id)" class="fa fa-edit mr-2 cursor-pointer"></i>
-                    <i @click="deletePhraseTask(phraseTask.id)" class="fa fa-trash mr-2 cursor-pointer"></i>
-                    {{ phraseTask.phrase_text }}
-                    <p class="mt-2 ml-4"><b>Correct :</b>
-                        <span>
-                           {{ phraseTask.correct }}
-                            </span>
-                    </p>
-                    <p class="mt-2 ml-4"><b>Hint :</b>
-                        <span>
-                           {{ phraseTask.example }}
-                            </span>
-                    </p>
+            <ol v-if="(towPartTasks && towPartTasks.length > 0)">
+                <li class="mt-2" v-for="(partTask , ind) in towPartTasks" :value="partTask.id">
+                    <i @click="editTwoPartTask(partTask.id)" class="fa fa-edit mr-2 cursor-pointer"></i>
+                    <i @click="deleteTwoPartTask(partTask.id)" class="fa fa-trash mr-2 cursor-pointer"></i>
+                    {{ partTask.get_first_part.question }} - {{ partTask.get_second_part.question }}
                 </li>
             </ol>
         </div>
 
         <!-- Phrase tasks modal -->
-        <modal name="editPhraseModal" class="editLessonModal showModal" id="showModal">
+        <modal name="editTwoPartModal" class="editLessonModal showModal" id="showModal">
             <div class="backgroundImg position-absolute"></div>
             <div class="col-12 pl-5 pr-5">
                 <div class="form-group">
-                    <h4 class="ml-3 mb-2 orangeText">Edit sentence</h4>
+                    <h4 class="ml-3 mb-2 orangeText">Please write first part</h4>
                     <div class="col-12">
-                        <label for="editPhrase">Phrase</label>
-                        <input autocomplete="off" v-model="editPhrase" placeholder="Question" class="form-control" id="editPhrase"
+                        <label for="editQuestionFirst">Phrase</label>
+                        <input autocomplete="off" v-model="editQuestionFirst" placeholder="Question" class="form-control" id="editQuestionFirst"
                                type="text" required>
                     </div>
                     <div class="col-12 mt-2">
-                        <label for="editCorrect">Correct</label>
-                        <input autocomplete="off" v-model="editCorrect" placeholder="Correct" class="form-control" id="editCorrect"
-                               type="text" required>
-                    </div>
-                    <div class="col-12 mt-2">
-                        <label for="editExample">Example</label>
-                        <input autocomplete="off" v-model="editExample" placeholder="Example" class="form-control" id="editExample"
+                        <label for="editQuestionSecond">Please write second part</label>
+                        <input autocomplete="off" v-model="editQuestionSecond" placeholder="Correct" class="form-control" id="editQuestionSecond"
                                type="text" required>
                     </div>
                     <input autocomplete="off" type="text" hidden v-model="editId">
-                    <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="updatePhraseTask">Update
+                    <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="updatepartTask">Update
                     </button>
                 </div>
             </div>
         </modal>
 
-        <modal name="deletePhrase" class="deleteMain showModal" id="showModal">
+        <modal name="deleteTwoPart" class="deleteMain showModal" id="showModal">
             <div class="backgroundImg position-absolute"></div>
             <div class="col-12 p-5">
                 <div class="form-group pt-5">
                     <h4 class="ml-3 mb-2 orangeText text-center">Do you want delete task ?</h4>
                     <input autocomplete="off" type="text" hidden v-model="deleteId">
                     <div class="w-50 ml-auto  mr-auto">
-                        <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="deletePhraseTask">
+                        <button class="ml-3 btn btn-primary mt-3" type="button" @click.prevent="deleteTwoPartTask">
                             Confirm
                         </button>
                         <button class="ml-3 btn btn-primary mt-3" type="button"
-                                @click.prevent="cancelModal('deletePhrase')">Cancel
+                                @click.prevent="cancelModal('deleteTwoPart')">Cancel
                         </button>
                     </div>
 
@@ -118,13 +99,13 @@ export default {
             deleteId: null,
             url: null,
             editId: null,
-            phraseTasks: null,
-            editPhrase: null,
+            towPartTasks: null,
+            editQuestionFirst: null,
             editExample: null,
-            editCorrect: null,
-            questionPhrase: null,
+            editQuestionSecond: null,
+            questionFirst: null,
             phraseExample: null,
-            phraseCorrect: null,
+            questionSecond: null,
             arr: null,
         }
     },
@@ -149,17 +130,17 @@ export default {
         },
         chooseType() {
 
-            document.querySelector("#blockSeventh").style.display = "none";
+            document.querySelector("#blockEigth").style.display = "none";
 
 
-            this.phraseTasks = null
+            this.towPartTasks = null
 
-            if (this.typeId === 7) {
-                document.querySelector("#blockSeventh").style.display = "block";
+            if (this.typeId === 8) {
+                document.querySelector("#blockEigth").style.display = "block";
 
-                API.post('/api/dashboard/phrase-tasks', {lessonSlideId: this.lessonSlideId})
+                API.post('/api/dashboard/two-part-tasks', {lessonSlideId: this.lessonSlideId})
                     .then(res => {
-                        this.phraseTasks = res.data
+                        this.towPartTasks = res.data
                         console.log(res.data)
                     }).catch(err => {
                     console.log(err)
@@ -167,15 +148,14 @@ export default {
             }
 
         },
-        addPhraseTask() {
-            if(!this.questionPhrase){
+        addPartTask() {
+            if(!this.questionFirst || !this.questionSecond){
                 this.showErrorMsg()
                 return false
             }
-            API.post('/api/dashboard/add-phrase-task', {
-                questionPhrase: this.questionPhrase,
-                phraseCorrect: this.phraseCorrect,
-                phraseExample: this.phraseExample,
+            API.post('/api/dashboard/add-two-part-task', {
+                questionFirst: this.questionFirst,
+                questionSecond: this.questionSecond,
                 lessonSlideId: this.lessonSlideId,
             })
                 .then(res => {
@@ -184,40 +164,37 @@ export default {
                     }else{
                         this.editId = null
                         this.deleteId = null
-                        this.questionPhrase = null
-                        this.phraseCorrect = null
-                        this.phraseExample = null
+                        this.questionFirst = null
+                        this.questionSecond = null
                         this.showSuccessMsg()
-                        this.phraseTasks = res.data
+                        this.towPartTasks = res.data
                     }
                 }).catch(err => {
                 console.log(err)
             })
 
         },
-        editPhraseTask(id) {
-            API.post('/api/dashboard/edit-phrase-task', {id: id})
+        editTwoPartTask(id) {
+            API.post('/api/dashboard/edit-two-part-task', {id: id})
                 .then(res => {
                     if(res.data === 0){
                         this.showErrorMsg()
                     }else{
-                        this.editPhrase = res.data.phrase_text
-                        this.editCorrect = res.data.correct
-                        this.editExample = res.data.example
+                        this.editQuestionFirst = res.data.get_first_part.question
+                        this.editQuestionSecond = res.data.get_second_part.question
                         this.editId = res.data.id
-                        this.showModal("editPhraseModal")
+                        this.showModal("editTwoPartModal")
                         this.showInfoMsg()
                     }
                 }).catch(err => {
                 console.log(err)
             })
         },
-        updatePhraseTask(id) {
-            API.post('/api/dashboard/update-phrase-task', {
+        updatepartTask(id) {
+            API.post('/api/dashboard/update-two-part-task', {
                 id: this.editId,
-                editPhrase: this.editPhrase,
-                editCorrect: this.editCorrect,
-                editExample: this.editExample,
+                editQuestionFirst: this.editQuestionFirst,
+                editQuestionSecond: this.editQuestionSecond,
                 lessonSlideId: this.lessonSlideId,
             })
                 .then(res => {
@@ -225,33 +202,34 @@ export default {
                         this.showErrorMsg()
                     }else {
                         this.editId = null
-                        this.editPhrase = null
-                        this.phraseTasks = res.data
-                        this.cancelModal("editPhraseModal")
+                        this.editQuestionFirst = null
+                        this.editQuestionSecond = null
+                        this.towPartTasks = res.data
+                        this.cancelModal("editTwoPartModal")
                         this.showSuccessMsg()
                     }
                 }).catch(err => {
                 console.log(err)
             })
         },
-        deletePhraseTask(id) {
+        deleteTwoPartTask(id) {
             if (this.deleteId) {
-                API.post('/api/dashboard/delete-phrase-task', {id: this.deleteId, lessonSlideId: this.lessonSlideId})
+                API.post('/api/dashboard/delete-two-part-task', {id: this.deleteId, lessonSlideId: this.lessonSlideId})
                     .then(res => {
                         if(res.data === 0){
                             this.showErrorMsg()
                         }else {
                             this.editId = null
                             this.deleteId = null
-                            this.cancelModal("deletePhrase")
+                            this.cancelModal("deleteTwoPart")
                             this.showSuccessMsg()
-                            this.phraseTasks = res.data
+                            this.towPartTasks = res.data
                         }
                     }).catch(err => {
                     console.log(err)
                 })
             } else {
-                this.deleteModal(id, "deletePhrase")
+                this.deleteModal(id, "deleteTwoPart")
             }
 
         },
@@ -264,7 +242,7 @@ export default {
 </script>
 
 <style scoped>
- #blockSeventh {
+ #blockEigth {
     display: none;
 }
 
