@@ -9,7 +9,7 @@
                 </select>
             </div>
 
-            <!-- Phrase tasks -->
+            <!-- Two Part tasks -->
             <div id="blockEigth" class="w-75 mt-3 ml-5  border p-3 blocksTasks">
                 <div class="form-group">
                     <label for="questionFirst">Please write first part</label>
@@ -23,7 +23,7 @@
                     <button @click="addPartTask()" class="btn btn-primary">Submit</button>
                 </div>
             </div>
-            <!-- End Phrase tasks -->
+            <!-- End Two Part tasks -->
         </div>
 
 
@@ -38,7 +38,7 @@
             </ol>
         </div>
 
-        <!-- Phrase tasks modal -->
+        <!-- Two Part tasks modal -->
         <modal name="editTwoPartModal" class="editLessonModal showModal" id="showModal">
             <div class="backgroundImg position-absolute"></div>
             <div class="col-12 pl-5 pr-5">
@@ -79,7 +79,7 @@
                 </div>
             </div>
         </modal>
-        <!-- End Phrase tasks modal -->
+        <!-- End Two Part  tasks modal -->
 
 
     </div>
