@@ -7,6 +7,8 @@ use App\Models\BooleanTask;
 use App\Models\BooleanTaskReading;
 use App\Models\CatchTask;
 use App\Models\GeneralTask;
+use App\Models\MultipleAnswer;
+use App\Models\MultipleAnswerQuestion;
 use App\Models\ParaphraseTask;
 use App\Models\RadioTask;
 use App\Models\RadioTaskAnswer;
@@ -627,7 +629,6 @@ class AdminTaskController extends Controller
             return $this->getTwoPartTasks($request->lessonSlideId);
 
         } catch (\Exception $e) {
-            dd($e->getMessage());
             return response()->json(0);
         }
     }
@@ -645,6 +646,37 @@ class AdminTaskController extends Controller
         } catch (\Exception $e) {
             return response()->json(0);
         }
+    }
+
+    public function getMultipleAnswersTasks($lessonSlideId = null)
+    {
+        if (!$lessonSlideId) {
+            $lessonSlideId = request()->lessonSlideId;
+        }
+        return response()->json(MultipleAnswerQuestion::select()->with("answers")->where('slide_lesson_id', $lessonSlideId)->get()->toArray());
+    }
+
+    public function addMultipleQuestionTask(Request $request)
+    {
+        try {
+            $multipleAnswerQuestion = new MultipleAnswerQuestion;
+            $multipleAnswerQuestion->slide_lesson_id = $request->lessonSlideId;
+            $multipleAnswerQuestion->question = $request->questionsMultiple;
+            $multipleAnswerQuestion->save();
+
+            MultipleAnswer::insert([
+               "mult_ans_quest_id" => $multipleAnswerQuestion->id,
+               "answer" => $request->answerMultiple,
+               "correct" => $request->correctMultiple,
+            ]);
+
+            return $this->getMultipleAnswersTasks($request->lessonSlideId);
+        }catch (\Exception $e) {
+            return response()->json(0);
+        }
+
+
+
     }
 
 }
