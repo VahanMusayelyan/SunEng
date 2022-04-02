@@ -17,7 +17,8 @@ class CreateRadioTextTasksTable extends Migration
             $table->id();
             $table->bigInteger("radio_text_id")->unsigned();
             $table->text("question");
-            $table->timestamps();
+            $table->timestamp("created_at")->nullable()->useCurrent();
+            $table->timestamp("updated_at")->nullable()->useCurrent();
         });
 
         Schema::table('radio_text_tasks', function (Blueprint $table) {

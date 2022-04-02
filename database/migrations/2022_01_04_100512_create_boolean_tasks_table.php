@@ -19,7 +19,8 @@ class CreateBooleanTasksTable extends Migration
             $table->bigInteger('reading_id')->unsigned();
             $table->text('question');
             $table->tinyInteger('answer');
-            $table->timestamps();
+            $table->timestamp("created_at")->nullable()->useCurrent();
+            $table->timestamp("updated_at")->nullable()->useCurrent();
         });
 
         Schema::table('boolean_tasks', function (Blueprint $table) {

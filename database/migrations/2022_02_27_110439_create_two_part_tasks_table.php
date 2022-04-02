@@ -16,7 +16,8 @@ class CreateTwoPartTasksTable extends Migration
         Schema::create('two_part_tasks', function (Blueprint $table) {
             $table->id();
             $table->text('question');
-            $table->timestamps();
+            $table->timestamp("created_at")->nullable()->useCurrent();
+            $table->timestamp("updated_at")->nullable()->useCurrent();
         });
 
     }

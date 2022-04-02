@@ -17,7 +17,8 @@ class CreateBooleanTasksReadingTable extends Migration
             $table->id();
             $table->text('reading');
             $table->bigInteger('slide_lesson_id')->unsigned();
-            $table->timestamps();
+            $table->timestamp("created_at")->nullable()->useCurrent();
+            $table->timestamp("updated_at")->nullable()->useCurrent();
         });
 
         Schema::table('boolean_tasks_reading', function (Blueprint $table) {

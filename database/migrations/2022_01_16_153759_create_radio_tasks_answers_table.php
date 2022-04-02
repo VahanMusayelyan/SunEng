@@ -18,7 +18,8 @@ class CreateRadioTasksAnswersTable extends Migration
             $table->bigInteger("radio_task_id")->unsigned();
             $table->string("answer")->nullable();
             $table->tinyInteger("correct")->nullable();
-            $table->timestamps();
+            $table->timestamp("created_at")->nullable()->useCurrent();
+            $table->timestamp("updated_at")->nullable()->useCurrent();
         });
 
         Schema::table('radio_tasks_answers', function (Blueprint $table) {

@@ -17,6 +17,8 @@ class CreateSplitTasksWordsTable extends Migration
             $table->id();
             $table->bigInteger("split_task_id")->unsigned();
             $table->string("word");
+            $table->timestamp("created_at")->nullable()->useCurrent();
+            $table->timestamp("updated_at")->nullable()->useCurrent();
         });
 
         Schema::table('split_tasks_words', function (Blueprint $table) {

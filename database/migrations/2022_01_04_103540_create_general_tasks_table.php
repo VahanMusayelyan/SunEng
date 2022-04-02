@@ -17,7 +17,8 @@ class CreateGeneralTasksTable extends Migration
             $table->id();
             $table->text('question');
             $table->bigInteger('reading_id')->unsigned();
-            $table->timestamps();
+            $table->timestamp("created_at")->nullable()->useCurrent();
+            $table->timestamp("updated_at")->nullable()->useCurrent();
         });
 
         Schema::table('general_tasks', function (Blueprint $table) {

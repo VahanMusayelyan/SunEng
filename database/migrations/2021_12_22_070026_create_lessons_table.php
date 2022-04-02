@@ -18,7 +18,8 @@ class CreateLessonsTable extends Migration
             $table->bigInteger("course_id")->unsigned();
             $table->text("lesson");
             $table->text("title")->nullable();
-            $table->timestamps();
+            $table->timestamp("created_at")->nullable()->useCurrent();
+            $table->timestamp("updated_at")->nullable()->useCurrent();
         });
 
         Schema::table('lessons', function($table) {

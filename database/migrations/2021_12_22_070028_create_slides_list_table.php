@@ -16,7 +16,8 @@ class CreateSlidesListTable extends Migration
         Schema::create('slides_list', function (Blueprint $table) {
             $table->id();
             $table->string("slide");
-            $table->timestamps();
+            $table->timestamp("created_at")->nullable()->useCurrent();
+            $table->timestamp("updated_at")->nullable()->useCurrent();
         });
     }
 

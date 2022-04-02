@@ -17,7 +17,8 @@ class CreateHomeworksTable extends Migration
             $table->id();
             $table->bigInteger("lesson_id")->unsigned();
             $table->bigInteger("homework_id")->unsigned();
-            $table->timestamps();
+            $table->timestamp("created_at")->nullable()->useCurrent();
+            $table->timestamp("updated_at")->nullable()->useCurrent();
         });
 
         Schema::table('homeworks', function($table) {

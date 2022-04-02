@@ -19,7 +19,8 @@ class CreateParaphraseTasksTable extends Migration
             $table->text("phrase_text");
             $table->string("correct");
             $table->string("example");
-            $table->timestamps();
+            $table->timestamp("created_at")->nullable()->useCurrent();
+            $table->timestamp("updated_at")->nullable()->useCurrent();
         });
 
         Schema::table('paraphrase_tasks', function (Blueprint $table) {
