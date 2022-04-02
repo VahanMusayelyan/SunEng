@@ -17,7 +17,8 @@ class CreateSlidesTasksTitleTable extends Migration
             $table->id();
             $table->bigInteger("slide_id")->unsigned();
             $table->text("task");
-            $table->timestamps();
+            $table->timestamp("created_at")->nullable()->useCurrent();
+            $table->timestamp("updated_at")->nullable()->useCurrent();
         });
 
         Schema::table('slides_tasks_title', function($table) {

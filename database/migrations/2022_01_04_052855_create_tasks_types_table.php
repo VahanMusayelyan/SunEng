@@ -16,7 +16,8 @@ class CreateTasksTypesTable extends Migration
         Schema::create('tasks_types', function (Blueprint $table) {
             $table->id();
             $table->string('type');
-            $table->timestamps();
+            $table->timestamp("created_at")->nullable()->useCurrent();
+            $table->timestamp("updated_at")->nullable()->useCurrent();
         });
     }
 

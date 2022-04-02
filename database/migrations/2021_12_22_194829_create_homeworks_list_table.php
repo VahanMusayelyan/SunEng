@@ -16,7 +16,8 @@ class CreateHomeworksListTable extends Migration
         Schema::create('homeworks_list', function (Blueprint $table) {
             $table->id();
             $table->string("homework");
-            $table->timestamps();
+            $table->timestamp("created_at")->nullable()->useCurrent();
+            $table->timestamp("updated_at")->nullable()->useCurrent();
         });
     }
 

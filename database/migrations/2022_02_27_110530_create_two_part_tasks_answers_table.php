@@ -18,7 +18,8 @@ class CreateTwoPartTasksAnswersTable extends Migration
             $table->bigInteger('slide_lesson_id')->unsigned();
             $table->bigInteger("question_first")->unsigned();
             $table->bigInteger("question_second")->unsigned();
-            $table->timestamps();
+            $table->timestamp("created_at")->nullable()->useCurrent();
+            $table->timestamp("updated_at")->nullable()->useCurrent();
         });
 
         Schema::table('two_part_tasks_answers', function (Blueprint $table) {

@@ -17,7 +17,8 @@ class CreateCoursesTable extends Migration
             $table->id();
             $table->bigInteger('course_id')->nullable();
             $table->string('course')->nullable();
-            $table->timestamps();
+            $table->timestamp("created_at")->nullable()->useCurrent();
+            $table->timestamp("updated_at")->nullable()->useCurrent();
         });
     }
 

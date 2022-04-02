@@ -17,7 +17,8 @@ class CreateContactUsTable extends Migration
             $table->id();
             $table->string("email");
             $table->text("message");
-            $table->timestamps();
+            $table->timestamp("created_at")->nullable()->useCurrent();
+            $table->timestamp("updated_at")->nullable()->useCurrent();
         });
     }
 

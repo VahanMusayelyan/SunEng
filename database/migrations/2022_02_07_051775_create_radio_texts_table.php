@@ -17,7 +17,8 @@ class CreateRadioTextsTable extends Migration
             $table->id();
             $table->text("radio_text");
             $table->bigInteger('slide_lesson_id')->unsigned();
-            $table->timestamps();
+            $table->timestamp("created_at")->nullable()->useCurrent();
+            $table->timestamp("updated_at")->nullable()->useCurrent();
         });
 
         Schema::table('radio_texts', function (Blueprint $table) {

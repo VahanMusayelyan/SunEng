@@ -15,7 +15,8 @@ class CreateLessonsContentsTable extends Migration
     {
         Schema::create('lessons_contents', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->timestamp("created_at")->nullable()->useCurrent();
+            $table->timestamp("updated_at")->nullable()->useCurrent();
         });
     }
 

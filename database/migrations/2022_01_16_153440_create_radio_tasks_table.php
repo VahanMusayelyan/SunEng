@@ -16,7 +16,8 @@ class CreateRadioTasksTable extends Migration
         Schema::create('radio_tasks', function (Blueprint $table) {
             $table->id();
             $table->text("question");
-            $table->timestamps();
+            $table->timestamp("created_at")->nullable()->useCurrent();
+            $table->timestamp("updated_at")->nullable()->useCurrent();
         });
     }
 
