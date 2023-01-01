@@ -185,6 +185,30 @@
                 </div>
             </div>
             <!-- End Two Part tasks -->
+
+            <!-- Multiple tasks -->
+            <div id="blockNinth" class="w-75 mt-3 ml-5  border p-3 blocksTasks">
+                <div class="form-group">
+                    <label for="questionRadio">Please write question</label>
+                    <input v-on:keyup="clearSelectText" autocomplete="off" class="form-control" v-model="multipleQuestion" id="multipleQuestion">
+                </div>
+                <div class="form-group">
+                    <label for="answerRadio">Please write answer</label>
+                    <input autocomplete="off" class="form-control" v-model="answerMultipleText" id="answerMultipleText">
+                </div>
+                <div class="form-group">
+                    <label class="form-check-label d-block" for="answerTrue">
+                        Check correct answer
+                    </label>
+                    <input class="form-check-input" type="checkbox" v-model="answerMultipleTrueText" id="answerMultipleTrueText">
+                </div>
+                <div class="form-group">
+                    <button @click="addMultipleTask()" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+            <!-- End Two Part tasks -->
+
+
         </div>
 
 
@@ -282,6 +306,13 @@
                     <i @click="editTwoPartTask(partTask.id)" class="fa fa-edit mr-2 cursor-pointer"></i>
                     <i @click="deleteTwoPartTask(partTask.id)" class="fa fa-trash mr-2 cursor-pointer"></i>
                     {{ partTask.get_first_part.question }} - {{ partTask.get_second_part.question }}
+                </li>
+            </ol>
+            <ol v-if="(multipleTasks && multipleTasks.length > 0)">
+                <li class="mt-2" v-for="(multiple , ind) in multipleTasks" :value="multiple.id">
+                    <i @click="editMultipleTask(multiple.id)" class="fa fa-edit mr-2 cursor-pointer"></i>
+                    <i @click="deleteMultipleTask(multiple.id)" class="fa fa-trash mr-2 cursor-pointer"></i>
+                    {{ multiple.question }}
                 </li>
             </ol>
         </div>
@@ -770,6 +801,10 @@ export default {
             questionPhrase: null,
             phraseExample: null,
             phraseCorrect: null,
+            answerMultipleTrueText: null,
+            answerMultipleText: null,
+            multipleQuestion : null,
+            multipleTasks: null
         }
     },
     methods: {
@@ -800,6 +835,7 @@ export default {
             document.querySelector("#blockSixth").style.display = "none";
             document.querySelector("#blockSeventh").style.display = "none";
             document.querySelector("#blockEigth").style.display = "none";
+            document.querySelector("#blockNinth").style.display = "none";
             this.booleanTasks = null
             this.generalTasks = null
             this.radioTasksQuestion = null
@@ -808,6 +844,7 @@ export default {
             this.catchTasks = null
             this.towPartTasks = null
             this.phraseTasks = null
+            this.multipleTasks = null
             if (this.typeId == 2) {
                 document.querySelector("#blockSecond").style.display = "block";
                 API.post('/api/dashboard/general-task', {lessonSlideId: this.lessonSlideId})
@@ -879,6 +916,16 @@ export default {
                 API.post('/api/dashboard/two-part-tasks', {lessonSlideId: this.lessonSlideId})
                     .then(res => {
                         this.towPartTasks = res.data
+                        console.log(res.data)
+                    }).catch(err => {
+                    console.log(err)
+                })
+            }else if (this.typeId === 9) {
+                document.querySelector("#blockNinth").style.display = "block";
+
+                API.post('/api/dashboard/multiple-answers-tasks', {lessonSlideId: this.lessonSlideId})
+                    .then(res => {
+                        this.multipleTasks = res.data
                         console.log(res.data)
                     }).catch(err => {
                     console.log(err)
@@ -1595,6 +1642,33 @@ export default {
             })
 
         },
+        addMultipleTask(){
+            if(!this.multipleQuestion || !this.answerMultipleText){
+                this.showErrorMsg()
+                return false
+            }
+            API.post('/api/dashboard/add-multiple-task', {
+                multipleQuestion: this.multipleQuestion,
+                answerMultipleText: this.answerMultipleText,
+                answerMultipleTrueText: this.answerMultipleTrueText,
+                lessonSlideId: this.lessonSlideId,
+            })
+                .then(res => {
+                    if(res.data === 0){
+                        this.showErrorMsg()
+                    }else{
+                        this.editId = null
+                        this.deleteId = null
+                        this.questionFirst = null
+                        this.questionSecond = null
+                        this.showSuccessMsg()
+                        this.towPartTasks = res.data
+                    }
+                }).catch(err => {
+                console.log(err)
+            })
+
+        },
         editTwoPartTask(id) {
             API.post('/api/dashboard/edit-two-part-task', {id: id})
                 .then(res => {
@@ -1680,7 +1754,7 @@ export default {
 </script>
 
 <style scoped>
-#blockFirst, #blockSecond,#blockThird, #blockFourth, #blockFifth, #blockSixth, #blockSeventh, #blockEigth {
+#blockFirst, #blockSecond,#blockThird, #blockFourth, #blockFifth, #blockSixth, #blockSeventh, #blockEigth, #blockNinth {
     display: none;
 }
 

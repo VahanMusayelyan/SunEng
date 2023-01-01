@@ -650,7 +650,7 @@ class AdminTaskController extends Controller
 
     public function getMultipleAnswersTasks($lessonSlideId = null)
     {
-        if (!$lessonSlideId) {
+        if(isset(request()->lessonSlideId)){
             $lessonSlideId = request()->lessonSlideId;
         }
         return response()->json(MultipleAnswerQuestion::select()->with("answers")->where('slide_lesson_id', $lessonSlideId)->get()->toArray());
@@ -661,13 +661,13 @@ class AdminTaskController extends Controller
         try {
             $multipleAnswerQuestion = new MultipleAnswerQuestion;
             $multipleAnswerQuestion->slide_lesson_id = $request->lessonSlideId;
-            $multipleAnswerQuestion->question = $request->questionsMultiple;
+            $multipleAnswerQuestion->question = $request->multipleQuestion;
             $multipleAnswerQuestion->save();
 
             MultipleAnswer::insert([
                "mult_ans_quest_id" => $multipleAnswerQuestion->id,
-               "answer" => $request->answerMultiple,
-               "correct" => $request->correctMultiple,
+               "answer" => $request->answerMultipleText,
+               "correct" => $request->answerMultipleTrueText,
             ]);
 
             return $this->getMultipleAnswersTasks($request->lessonSlideId);
