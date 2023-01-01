@@ -154,7 +154,7 @@ Route::group(['middleware' => 'isAdmin','prefix' => 'dashboard'], function ($rou
     Route::post("/delete-two-part-task", 'App\Http\Controllers\Admin\AdminTaskController@deleteTwoPartTask');
 
     Route::post("/multiple-answers-tasks", 'App\Http\Controllers\Admin\AdminTaskController@getMultipleAnswersTasks');
-    Route::post("/add-multiple-question-task", 'App\Http\Controllers\Admin\AdminTaskController@addMultipleQuestionTask');
+    Route::post("/add-multiple-task", 'App\Http\Controllers\Admin\AdminTaskController@addMultipleQuestionTask');
 //    Route::post("/edit-two-part-task", 'App\Http\Controllers\Admin\AdminTaskController@editTwoPartTask');
 //    Route::post("/update-two-part-task", 'App\Http\Controllers\Admin\AdminTaskController@updateTwoPartTask');
 //    Route::post("/delete-two-part-task", 'App\Http\Controllers\Admin\AdminTaskController@deleteTwoPartTask');
